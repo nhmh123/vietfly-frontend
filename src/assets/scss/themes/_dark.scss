@@ -1,0 +1,148 @@
+// ============================================================================
+// THEME - Dark Mode
+// ============================================================================
+
+@use "abstracts" as *;
+
+html.dark-theme {
+  color-scheme: dark;
+  
+  // Override CSS variables for dark theme
+  --primary: #{lighten($primary, 15%)};
+  --secondary: #{lighten($secondary, 10%)};
+  --success: #{lighten($success, 15%)};
+  --danger: #{lighten($danger, 15%)};
+  --warning: #{lighten($warning, 10%)};
+  --info: #{lighten($info, 15%)};
+  
+  --white: #{$gray-900};
+  --black: #{$white};
+  --gray-100: #{$gray-800};
+  --gray-500: #{$gray-400};
+  --gray-900: #{$gray-50};
+  
+  --bg-primary: #{$gray-900};
+  --bg-secondary: #{$gray-800};
+  --text-primary: #{$gray-100};
+  --text-secondary: #{$gray-500};
+  --border: #{$gray-700};
+}
+
+html.dark-theme {
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  // Cards and containers
+  .card,
+  .modal,
+  .form-control {
+    background-color: var(--bg-primary);
+    border-color: var(--border);
+    color: var(--text-primary);
+  }
+  
+  // Headers
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--text-primary);
+  }
+  
+  // Links
+  a {
+    color: var(--primary);
+    
+    &:hover {
+      color: lighten($primary, 10%);
+    }
+  }
+  
+  // Form controls
+  .form-control {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    
+    &:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba($primary, 0.2);
+    }
+  }
+  
+  // Badges
+  .badge {
+    &.badge-outline {
+      border-color: var(--border);
+      color: var(--text-primary);
+    }
+  }
+  
+  // Code blocks
+  code {
+    background-color: var(--bg-secondary);
+    color: $danger;
+  }
+  
+  // Buttons
+  .btn-outline {
+    border-color: var(--primary);
+    color: var(--primary);
+    
+    &:hover {
+      background-color: rgba(var(--primary), 0.1);
+    }
+  }
+  
+  // Border colors
+  hr,
+  .border-bottom {
+    border-color: var(--border);
+  }
+  
+  // Scrollbar
+  ::-webkit-scrollbar-track {
+    background-color: var(--bg-secondary);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--gray-500);
+    
+    &:hover {
+      background-color: var(--gray-400);
+    }
+  }
+  
+  // Header
+  .header {
+    background-color: var(--bg-primary);
+    border-bottom-color: var(--border);
+  }
+  
+  // Footer
+  .footer {
+    background-color: var(--gray-900);
+  }
+  
+  // Sidebar
+  .sidebar {
+    background-color: var(--bg-primary);
+    border-right-color: var(--border);
+  }
+  
+  // Search page
+  .search-page {
+    background-color: var(--bg-secondary);
+  }
+  
+  .search-filters,
+  .booking-form,
+  .payment-methods,
+  .passenger-form,
+  .modal-backdrop {
+    background-color: var(--bg-primary);
+  }
+}

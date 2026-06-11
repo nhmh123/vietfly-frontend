@@ -1,0 +1,95 @@
+// ============================================================================
+// ABSTRACTS - Breakpoints
+// ============================================================================
+
+// Import variables first
+@use "variables" as *;
+
+// ============================================================================
+// RESPONSIVE MIXINS
+// ============================================================================
+
+/// Responsive mixin for mobile-first approach
+/// @param {number} $breakpoint - Breakpoint width
+/// @example
+///   @include respond-to(768px) {
+///     width: 50%;
+///   }
+@mixin respond-to($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+/// Responsive mixin for min-width (mobile-first)
+/// @param {number} $breakpoint - Breakpoint width
+@mixin respond-from($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+/// Utility mixins for common breakpoints
+@mixin mobile-only {
+  @include respond-to($breakpoint-md - 1px) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @include respond-from($breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @include respond-to($breakpoint-lg - 1px) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @include respond-from($breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin desktop-only {
+  @include respond-to($breakpoint-xl - 1px) {
+    @content;
+  }
+}
+
+@mixin large-desktop-up {
+  @include respond-from($breakpoint-xl) {
+    @content;
+  }
+}
+
+// ============================================================================
+// SCREEN SIZE SHORTCUTS
+// ============================================================================
+
+@mixin sm-only {
+  @include respond-to($breakpoint-md - 1px) {
+    @content;
+  }
+}
+
+@mixin md-and-up {
+  @include respond-from($breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin lg-and-up {
+  @include respond-from($breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl-and-up {
+  @include respond-from($breakpoint-xl) {
+    @content;
+  }
+}

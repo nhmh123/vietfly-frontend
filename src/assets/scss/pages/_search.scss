@@ -1,0 +1,166 @@
+// ============================================================================
+// PAGES - Search
+// ============================================================================
+
+@use "abstracts" as *;
+
+.search-page {
+  padding: $space-lg 0;
+  min-height: 100vh;
+  background-color: $gray-50;
+}
+
+.search-page__container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: $space-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 $space-lg;
+  
+  @include respond-to(1024px) {
+    grid-template-columns: 1fr;
+    gap: $space-md;
+  }
+  
+  @include respond-to(768px) {
+    padding: 0 $space-sm;
+  }
+}
+
+// ============================================================================
+// FILTERS SIDEBAR
+// ============================================================================
+
+.search-filters {
+  background-color: $white;
+  padding: $space-lg;
+  border-radius: $radius-lg;
+  height: fit-content;
+  position: sticky;
+  top: 80px;
+  
+  @include respond-to(1024px) {
+    position: static;
+  }
+  
+  &__section {
+    margin-bottom: $space-lg;
+    padding-bottom: $space-lg;
+    border-bottom: 1px solid $border-color;
+    
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+  
+  &__title {
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-md;
+    font-size: $font-size-base;
+  }
+  
+  .filter-option {
+    margin-bottom: $space-sm;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// ============================================================================
+// SEARCH RESULTS
+// ============================================================================
+
+.search-results {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-lg;
+    
+    @include respond-to(768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $space-sm;
+    }
+  }
+  
+  &__count {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+  
+  &__sort {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    
+    @include respond-to(768px) {
+      width: 100%;
+      
+      select {
+        flex: 1;
+      }
+    }
+  }
+  
+  &__list {
+    display: grid;
+    gap: $space-md;
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $space-3xl $space-lg;
+    background-color: $white;
+    border-radius: $radius-lg;
+    
+    h3 {
+      color: $text-secondary;
+      margin-bottom: $space-md;
+    }
+    
+    p {
+      color: $text-secondary;
+    }
+  }
+  
+  &__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-sm;
+    margin-top: $space-2xl;
+    
+    button,
+    a {
+      padding: $space-sm $space-md;
+      border: 1px solid $border-color;
+      border-radius: $radius-md;
+      background-color: $white;
+      color: $text-primary;
+      cursor: pointer;
+      transition: $transition-base;
+      
+      &:hover {
+        background-color: $gray-100;
+        border-color: $primary;
+      }
+      
+      &.active {
+        background-color: $primary;
+        color: $white;
+        border-color: $primary;
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

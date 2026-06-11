@@ -1,0 +1,144 @@
+// ============================================================================
+// PAGES - Payment
+// ============================================================================
+
+@use "abstracts" as *;
+
+.payment-page {
+  padding: $space-lg 0;
+  background-color: $gray-50;
+  min-height: 100vh;
+}
+
+.payment-container {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: $space-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  @include respond-to(1024px) {
+    grid-template-columns: 1fr;
+  }
+  
+  @include respond-to(768px) {
+    padding: 0 $space-sm;
+  }
+}
+
+// ============================================================================
+// PAYMENT METHODS
+// ============================================================================
+
+.payment-methods {
+  background-color: $white;
+  padding: $space-2xl;
+  border-radius: $radius-lg;
+  
+  @include respond-to(768px) {
+    padding: $space-lg;
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-lg;
+  }
+  
+  &__option {
+    padding: $space-lg;
+    border: 2px solid $border-color;
+    border-radius: $radius-md;
+    margin-bottom: $space-md;
+    cursor: pointer;
+    transition: $transition-base;
+    
+    &:hover {
+      border-color: $primary;
+      background-color: rgba($primary, 0.05);
+    }
+    
+    &.active {
+      border-color: $primary;
+      background-color: rgba($primary, 0.1);
+    }
+    
+    input[type="radio"] {
+      margin-right: $space-sm;
+    }
+  }
+}
+
+// ============================================================================
+// PAYMENT FORM
+// ============================================================================
+
+.payment-form {
+  &__section {
+    margin-bottom: $space-2xl;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  &__title {
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-md;
+  }
+}
+
+// ============================================================================
+// PAYMENT SUMMARY
+// ============================================================================
+
+.payment-summary {
+  background-color: $white;
+  padding: $space-lg;
+  border-radius: $radius-lg;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+  
+  @include respond-to(1024px) {
+    position: static;
+  }
+  
+  &__title {
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-md;
+    font-size: $font-size-base;
+  }
+  
+  &__items {
+    margin-bottom: $space-md;
+    padding-bottom: $space-md;
+    border-bottom: 1px solid $border-color;
+  }
+  
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $space-sm;
+    font-size: $font-size-sm;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $primary;
+    margin-bottom: $space-lg;
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $space-sm;
+    flex-direction: column;
+  }
+}

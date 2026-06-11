@@ -1,0 +1,120 @@
+// ============================================================================
+// PAGES - Home
+// ============================================================================
+
+@use "abstracts" as *;
+
+.home-page {
+  min-height: 100vh;
+}
+
+// ============================================================================
+// HERO SECTION
+// ============================================================================
+
+.hero {
+  background: linear-gradient(135deg, $primary, $secondary);
+  color: $white;
+  padding: $space-3xl $space-lg;
+  text-align: center;
+  
+  @include respond-to(768px) {
+    padding: $space-2xl $space-md;
+  }
+  
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    color: $white;
+    margin-bottom: $space-md;
+  }
+  
+  p {
+    font-size: $font-size-lg;
+    line-height: $line-height-relaxed;
+    margin-bottom: $space-lg;
+    opacity: 0.95;
+  }
+}
+
+// ============================================================================
+// SEARCH FORM SECTION
+// ============================================================================
+
+.search-form {
+  background-color: $white;
+  padding: $space-lg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  margin: -$space-2xl auto $space-2xl;
+  max-width: 1000px;
+  position: relative;
+  z-index: 10;
+  
+  @include respond-to(768px) {
+    margin: -$space-xl auto $space-lg;
+    padding: $space-md;
+  }
+}
+
+.search-form__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-md;
+  
+  @include respond-to(1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include respond-to(768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================================================
+// FEATURES SECTION
+// ============================================================================
+
+.features {
+  padding: $space-3xl $space-lg;
+  background-color: $gray-50;
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-2xl;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  @include respond-to(1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include respond-to(768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature {
+  text-align: center;
+  
+  &__icon {
+    font-size: $font-size-5xl;
+    margin-bottom: $space-md;
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-sm;
+  }
+  
+  &__description {
+    color: $text-secondary;
+    line-height: $line-height-relaxed;
+  }
+}

@@ -1,0 +1,200 @@
+// ============================================================================
+// LAYOUT - Grid System
+// ============================================================================
+
+@use "abstracts" as *;
+
+// ============================================================================
+// FLEX LAYOUT
+// ============================================================================
+
+.flex {
+  display: flex;
+  gap: $space-md;
+  
+  &.flex-col {
+    flex-direction: column;
+  }
+  
+  &.flex-center {
+    @include flex-center;
+  }
+  
+  &.flex-between {
+    @include flex-between;
+  }
+  
+  &.flex-start {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  &.flex-end {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+  
+  &.flex-wrap {
+    flex-wrap: wrap;
+  }
+  
+  &.flex-gap-sm {
+    gap: $space-sm;
+  }
+  
+  &.flex-gap-lg {
+    gap: $space-lg;
+  }
+  
+  &.flex-gap-0 {
+    gap: 0;
+  }
+}
+
+// ============================================================================
+// GRID LAYOUT
+// ============================================================================
+
+.grid {
+  display: grid;
+  gap: $space-md;
+  
+  // ============================================================================
+  // GRID COLUMNS
+  // ============================================================================
+  
+  &.grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  &.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @include respond-to(768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+    
+    @include respond-to(1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+    
+    @include respond-to(1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include respond-to(768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &.grid-cols-auto {
+    @include auto-grid(250px, $space-md);
+  }
+  
+  // ============================================================================
+  // GRID GAP
+  // ============================================================================
+  
+  &.gap-sm {
+    gap: $space-sm;
+  }
+  
+  &.gap-md {
+    gap: $space-md;
+  }
+  
+  &.gap-lg {
+    gap: $space-lg;
+  }
+  
+  &.gap-0 {
+    gap: 0;
+  }
+}
+
+// ============================================================================
+// ROW & COLUMN
+// ============================================================================
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -#{$space-md / 2};
+  
+  @include respond-to(768px) {
+    margin: 0 -#{$space-sm / 2};
+  }
+}
+
+.col {
+  flex: 1 0 auto;
+  padding: 0 $space-md / 2;
+  
+  @include respond-to(768px) {
+    padding: 0 $space-sm / 2;
+  }
+  
+  // ============================================================================
+  // COLUMN WIDTHS
+  // ============================================================================
+  
+  &.col-1 { flex: 0 0 calc(100% / 12 * 1); }
+  &.col-2 { flex: 0 0 calc(100% / 12 * 2); }
+  &.col-3 { flex: 0 0 calc(100% / 12 * 3); }
+  &.col-4 { flex: 0 0 calc(100% / 12 * 4); }
+  &.col-5 { flex: 0 0 calc(100% / 12 * 5); }
+  &.col-6 { flex: 0 0 calc(100% / 12 * 6); }
+  &.col-7 { flex: 0 0 calc(100% / 12 * 7); }
+  &.col-8 { flex: 0 0 calc(100% / 12 * 8); }
+  &.col-9 { flex: 0 0 calc(100% / 12 * 9); }
+  &.col-10 { flex: 0 0 calc(100% / 12 * 10); }
+  &.col-11 { flex: 0 0 calc(100% / 12 * 11); }
+  &.col-12 { flex: 0 0 100%; }
+  
+  // ============================================================================
+  // RESPONSIVE COLUMN WIDTHS
+  // ============================================================================
+  
+  @include tablet-up {
+    &.col-md-1 { flex: 0 0 calc(100% / 12 * 1); }
+    &.col-md-2 { flex: 0 0 calc(100% / 12 * 2); }
+    &.col-md-3 { flex: 0 0 calc(100% / 12 * 3); }
+    &.col-md-4 { flex: 0 0 calc(100% / 12 * 4); }
+    &.col-md-5 { flex: 0 0 calc(100% / 12 * 5); }
+    &.col-md-6 { flex: 0 0 calc(100% / 12 * 6); }
+    &.col-md-12 { flex: 0 0 100%; }
+  }
+  
+  @include desktop-up {
+    &.col-lg-1 { flex: 0 0 calc(100% / 12 * 1); }
+    &.col-lg-2 { flex: 0 0 calc(100% / 12 * 2); }
+    &.col-lg-3 { flex: 0 0 calc(100% / 12 * 3); }
+    &.col-lg-4 { flex: 0 0 calc(100% / 12 * 4); }
+    &.col-lg-5 { flex: 0 0 calc(100% / 12 * 5); }
+    &.col-lg-6 { flex: 0 0 calc(100% / 12 * 6); }
+    &.col-lg-12 { flex: 0 0 100%; }
+  }
+}
+
+// ============================================================================
+// SPACING UTILITIES
+// ============================================================================
+
+.gap-0 { gap: 0; }
+.gap-xs { gap: $space-xs; }
+.gap-sm { gap: $space-sm; }
+.gap-md { gap: $space-md; }
+.gap-lg { gap: $space-lg; }
+.gap-xl { gap: $space-xl; }

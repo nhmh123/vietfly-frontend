@@ -1,0 +1,86 @@
+// ============================================================================
+// LAYOUT - Header
+// ============================================================================
+
+@use "abstracts" as *;
+
+.header {
+  background-color: $white;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: z("sticky");
+  box-shadow: $shadow-sm;
+  
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-md 0;
+    
+    @include respond-to(768px) {
+      padding: $space-sm 0;
+    }
+  }
+  
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $primary;
+    text-decoration: none;
+    
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+  
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: $space-lg;
+    
+    @include respond-to(768px) {
+      display: none;
+    }
+  }
+  
+  &__nav-link {
+    color: $text-primary;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: color $transition-base;
+    
+    &:hover {
+      color: $primary;
+    }
+    
+    &.active {
+      color: $primary;
+      border-bottom: 2px solid $primary;
+      padding-bottom: 2px;
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $space-md;
+  }
+  
+  &__toggle {
+    display: none;
+    background-color: transparent;
+    border: none;
+    font-size: $font-size-lg;
+    cursor: pointer;
+    
+    @include respond-to(768px) {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

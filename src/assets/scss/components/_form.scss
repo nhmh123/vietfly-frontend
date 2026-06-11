@@ -1,0 +1,217 @@
+// ============================================================================
+// COMPONENTS - Form
+// ============================================================================
+
+@use "abstracts" as *;
+
+// ============================================================================
+// FORM GROUP
+// ============================================================================
+
+.form-group {
+  margin-bottom: $space-lg;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// ============================================================================
+// FORM LABEL
+// ============================================================================
+
+.form-label {
+  display: block;
+  margin-bottom: $space-sm;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  
+  &.required::after {
+    content: " *";
+    color: $danger;
+  }
+}
+
+// ============================================================================
+// FORM CONTROL (Input, Textarea, Select)
+// ============================================================================
+
+.form-control {
+  width: 100%;
+  padding: $space-sm $space-md;
+  font-size: $font-size-base;
+  font-family: inherit;
+  line-height: $line-height-base;
+  color: $text-primary;
+  background-color: $white;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  transition: $transition-base;
+  
+  @include placeholder($text-secondary);
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+  
+  &:disabled {
+    background-color: $gray-100;
+    color: $text-secondary;
+    cursor: not-allowed;
+  }
+  
+  // Error state
+  &.is-invalid {
+    border-color: $danger;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($danger, 0.1);
+    }
+  }
+  
+  // Success state
+  &.is-valid {
+    border-color: $success;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($success, 0.1);
+    }
+  }
+  
+  // ============================================================================
+  // FORM CONTROL SIZES
+  // ============================================================================
+  
+  &.form-control-sm {
+    padding: $space-xs $space-sm;
+    font-size: $font-size-sm;
+  }
+  
+  &.form-control-lg {
+    padding: $space-md $space-lg;
+    font-size: $font-size-lg;
+  }
+}
+
+// Textarea specific
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+// ============================================================================
+// FORM CHECK (Checkbox & Radio)
+// ============================================================================
+
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: $space-md;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-check-input {
+  width: 1em;
+  height: 1em;
+  margin-right: $space-sm;
+  cursor: pointer;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  transition: $transition-base;
+  flex-shrink: 0;
+  
+  &:checked {
+    background-color: $primary;
+    border-color: $primary;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// Radio specific
+input[type="radio"].form-check-input {
+  border-radius: 50%;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+// ============================================================================
+// FORM HELP TEXT
+// ============================================================================
+
+.form-text {
+  display: block;
+  margin-top: $space-xs;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+}
+
+.form-error {
+  color: $danger;
+  font-size: $font-size-sm;
+  margin-top: $space-xs;
+}
+
+.form-success {
+  color: $success;
+  font-size: $font-size-sm;
+  margin-top: $space-xs;
+}
+
+// ============================================================================
+// FORM LAYOUT
+// ============================================================================
+
+.form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-md;
+  
+  .form-group {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 0;
+  }
+}
+
+// ============================================================================
+// FORM GRID
+// ============================================================================
+
+.form-grid {
+  display: grid;
+  gap: $space-md;
+  
+  &.form-grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @include respond-to(768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.form-grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+    
+    @include respond-to(768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

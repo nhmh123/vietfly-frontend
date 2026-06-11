@@ -1,0 +1,121 @@
+// ============================================================================
+// COMPONENTS - Badge
+// ============================================================================
+
+@use "abstracts" as *;
+
+.badge {
+  display: inline-block;
+  padding: $space-xs $space-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-full;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  
+  // Default variant
+  background-color: $gray-200;
+  color: $text-primary;
+  
+  // ============================================================================
+  // BADGE VARIANTS
+  // ============================================================================
+  
+  &.badge-primary {
+    background-color: $primary;
+    color: $white;
+  }
+  
+  &.badge-secondary {
+    background-color: $secondary;
+    color: $white;
+  }
+  
+  &.badge-success {
+    background-color: $success;
+    color: $white;
+  }
+  
+  &.badge-danger {
+    background-color: $danger;
+    color: $white;
+  }
+  
+  &.badge-warning {
+    background-color: $warning;
+    color: #000;
+  }
+  
+  &.badge-info {
+    background-color: $info;
+    color: $white;
+  }
+  
+  // ============================================================================
+  // BADGE OUTLINE VARIANTS
+  // ============================================================================
+  
+  &.badge-outline {
+    background-color: transparent;
+    border: 1px solid $gray-300;
+    color: $text-primary;
+    
+    &.badge-outline-primary {
+      border-color: $primary;
+      color: $primary;
+    }
+    
+    &.badge-outline-secondary {
+      border-color: $secondary;
+      color: $secondary;
+    }
+  }
+  
+  // ============================================================================
+  // BADGE SIZES
+  // ============================================================================
+  
+  &.badge-sm {
+    padding: $space-xs * 0.5 $space-xs;
+    font-size: $font-size-xs * 0.875;
+  }
+  
+  &.badge-lg {
+    padding: $space-sm $space-md;
+    font-size: $font-size-sm;
+  }
+  
+  // ============================================================================
+  // BADGE WITH ICONS
+  // ============================================================================
+  
+  &.badge-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+    
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+}
+
+// Badge with dot
+.badge-dot {
+  position: relative;
+  padding-left: $space-lg;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    left: $space-xs;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+}

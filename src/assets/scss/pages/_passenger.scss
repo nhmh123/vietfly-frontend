@@ -1,0 +1,62 @@
+// ============================================================================
+// PAGES - Passenger
+// ============================================================================
+
+@use "abstracts" as *;
+
+.passenger-page {
+  padding: $space-lg 0;
+  background-color: $gray-50;
+  min-height: 100vh;
+}
+
+.passenger-form {
+  background-color: $white;
+  padding: $space-2xl;
+  border-radius: $radius-lg;
+  max-width: 900px;
+  margin: 0 auto;
+  
+  @include respond-to(768px) {
+    padding: $space-lg;
+  }
+  
+  &__group {
+    margin-bottom: $space-2xl;
+    padding-bottom: $space-2xl;
+    border-bottom: 1px solid $border-color;
+    
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-lg;
+  }
+  
+  &__passenger {
+    padding: $space-lg;
+    background-color: $gray-50;
+    border-radius: $radius-md;
+    margin-bottom: $space-md;
+    
+    h4 {
+      margin-bottom: $space-md;
+    }
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-md;
+    
+    @include respond-to(768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+// ============================================================================
+// ABSTRACTS - _index.scss
+// ============================================================================
+// Centralized exports for all abstracts
+
+@forward "variables";
+@forward "typography";
+@forward "spacing";
+@forward "breakpoints";
+@forward "mixins";
+@forward "functions";

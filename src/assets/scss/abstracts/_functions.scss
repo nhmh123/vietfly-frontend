@@ -1,0 +1,142 @@
+// ============================================================================
+// ABSTRACTS - Functions
+// ============================================================================
+
+@use "variables" as *;
+
+// ============================================================================
+// COLOR FUNCTIONS
+// ============================================================================
+
+/// Get color with opacity
+/// @param {color} $color - Base color
+/// @param {number} $opacity - Opacity value (0-1)
+/// @return {color} - Color with opacity
+@function rgba-color($color, $opacity) {
+  @return rgba($color, $opacity);
+}
+
+/// Lighten color by percentage
+/// @param {color} $color - Base color
+/// @param {number} $percent - Percentage to lighten (0-100)
+@function lighten-color($color, $percent: 10%) {
+  @return lighten($color, $percent);
+}
+
+/// Darken color by percentage
+/// @param {color} $color - Base color
+/// @param {number} $percent - Percentage to darken (0-100)
+@function darken-color($color, $percent: 10%) {
+  @return darken($color, $percent);
+}
+
+// ============================================================================
+// SIZING FUNCTIONS
+// ============================================================================
+
+/// Convert pixel to rem
+/// @param {number} $pixels - Size in pixels
+/// @return {number} - Size in rem
+@function rem($pixels) {
+  @if unitless($pixels) {
+    @return $pixels / 16 * 1rem;
+  } @else {
+    @return $pixels / 16px * 1rem;
+  }
+}
+
+/// Convert pixel to em
+/// @param {number} $pixels - Size in pixels
+/// @param {number} $context - Context font size (default: 16px)
+@function em($pixels, $context: 16px) {
+  @if unitless($pixels) {
+    $pixels: $pixels * 1px;
+  }
+  @if unitless($context) {
+    $context: $context * 1px;
+  }
+  @return $pixels / $context * 1em;
+}
+
+// ============================================================================
+// SPACING FUNCTIONS
+// ============================================================================
+
+/// Get spacing value from scale
+/// @param {number} $level - Spacing level (0-8)
+/// @return {number} - Spacing value
+@function get-spacing($level) {
+  $spacing-map: (
+    0: $space-0,
+    1: $space-xs,
+    2: $space-sm,
+    3: $space-md,
+    4: $space-lg,
+    5: $space-xl,
+    6: $space-2xl,
+    7: $space-3xl
+  );
+  
+  @return map-get($spacing-map, $level);
+}
+
+// ============================================================================
+// Z-INDEX FUNCTION
+// ============================================================================
+
+/// Get z-index value by name
+/// @param {string} $layer - Layer name
+@function z($layer) {
+  $layers: (
+    "dropdown": $z-index-dropdown,
+    "sticky": $z-index-sticky,
+    "fixed": $z-index-fixed,
+    "modal-backdrop": $z-index-modal-backdrop,
+    "modal": $z-index-modal,
+    "popover": $z-index-popover,
+    "tooltip": $z-index-tooltip
+  );
+  
+  @return map-get($layers, $layer);
+}
+
+// ============================================================================
+// TYPOGRAPHY FUNCTIONS
+// ============================================================================
+
+/// Get font size value from scale
+/// @param {string} $size - Size name (xs, sm, base, lg, xl, 2xl, etc.)
+@function font-size($size) {
+  $sizes: (
+    "xs": $font-size-xs,
+    "sm": $font-size-sm,
+    "base": $font-size-base,
+    "lg": $font-size-lg,
+    "xl": $font-size-xl,
+    "2xl": $font-size-2xl,
+    "3xl": $font-size-3xl,
+    "4xl": $font-size-4xl,
+    "5xl": $font-size-5xl
+  );
+  
+  @return map-get($sizes, $size);
+}
+
+// ============================================================================
+// BREAKPOINT FUNCTIONS
+// ============================================================================
+
+/// Get breakpoint value by name
+/// @param {string} $breakpoint - Breakpoint name
+@function get-breakpoint($breakpoint) {
+  $breakpoints: (
+    "xs": $breakpoint-xs,
+    "sm": $breakpoint-sm,
+    "md": $breakpoint-md,
+    "lg": $breakpoint-lg,
+    "xl": $breakpoint-xl,
+    "2xl": $breakpoint-2xl
+  );
+  
+  @return map-get($breakpoints, $breakpoint);
+}
