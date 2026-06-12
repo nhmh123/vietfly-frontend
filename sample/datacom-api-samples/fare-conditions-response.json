@@ -1,0 +1,43 @@
+{
+  // --- TẦNG TRẠNG THÁI HỆ THỐNG (SYSTEM LEVEL) ---
+  "StatusCode": "0000", // Mã trạng thái phản hồi từ Datacom (0000 thường là thành công)
+  "Success": true, // Trạng thái thực thi của API (true: thành công, false: thất bại)
+  "Message": "Success", // Thông báo chi tiết đi kèm (Nếu có lỗi sẽ hiển thị text lỗi ở đây)
+  "Language": "Vi", // Ngôn ngữ của nội dung hiển thị trong response (Vi: Tiếng Việt)
+  "RequestID": 123456, // ID duy nhất của request này để log và trace lỗi hệ thống
+
+  // --- TẦNG DỮ LIỆU ĐIỀU KIỆN GIÁ VÉ (BUSINESS DATA LEVEL) ---
+  "ListFareRule": [
+    {
+      "StartPoint": "HAN", // Mã sân bay đi (Sân bay Nội Bài)
+      "EndPoint": "SGN", // Mã sân bay đến (Sân bay Tân Sơn Nhất)
+      "Route": "HAN-SGN", // Hành trình bay cụ thể
+      "FareBasis": "H", // Hạng giá vé kỹ thuật (Booking Class / Fare Basis) nhận từ GDS
+
+      // Danh sách các nhóm điều kiện được bóc tách ra
+      "ListRuleGroup": [
+        {
+          "RuleTitle": "Đổi tên (Name Change)", // Loại nhóm điều kiện giá vé thứ nhất
+          "ListRuleText": [
+            "Chặng quốc nội: 350.000 VND/người/chặng + Thu chênh lệch giá vé (nếu có).",
+            "Chặng quốc tế: 800.000 VND/người/chặng + Thu chênh lệch giá vé (nếu có)."
+          ]
+        },
+        {
+          "RuleTitle": "Đổi ngày, giờ bay (Date/Time Change)", // Loại nhóm điều kiện giá vé thứ hai
+          "ListRuleText": [
+            "Miễn phí thay đổi + Thu chênh lệch giá vé (nếu có) nếu thực hiện trước giờ bay 3 tiếng.",
+            "Phí 350.000 VND + Thu chênh lệch giá vé (nếu có) nếu thực hiện sát giờ bay."
+          ]
+        },
+        {
+          "RuleTitle": "Hoàn/Hủy vé (Refund)", // Loại nhóm điều kiện giá vé thứ ba
+          "ListRuleText": [
+            "Vé không có giá trị hoàn lại đối với hạng Eco.",
+            "Tiền vé có thể được bảo lưu định danh trong vòng 365 ngày."
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VietFly - Hệ Thống Đặt Vé Máy Bay Giá Rẻ</title>
+
+    <link rel="icon" href="vietfly.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<style>
+    /* ==========================================
+   LOGIN PAGE
+========================================== */
+
+    .login-page {
+        min-height: 100vh;
+
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+
+        background: #fff;
+    }
+
+    /* ==========================================
+   LEFT
+========================================== */
+
+    .login-hero {
+        position: relative;
+
+        background:
+            linear-gradient(rgba(0, 94, 184, .82),
+                rgba(0, 94, 184, .88)),
+            url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=80");
+
+        background-size: cover;
+        background-position: center;
+
+        display: flex;
+        align-items: center;
+
+        padding: 80px;
+    }
+
+    .login-hero-content {
+        position: relative;
+        z-index: 2;
+
+        color: white;
+
+        max-width: 520px;
+    }
+
+    .login-hero-content img {
+        width: 90px;
+        margin-bottom: 24px;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+
+        background: rgba(255, 255, 255, .12);
+
+        padding: 10px 18px;
+
+        border-radius: 999px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        margin-bottom: 24px;
+    }
+
+    .login-hero h1 {
+        font-size: 4rem;
+        line-height: 1.1;
+
+        margin-bottom: 24px;
+    }
+
+    .login-hero p {
+        font-size: 1.1rem;
+
+        opacity: .9;
+
+        margin-bottom: 40px;
+    }
+
+    .hero-features {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        font-weight: 600;
+    }
+
+    /* ==========================================
+   RIGHT
+========================================== */
+
+    .login-panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 40px;
+
+        background: #f8fafc;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 480px;
+
+        background: white;
+
+        padding: 48px;
+
+        border-radius: 28px;
+
+        box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .login-header h2 {
+        color: var(--secondary);
+
+        margin-bottom: 8px;
+    }
+
+    .login-header p {
+        color: var(--text-muted);
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .login-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 14px;
+    }
+
+    .login-options a {
+        color: var(--secondary);
+        font-weight: 600;
+    }
+
+    .btn-login-submit {
+        height: 56px;
+
+        border-radius: 14px;
+
+        background: var(--primary);
+
+        color: var(--text-dark);
+
+        font-weight: 800;
+
+        transition: .25s;
+    }
+
+    .btn-login-submit:hover {
+        background: var(--primary-dark);
+    }
+
+    .divider {
+        position: relative;
+
+        text-align: center;
+
+        margin: 30px 0;
+    }
+
+    .divider::before {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        top: 50%;
+
+        width: 100%;
+        height: 1px;
+
+        background: var(--border-color);
+    }
+
+    .divider span {
+        position: relative;
+
+        background: white;
+
+        padding: 0 18px;
+
+        color: var(--text-muted);
+    }
+
+    .social-btn {
+        width: 100%;
+        height: 56px;
+
+        border-radius: 14px;
+
+        background: white;
+
+        border: 1px solid var(--border-color);
+
+        font-weight: 700;
+
+        margin-bottom: 28px;
+    }
+
+    .register-text {
+        text-align: center;
+
+        color: var(--text-muted);
+    }
+
+    .register-text a {
+        color: var(--secondary);
+        font-weight: 700;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 520px;
+
+        background: white;
+
+        padding: 48px;
+
+        border-radius: 28px;
+
+        box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
+    }
+
+    .register-header {
+        text-align: center;
+        margin-bottom: 36px;
+    }
+
+    .register-header h2 {
+        color: var(--secondary);
+        margin-bottom: 10px;
+    }
+
+    .register-header p {
+        color: var(--text-muted);
+    }
+
+    .register-form {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 16px;
+    }
+
+    .two-cols .input-group {
+        flex: 1;
+    }
+
+    .agreement {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+
+        font-size: 14px;
+        line-height: 1.6;
+
+        color: var(--text-muted);
+    }
+
+    .agreement a {
+        color: var(--secondary);
+        font-weight: 600;
+    }
+
+    .btn-register {
+        height: 56px;
+
+        border-radius: 14px;
+
+        background: var(--primary);
+
+        color: var(--text-dark);
+
+        font-size: 15px;
+        font-weight: 800;
+
+        transition: .25s;
+    }
+
+    .btn-register:hover {
+        background: var(--primary-dark);
+    }
+
+    .login-link {
+        text-align: center;
+        color: var(--text-muted);
+    }
+
+    .login-link a {
+        color: var(--secondary);
+        font-weight: 700;
+    }
+</style>
+
+<body>
+    <!-- Premium Agency Loading Animation -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="main-loader">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="plane"></div>
+                <div class="loader-info">
+                    <h1 class="brand">VIETFLY</h1>
+                    <p class="subtitle">Loading Experience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+
+            <div class="top-left">
+                <span>Giờ làm việc: 08:00 - 22:00 (T2 - CN)</span>
+            </div>
+
+            <div class="top-right">
+                <span>Hotline: 1900 6868</span>
+                |
+                <span>support@vietfly.vn</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+
+        <div class="header-container">
+
+            <div class="logo">
+
+                <img src="vietfly.png" alt="VietFly Logo">
+
+                <div class="logo-text">
+                    <div class="logo-title">VietFly</div>
+                    <div class="logo-subtitle">SMART AIRLINE BOOKING SYSTEM</div>
+                </div>
+
+            </div>
+
+            <nav class="main-nav">
+                <a href="#" class="active">Trang Chủ</a>
+                <a href="#">Vé Nội Địa</a>
+                <a href="#">Vé Quốc Tế</a>
+                <a href="#">Khuyến Mãi</a>
+                <a href="#">Tin Tức</a>
+                <a href="#">Liên Hệ</a>
+            </nav>
+
+            <div class="header-right">
+
+                <button class="btn-booking">
+                    Quản Lý Đặt Chỗ
+                </button>
+
+                <button class="btn-login">
+                    Đăng Nhập
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <main class="login-page">
+
+        <!-- LEFT SIDE -->
+        <div class="login-hero">
+
+            <div class="login-overlay"></div>
+
+            <div class="login-hero-content">
+
+                <img src="vietfly.png" alt="">
+
+                <span class="hero-badge">
+                    SMART AIRLINE BOOKING SYSTEM
+                </span>
+
+                <h1>
+                    Bay Thông Minh
+                    <br>
+                    Cùng VietFly
+                </h1>
+
+                <p>
+                    Đặt vé nhanh chóng, thanh toán an toàn,
+                    hỗ trợ 24/7 cho mọi hành trình.
+                </p>
+
+                <div class="hero-features">
+
+                    <div class="feature">
+                        ✈️ Hơn 500+ tuyến bay
+                    </div>
+
+                    <div class="feature">
+                        🎧 Hỗ trợ 24/7
+                    </div>
+
+                    <div class="feature">
+                        💳 Thanh toán bảo mật
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="login-panel">
+
+            <div class="register-card">
+
+                <div class="register-header">
+
+                    <h2>Tạo Tài Khoản</h2>
+
+                    <p>
+                        Đăng ký để quản lý đặt chỗ,
+                        nhận ưu đãi và tích điểm thưởng.
+                    </p>
+
+                </div>
+
+                <form class="register-form">
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+                            <label>Họ và tên</label>
+                            <input type="text" placeholder="Nguyễn Văn A">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="email@example.com">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" placeholder="0901234567">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row two-cols">
+
+                        <div class="input-group">
+                            <label>Mật khẩu</label>
+                            <input type="password" placeholder="••••••••">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Xác nhận</label>
+                            <input type="password" placeholder="••••••••">
+                        </div>
+
+                    </div>
+
+                    <label class="agreement">
+
+                        <input type="checkbox">
+
+                        <span>
+                            Tôi đồng ý với
+                            <a href="#">Điều khoản sử dụng</a>
+                            và
+                            <a href="#">Chính sách bảo mật</a>
+                        </span>
+
+                    </label>
+
+                    <button class="btn-register">
+                        Tạo Tài Khoản
+                    </button>
+
+                </form>
+
+                <div class="divider">
+                    <span>Hoặc</span>
+                </div>
+
+                <button class="social-btn">
+                    Đăng ký bằng Google
+                </button>
+
+                <p class="login-link">
+
+                    Đã có tài khoản?
+
+                    <a href="#">
+                        Đăng nhập
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-col">
+
+                <h3>VỀ VIETFLY</h3>
+
+                <p>
+                    Hệ thống đặt vé máy bay trực tuyến hiện đại,
+                    kết nối các hãng hàng không nội địa và quốc tế.
+                </p>
+
+                <p>
+                    📍 95 Lĩnh Nam, Hoàng Mai, Hà Nội
+                </p>
+
+                <p>
+                    ✉️ support@vietfly.vn
+                </p>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h3>CHÍNH SÁCH</h3>
+
+                <ul class="footer-links">
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Bảo mật thông tin</a></li>
+                    <li><a href="#">Đổi / Hoàn vé</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h3>HỖ TRỢ</h3>
+
+                <ul class="footer-links">
+                    <li><a href="#">Hướng dẫn đặt vé</a></li>
+                    <li><a href="#">Check-in Online</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h3>ĐỐI TÁC</h3>
+
+                <p>• Vietnam Airlines</p>
+                <p>• Vietjet Air</p>
+                <p>• Bamboo Airways</p>
+                <p>• Pacific Airlines</p>
+
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 VietFly Airlines. All rights reserved.
+        </div>
+
+    </footer>
+
+    <script>
+        // Demo remove loader after 3 seconds
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document.body.classList.add("loaded");
+            }, 2000);
+        });
+    </script>
+
+</body>
+
+</html>

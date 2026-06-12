@@ -1,0 +1,164 @@
+<!-- Premium Agency Loading Animation -->
+<div id="preloader">
+  <div class="loader-container">
+    <div class="main-loader">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="plane"></div>
+      <div class="loader-info">
+        <h1 class="brand">VIETFLY</h1>
+        <p class="subtitle">Loading Experience</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: black;
+    overflow: hidden;
+    font-family: "Inter", sans-serif;
+  }
+
+  #preloader {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.899);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+  }
+
+  .loader-container {}
+
+  .main-loader {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .loader-info {
+    position: absolute;
+    bottom: -50px;
+    left: 80px;
+  }
+
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid transparent;
+  }
+
+  .ring-1 {
+    width: 220px;
+    height: 220px;
+    border-top: 2px solid #FFD700;
+    animation: rotate 2s linear infinite;
+  }
+
+  .ring-2 {
+    width: 170px;
+    height: 170px;
+    border-bottom: 2px solid #005eb8;
+    animation: rotateReverse 1.6s linear infinite;
+  }
+
+  .plane {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: #FFD700;
+    clip-path: polygon(50% 0%,
+        65% 40%,
+        100% 50%,
+        65% 60%,
+        50% 100%,
+        35% 60%,
+        0% 50%,
+        35% 40%);
+    animation: float 2s ease-in-out infinite;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+  }
+
+  .brand {
+    position: absolute;
+    bottom: 30px;
+    color: #005eb8;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 6px;
+  }
+
+  .subtitle {
+    position: absolute;
+    bottom: 5px;
+    color: #005eb8;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes rotateReverse {
+    from {
+      transform: rotate(360deg);
+    }
+
+    to {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+    }
+
+    50% {
+      transform: translateY(-10px) scale(1.08);
+    }
+  }
+
+  /* Smooth fade-out */
+  .loaded #preloader {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.8s ease;
+  }
+</style>
+
+<script>
+  // Demo remove loader after 3 seconds
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.body.classList.add("loaded");
+    }, 3000);
+  });
+</script>

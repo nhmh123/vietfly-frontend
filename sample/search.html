@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>VietFly - Kết Quả Tìm Kiếm Chuyến Bay</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM
+           ========================================================================== */
+
+        :root {
+
+            --primary: #FFD700;
+            --primary-dark: #E6C200;
+
+            --secondary: #005EB8;
+            --secondary-dark: #004B92;
+
+            --white: #FFFFFF;
+
+            --body-bg: #F5F7FA;
+
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+
+            --border-color: #E5E7EB;
+
+            --success: #16A34A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--body-bg);
+            color: var(--text-dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           2. TOP BAR
+           ========================================================================== */
+
+        .top-bar {
+            background: var(--primary);
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .top-bar-container {
+            max-width: 1400px;
+            margin: auto;
+
+            padding: 10px 24px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* ==========================================================================
+           3. HEADER
+           ========================================================================== */
+
+        header {
+            background: var(--white);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 999;
+
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: auto;
+
+            padding: 16px 24px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+        }
+
+        .logo-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .main-nav a {
+            font-size: 15px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--secondary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--secondary);
+
+            background: transparent;
+            color: var(--secondary);
+
+            padding: 12px 18px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           4. SEARCH SUMMARY
+           ========================================================================== */
+
+        .search-summary {
+            background:
+                linear-gradient(135deg,
+                    var(--secondary) 0%,
+                    #0B6CC6 100%);
+
+            color: white;
+
+            padding: 34px 24px;
+        }
+
+        .summary-container {
+            max-width: 1400px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .summary-left h1 {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .summary-meta {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+
+            font-size: 15px;
+            opacity: .95;
+        }
+
+        .btn-edit-search {
+            background: var(--primary);
+            color: var(--text-dark);
+
+            padding: 14px 22px;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+        }
+
+        /* ==========================================================================
+           5. MAIN LAYOUT
+           ========================================================================== */
+
+        .page-wrapper {
+            max-width: 1400px;
+            margin: auto;
+
+            padding: 30px 24px 50px;
+
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 28px;
+        }
+
+        /* ==========================================================================
+           6. SIDEBAR FILTER
+           ========================================================================== */
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .filter-card {
+            background: var(--white);
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+        }
+
+        .filter-title {
+            font-size: 18px;
+            font-weight: 800;
+
+            color: var(--secondary);
+
+            margin-bottom: 18px;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            font-weight: 700;
+
+            margin-bottom: 14px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 14px;
+
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+
+            accent-color: var(--secondary);
+        }
+
+        .price-range {
+            width: 100%;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 10px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           7. FLIGHT RESULT CONTENT
+           ========================================================================== */
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .result-toolbar {
+            background: var(--white);
+
+            border-radius: 18px;
+
+            padding: 18px 24px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+        }
+
+        .result-count {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .sort-select {
+            border: 1px solid var(--border-color);
+
+            border-radius: 10px;
+
+            padding: 10px 14px;
+
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           8. FLIGHT CARD
+           ========================================================================== */
+
+        .flight-card {
+            background: var(--white);
+
+            border-radius: 22px;
+
+            padding: 26px;
+
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+
+            transition: .25s;
+        }
+
+        .flight-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .flight-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .airline-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .airline-logo {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 14px;
+
+            background: #EFF6FF;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+        .airline-name {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .flight-code {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .flight-badge {
+            background: #DCFCE7;
+            color: #166534;
+
+            padding: 8px 12px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .flight-middle {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto;
+            align-items: center;
+
+            gap: 24px;
+
+            padding: 28px 0;
+        }
+
+        .flight-time {
+            text-align: center;
+        }
+
+        .time {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .airport {
+            font-size: 15px;
+            font-weight: 700;
+
+            margin-top: 6px;
+        }
+
+        .date {
+            font-size: 13px;
+            color: var(--text-muted);
+
+            margin-top: 4px;
+        }
+
+        .flight-duration {
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .duration {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+
+            margin-bottom: 10px;
+        }
+
+        .flight-line {
+            position: relative;
+            height: 2px;
+
+            background: var(--border-color);
+        }
+
+        .flight-line::before,
+        .flight-line::after {
+            content: '';
+
+            position: absolute;
+            top: -4px;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: var(--secondary);
+        }
+
+        .flight-line::before {
+            left: 0;
+        }
+
+        .flight-line::after {
+            right: 0;
+        }
+
+        .nonstop {
+            font-size: 12px;
+            color: var(--success);
+
+            margin-top: 8px;
+            font-weight: 700;
+        }
+
+        .flight-price-area {
+            text-align: right;
+            min-width: 180px;
+        }
+
+        .price-label {
+            font-size: 13px;
+            color: var(--text-muted);
+
+            margin-bottom: 8px;
+        }
+
+        .flight-price {
+            font-size: 34px;
+            font-weight: 800;
+
+            color: var(--secondary);
+        }
+
+        .price-note {
+            font-size: 12px;
+            color: var(--text-muted);
+
+            margin-top: 6px;
+        }
+
+        .btn-book {
+            margin-top: 18px;
+
+            background: var(--primary);
+            color: var(--text-dark);
+
+            padding: 14px 22px;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+
+            width: 100%;
+        }
+
+        .btn-book:hover {
+            background: var(--primary-dark);
+        }
+
+        .flight-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-top: 1px dashed var(--border-color);
+
+            padding-top: 18px;
+
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .flight-features {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* ==========================================================================
+           9. RESPONSIVE
+           ========================================================================== */
+
+        @media (max-width: 1200px) {
+
+            .page-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .main-nav {
+                display: none;
+            }
+
+            .summary-container,
+            .flight-middle,
+            .flight-top,
+            .flight-bottom,
+            .result-toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .flight-middle {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .flight-price-area {
+                text-align: left;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .top-bar-container,
+            .header-container {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .summary-left h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <div class="top-bar-container">
+
+            <div>
+                🕘 Giờ làm việc: 08:00 - 22:00 (T2 - CN)
+            </div>
+
+            <div class="top-right">
+                <span>📞 Hotline: 1900 6868</span>
+                <span>✉️ support@vietfly.vn</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- HEADER -->
+    <header>
+
+        <div class="header-container">
+
+            <div class="logo">
+
+                <img src="vietfly.png" alt="VietFly Logo">
+
+                <div class="logo-title">
+                    VietFly
+                </div>
+
+            </div>
+
+            <nav class="main-nav">
+                <a href="#">Trang Chủ</a>
+                <a href="#" class="active">Vé Nội Địa</a>
+                <a href="#">Vé Quốc Tế</a>
+                <a href="#">Khuyến Mãi</a>
+                <a href="#">Tin Tức</a>
+            </nav>
+
+            <div class="header-right">
+
+                <button class="btn-outline">
+                    Quản Lý Đặt Chỗ
+                </button>
+
+                <button class="btn-primary">
+                    Đăng Nhập
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- SEARCH SUMMARY -->
+    <section class="search-summary">
+
+        <div class="summary-container">
+
+            <div class="summary-left">
+
+                <h1>
+                    TP. Hồ Chí Minh ✈ Hà Nội
+                </h1>
+
+                <div class="summary-meta">
+                    <span>📅 18/05/2026</span>
+                    <span>👤 2 Người lớn</span>
+                    <span>🧳 Phổ thông</span>
+                </div>
+
+            </div>
+
+            <button class="btn-edit-search">
+                Thay Đổi Tìm Kiếm
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- MAIN -->
+    <main class="page-wrapper">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="filter-card">
+
+                <div class="filter-title">
+                    Bộ Lọc Tìm Kiếm
+                </div>
+
+                <!-- FILTER -->
+                <div class="filter-group">
+
+                    <div class="filter-label">
+                        Hãng Hàng Không
+                    </div>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" checked>
+                        Vietnam Airlines
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" checked>
+                        Vietjet Air
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        Bamboo Airways
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        Pacific Airlines
+                    </label>
+
+                </div>
+
+                <!-- FILTER -->
+                <div class="filter-group">
+
+                    <div class="filter-label">
+                        Khoảng Giá
+                    </div>
+
+                    <input type="range"
+                        class="price-range"
+                        min="500000"
+                        max="5000000"
+                        value="2500000">
+
+                    <div class="price-row">
+                        <span>500.000₫</span>
+                        <span>5.000.000₫</span>
+                    </div>
+
+                </div>
+
+                <!-- FILTER -->
+                <div class="filter-group">
+
+                    <div class="filter-label">
+                        Điểm Dừng
+                    </div>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" checked>
+                        Bay thẳng
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        1 điểm dừng
+                    </label>
+
+                </div>
+
+                <!-- FILTER -->
+                <div class="filter-group">
+
+                    <div class="filter-label">
+                        Giờ Khởi Hành
+                    </div>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        Sáng sớm (00:00 - 06:00)
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        Buổi sáng (06:00 - 12:00)
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        Buổi chiều (12:00 - 18:00)
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox">
+                        Buổi tối (18:00 - 24:00)
+                    </label>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- CONTENT -->
+        <section class="content-area">
+
+            <!-- TOOLBAR -->
+            <div class="result-toolbar">
+
+                <div class="result-count">
+                    Tìm thấy <strong>42 chuyến bay</strong>
+                </div>
+
+                <select class="sort-select">
+                    <option>Giá thấp nhất</option>
+                    <option>Khởi hành sớm nhất</option>
+                    <option>Bay nhanh nhất</option>
+                </select>
+
+            </div>
+
+            <!-- FLIGHT CARD -->
+            <div class="flight-card">
+
+                <div class="flight-top">
+
+                    <div class="airline-info">
+
+                        <div class="airline-logo">
+                            ✈️
+                        </div>
+
+                        <div>
+
+                            <div class="airline-name">
+                                Vietnam Airlines
+                            </div>
+
+                            <div class="flight-code">
+                                VN245 • Airbus A321
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flight-badge">
+                        Bay Thẳng
+                    </div>
+
+                </div>
+
+                <div class="flight-middle">
+
+                    <!-- DEPART -->
+                    <div class="flight-time">
+
+                        <div class="time">
+                            08:30
+                        </div>
+
+                        <div class="airport">
+                            SGN
+                        </div>
+
+                        <div class="date">
+                            Tân Sơn Nhất
+                        </div>
+
+                    </div>
+
+                    <!-- DURATION -->
+                    <div class="flight-duration">
+
+                        <div class="duration">
+                            2h 05m
+                        </div>
+
+                        <div class="flight-line"></div>
+
+                        <div class="nonstop">
+                            Bay thẳng
+                        </div>
+
+                    </div>
+
+                    <!-- ARRIVAL -->
+                    <div class="flight-time">
+
+                        <div class="time">
+                            10:35
+                        </div>
+
+                        <div class="airport">
+                            HAN
+                        </div>
+
+                        <div class="date">
+                            Nội Bài
+                        </div>
+
+                    </div>
+
+                    <!-- PRICE -->
+                    <div class="flight-price-area">
+
+                        <div class="price-label">
+                            Giá từ
+                        </div>
+
+                        <div class="flight-price">
+                            1.290.000₫
+                        </div>
+
+                        <div class="price-note">
+                            Đã bao gồm thuế phí
+                        </div>
+
+                        <button class="btn-book">
+                            Chọn Chuyến Bay
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="flight-bottom">
+
+                    <div class="flight-features">
+                        <span>🧳 20kg hành lý</span>
+                        <span>🍽 Suất ăn miễn phí</span>
+                        <span>📶 Wifi trên máy bay</span>
+                    </div>
+
+                    <div>
+                        Còn 6 chỗ giá này
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FLIGHT CARD -->
+            <div class="flight-card">
+
+                <div class="flight-top">
+
+                    <div class="airline-info">
+
+                        <div class="airline-logo">
+                            🛫
+                        </div>
+
+                        <div>
+
+                            <div class="airline-name">
+                                Vietjet Air
+                            </div>
+
+                            <div class="flight-code">
+                                VJ198 • Airbus A320
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flight-badge">
+                        Giá Tiết Kiệm
+                    </div>
+
+                </div>
+
+                <div class="flight-middle">
+
+                    <div class="flight-time">
+
+                        <div class="time">
+                            12:45
+                        </div>
+
+                        <div class="airport">
+                            SGN
+                        </div>
+
+                        <div class="date">
+                            Tân Sơn Nhất
+                        </div>
+
+                    </div>
+
+                    <div class="flight-duration">
+
+                        <div class="duration">
+                            2h 10m
+                        </div>
+
+                        <div class="flight-line"></div>
+
+                        <div class="nonstop">
+                            Bay thẳng
+                        </div>
+
+                    </div>
+
+                    <div class="flight-time">
+
+                        <div class="time">
+                            14:55
+                        </div>
+
+                        <div class="airport">
+                            HAN
+                        </div>
+
+                        <div class="date">
+                            Nội Bài
+                        </div>
+
+                    </div>
+
+                    <div class="flight-price-area">
+
+                        <div class="price-label">
+                            Giá từ
+                        </div>
+
+                        <div class="flight-price">
+                            990.000₫
+                        </div>
+
+                        <div class="price-note">
+                            Chưa gồm hành lý ký gửi
+                        </div>
+
+                        <button class="btn-book">
+                            Chọn Chuyến Bay
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="flight-bottom">
+
+                    <div class="flight-features">
+                        <span>🎒 7kg hành lý xách tay</span>
+                        <span>💺 Chọn ghế trả phí</span>
+                    </div>
+
+                    <div>
+                        Còn 12 chỗ
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FLIGHT CARD -->
+            <div class="flight-card">
+
+                <div class="flight-top">
+
+                    <div class="airline-info">
+
+                        <div class="airline-logo">
+                            ☁️
+                        </div>
+
+                        <div>
+
+                            <div class="airline-name">
+                                Bamboo Airways
+                            </div>
+
+                            <div class="flight-code">
+                                QH212 • Boeing 787
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flight-badge">
+                        Premium Service
+                    </div>
+
+                </div>
+
+                <div class="flight-middle">
+
+                    <div class="flight-time">
+
+                        <div class="time">
+                            18:20
+                        </div>
+
+                        <div class="airport">
+                            SGN
+                        </div>
+
+                        <div class="date">
+                            Tân Sơn Nhất
+                        </div>
+
+                    </div>
+
+                    <div class="flight-duration">
+
+                        <div class="duration">
+                            2h 00m
+                        </div>
+
+                        <div class="flight-line"></div>
+
+                        <div class="nonstop">
+                            Bay thẳng
+                        </div>
+
+                    </div>
+
+                    <div class="flight-time">
+
+                        <div class="time">
+                            20:20
+                        </div>
+
+                        <div class="airport">
+                            HAN
+                        </div>
+
+                        <div class="date">
+                            Nội Bài
+                        </div>
+
+                    </div>
+
+                    <div class="flight-price-area">
+
+                        <div class="price-label">
+                            Giá từ
+                        </div>
+
+                        <div class="flight-price">
+                            1.590.000₫
+                        </div>
+
+                        <div class="price-note">
+                            Bao gồm hành lý + suất ăn
+                        </div>
+
+                        <button class="btn-book">
+                            Chọn Chuyến Bay
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="flight-bottom">
+
+                    <div class="flight-features">
+                        <span>🧳 30kg hành lý</span>
+                        <span>🍽 Suất ăn cao cấp</span>
+                        <span>💺 Ghế rộng</span>
+                    </div>
+
+                    <div>
+                        Còn 3 ghế ưu đãi
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

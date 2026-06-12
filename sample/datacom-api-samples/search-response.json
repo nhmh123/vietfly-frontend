@@ -1,0 +1,191 @@
+{
+  "StatusCode": "0000", // Mã trạng thái hệ thống (0000 = Thành công, các mã khác là lỗi)
+  "Success": true, // Trạng thái logic (true/false) để chặn nhanh ở tầng Interceptor
+  "Message": "Success", // Thông báo chi tiết từ hệ thống (nếu lỗi sẽ hiện text tiếng Anh/Việt)
+  "RequestId": 987654321, // ID duy nhất của lượt tìm kiếm này (Dùng để log lỗi khi trace hệ thống)
+  "Session": "SS-99a8b7c6-d5e4", // Phiên làm việc của đợt tìm kiếm, bắt buộc phải truyền ngược lại khi giữ chỗ (Book)
+
+  "ListGroup": [
+    // TẦNG 1: Danh sách nhóm hành trình tổng (Khứ hồi sẽ có Leg 0 và Leg 1)
+    {
+      "Leg": 0, // Thứ tự chặng bay (0: Chiều đi, 1: Chiều về)
+      "TripType": "OneWay", // Loại hành trình (OneWay: Một chiều, RoundTrip: Khứ hồi)
+      "StartPoint": "HAN", // Điểm khởi hành tổng của chặng này (Mã IATA sân bay)
+      "EndPoint": "SGN", // Điểm đến tổng của chặng này (Mã IATA sân bay)
+      "DepartDate": "12032025", // Ngày khởi hành gốc (Định dạng ddMMyyyy)
+
+      "ListAirOption": [
+        // TẦNG 2: Danh sách các lựa chọn theo từng hãng hàng không
+        {
+          "Leg": 0, // Trùng với thứ tự chặng của Group cha
+          "Itinerary": 1, // Loại hành trình (Định danh luồng bay của hệ thống đối tác)
+          "Airline": "VN", // Mã IATA hãng hàng không chủ quản (VN: Vietnam Airlines, VJ: Vietjet...)
+          "System": "1G", // Hệ thống phân phối gốc (1G: Galileo, 1B: Abacus, 1A: Amadeus)
+          "Source": "API", // Nguồn cổng kết nối dữ liệu (API, NDC, GDS)
+          "Remark": "Connecting Flight", // Ghi chú nghiệp vụ đặc biệt từ hệ thống cung cấp
+
+          "ListFlightOption": [
+            // TẦNG 3: Danh sách các giải pháp bay thực tế (Khung giờ bay, số hiệu cụ thể)
+            {
+              "OptionId": 101, // ID của giải pháp bay này (Bắt buộc phải lưu để truyền lên khi chọn vé)
+
+              "ListFlight": [
+                // CHI TIẾT LOGIC CHUYẾN BAY (Bao gồm thông tin tổng và các chặng nhỏ)
+                {
+                  "Leg": 0, // Thứ tự hành trình
+                  "FlightId": "FL-VN205", // ID định danh chuyến bay trong phiên làm việc hiện tại
+                  "Airline": "VN", // Mã hãng bán vé
+                  "Operator": "VN", // Mã hãng thực tế vận hành chuyến bay (rất quan trọng khi bay Code-share)
+                  "StartPoint": "HAN", // Sân bay cất cánh đầu tiên
+                  "EndPoint": "SGN", // Sân bay hạ cánh cuối cùng
+                  "StartDate": "12032025", // Ngày bay
+                  "EndDate": "12032025", // Ngày đáp
+                  "DepartDate": "12032025", // Ngày khởi hành (Chuỗi thô)
+                  "ArriveDate": "12032025", // Ngày hạ cánh (Chuỗi thô)
+                  "FlightNumber": "VN205", // Số hiệu chuyến bay hiển thị trên vé khách xem
+                  "StopNum": 1, // Số điểm dừng nối chuyến (0: Bay thẳng, 1: Dừng 1 lần tại điểm transit)
+                  "Duration": 250, // TỔNG thời gian bay của cả hành trình (Tính bằng PHÚT)
+
+                  "ListSegment": [
+                    // CHI TIẾT VẬT LÝ TỪNG CHẶNG CẤT - HẠ CÁNH (Xương sống của vé)
+                    {
+                      "Leg": 0, // Thứ tự chặng trong hành trình
+                      "SegmentId": "SG-01", // ID độc lập của chặng bay vật lý này
+                      "Airline": "VN", // Hãng bay chặng này
+                      "Operator": "VN", // Hãng vận hành chặng này
+                      "StartPoint": "HAN", // Sân bay đi của chặng 1
+                      "EndPoint": "DAD", // Sân bay đến của chặng 1 (Điểm dừng transit)
+                      "StartDate": "12032025",
+                      "EndDate": "12032025",
+                      "DepartDate": "2025-03-12T06:00:00", // Thời gian cất cánh chính xác (ISO Date)
+                      "ArriveDate": "2025-03-12T07:20:00", // Thời gian hạ cánh chính xác (ISO Date)
+                      "StartTerminal": "T1", // Nhà ga đi (Dùng để in lên vé cho khách biết ra đúng ga)
+                      "EndTerminal": "T1", // Nhà ga đến
+                      "FlightNumber": "VN205", // Số hiệu tàu bay của riêng chặng này
+                      "Equipment": "Airbus A321", // Dòng máy bay vận hành (Map với bảng Aircrafts Master của bạn)
+                      "FareClass": "H", // Mã hạng đặt chỗ kỹ thuật (Đặt trên GDS)
+                      "FareBasis": "HLIT", // Mã hạng giá vé gốc của hãng (Dùng để tra cứu điều kiện hoàn hủy)
+                      "Duration": 80, // Thời gian bay thực tế ngồi trên máy bay của chặng này (Phút)
+                      "HasStop": true, // Đánh dấu chặng này có điểm dừng kỹ thuật ngay sau khi đáp không
+                      "StopPoint": "DAD", // Sân bay dừng chân transit
+                      "StopTime": 50.0 // Thời gian phải ngồi đợi ở sân bay transit (Phút)
+                    },
+                    {
+                      "Leg": 0,
+                      "SegmentId": "SG-02", // Chặng bay tiếp theo sau khi dừng transit
+                      "Airline": "VN",
+                      "Operator": "VN",
+                      "StartPoint": "DAD", // Điểm đi của chặng 2 chính là điểm dừng của chặng 1
+                      "EndPoint": "SGN", // Điểm đích cuối cùng
+                      "StartDate": "12032025",
+                      "EndDate": "12032025",
+                      "DepartDate": "2025-03-12T08:10:00",
+                      "ArriveDate": "2025-03-12T09:30:00",
+                      "StartTerminal": "T1",
+                      "EndTerminal": "T2",
+                      "FlightNumber": "VN205",
+                      "Equipment": "Airbus A321",
+                      "FareClass": "H",
+                      "FareBasis": "HLIT",
+                      "Duration": 80,
+                      "HasStop": false // Chặng cuối cùng, không còn điểm dừng nào nữa
+                    }
+                  ]
+                }
+              ],
+
+              "ListFareOption": [
+                // TẦNG 4: Danh sách các phương án GIÁ VÉ tương ứng cho khung giờ bay ở trên
+                {
+                  "OptionId": 1001, // ID phương án giá (Cần giữ lại để đẩy lên luồng đặt chỗ)
+                  "FareClass": "H", // Hạng ghế đại diện
+                  "FareBasis": "HLIT", // Hạng giá vé đại diện
+                  "FareFamily": "Phổ thông tiêu chuẩn", // Tên gói dịch vụ hãng đặt (Hiện lên UI Nuxt 3 cho thân thiện)
+                  "CabinCode": "Y", // Mã khoang (Y: Phổ thông, C: Thương gia, F: Hạng nhất)
+                  "CabinName": "Economy", // Tên khoang dịch vụ tiếng Anh
+                  "Refundable": true, // Vé này CÓ ĐƯỢC HOÀN LẠI TIỀN KHÔNG (Hiện icon xanh/đỏ báo cho khách)
+                  "Availability": 7, // SỐ GHẾ CÒN TRỐNG giá này (Nếu < 5 thì hiện chữ "Sắp hết vé" trên UI)
+                  "Unavailable": false, // Trạng thái khóa vé (true nếu vé này vừa bị mua mất hoặc hết chỗ)
+                  "ExpiryDate": "12032025", // Thời hạn tối đa giữ được mức giá này nếu khách chọn hình thức trả sau
+
+                  "BaseFare": 1500000.0, // Giá vé gốc chưa thuế phí của 1 người lớn (Dùng tính hoa hồng đại lý)
+                  "BaseFareOrigin": 1500000.0, // Giá gốc khi chưa áp mã khuyến mãi của hãng
+                  "PriceAdt": 2350000.0, // Giá gồm cả thuế phí cho 1 người lớn
+                  "PriceAdtOrigin": 2350000.0,
+                  "NetFare": 1500000.0, // Giá net đại lý phải trả cho Datacom (Chênh lệch với PriceAdt ra lãi của bạn)
+                  "NetFareOrigin": 1500000.0,
+                  "TotalFare": 2350000.0, // TỔNG TIỀN CUỐI CÙNG PHẢI THU của khách (In to nhất trên UI Nuxt 3)
+                  "TotalFareOrigin": 2350000.0,
+                  "Currency": "VND", // Đơn vị tiền tệ thanh toán
+                  "Airline": "VN",
+                  "System": "VN",
+
+                  "ListFarePax": [
+                    // TẦNG 5: Bóc tách giá chi tiết theo từng cấu trúc hành khách đi cùng
+                    {
+                      "PaxType": "ADT", // Loại khách (ADT: Người lớn, CHD: Trẻ em, INF: Sơ sinh)
+                      "PaxNumb": 1, // Số lượng khách thuộc nhóm này
+                      "BaseFare": 1500000.0, // Giá gốc của nhóm
+                      "BaseFareOrigin": 1500000.0,
+                      "NetFare": 1500000.0,
+                      "NetFareOrigin": 1500000.0,
+                      "TotalFare": 2350000.0 // Tổng tiền của nhóm này (Đã gồm thuế phí)
+                    }
+                  ],
+
+                  "ListFareItem": [
+                    // Chi tiết cấu thành dòng tiền (Dùng vẽ biểu đồ breakdown giá cho khách xem)
+                    { "Code": "BF", "Amount": 1500000.0, "Name": "Base Fare" }, // Tiền vé thuần
+                    {
+                      "Code": "TAX",
+                      "Amount": 850000.0,
+                      "Name": "Taxes & Fees"
+                    } // Tổng cục thuế phí sân bay/quản trị
+                  ],
+
+                  "ListTaxDetail": [
+                    // Bẻ nhỏ cục TAX ở trên ra nếu muốn hiển thị hóa đơn siêu chi tiết
+                    {
+                      "Code": "VAT",
+                      "Amount": 150000.0,
+                      "Name": "Value Added Tax"
+                    },
+                    {
+                      "Code": "PSC",
+                      "Amount": 100000.0,
+                      "Name": "Passenger Service Charge"
+                    }
+                  ],
+
+                  "ListFareInfo": [
+                    // TIỆN ÍCH ĐI KÈM CỦA VÉ (Nơi lưu thông tin hành lý cực kỳ quan trọng)
+                    {
+                      "SegmentId": 1, // Liên kết trực tiếp với SegmentId "SG-01" ở trên
+                      "StartPoint": "HAN",
+                      "EndPoint": "DAD",
+                      "FareClass": "H",
+                      "FareBasis": "HLIT",
+                      "HandBaggage": "01 kiện 12kg", // CỘT HÀNH LÝ XÁCH TAY (Đổ thẳng chữ này ra UI Nuxt 3)
+                      "FreeBaggage": "01 kiện 23kg", // CỘT HÀNH LÝ KÝ GỬI MIỄN PHÍ (Đổ thẳng chữ này ra UI Nuxt 3)
+                      "Availability": 7
+                    },
+                    {
+                      "SegmentId": 2, // Liên kết với SegmentId "SG-02" (Có thể chặng 2 hành lý sẽ khác chặng 1)
+                      "StartPoint": "DAD",
+                      "EndPoint": "SGN",
+                      "FareClass": "H",
+                      "FareBasis": "HLIT",
+                      "HandBaggage": "01 kiện 12kg",
+                      "FreeBaggage": "01 kiện 23kg",
+                      "Availability": 7
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VietFly - Hệ Thống Đặt Vé Máy Bay Giá Rẻ</title>
+
+    <link rel="icon" href="vietfly.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="main.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <!-- Premium Agency Loading Animation -->
+    <div id="preloader">
+      <div class="loader-container">
+        <div class="main-loader">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="plane"></div>
+          <div class="loader-info">
+            <h1 class="brand">VIETFLY</h1>
+            <p class="subtitle">Loading Experience</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="top-bar-container">
+        <div class="top-left">
+          <span>Giờ làm việc: 08:00 - 22:00 (T2 - CN)</span>
+        </div>
+
+        <div class="top-right">
+          <span>Hotline: 1900 6868</span>
+          |
+          <span>support@vietfly.vn</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-container">
+        <div class="logo">
+          <img src="vietfly.png" alt="VietFly Logo" />
+
+          <div class="logo-text">
+            <div class="logo-title">VietFly</div>
+            <div class="logo-subtitle">SMART AIRLINE BOOKING SYSTEM</div>
+          </div>
+        </div>
+
+        <nav class="main-nav">
+          <a href="#" class="active">Trang Chủ</a>
+          <a href="#">Vé Nội Địa</a>
+          <a href="#">Vé Quốc Tế</a>
+          <a href="#">Khuyến Mãi</a>
+          <a href="#">Tin Tức</a>
+          <a href="#">Liên Hệ</a>
+        </nav>
+
+        <div class="header-right">
+          <button class="btn-booking">Quản Lý Đặt Chỗ</button>
+
+          <button class="btn-login">Đăng Nhập</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-section">
+      <h1 class="hero-title">Bay Thông Minh Cùng VietFly</h1>
+
+      <p class="hero-subtitle">
+        Hệ thống đặt vé máy bay hiện đại, giá tốt, thanh toán nhanh chóng
+      </p>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="booking-container">
+      <div class="booking-top">
+        <div class="booking-title">Tìm kiếm chuyến bay</div>
+
+        <div class="flight-type-selector">
+          <label class="radio-label">
+            <input type="radio" name="flight-type" id="round-trip" checked />
+            Khứ hồi
+          </label>
+
+          <label class="radio-label">
+            <input type="radio" name="flight-type" id="one-way" />
+            Một chiều
+          </label>
+        </div>
+      </div>
+
+      <form>
+        <div class="search-fields-grid">
+          <div class="route-selector mb-4">
+            <!-- FROM -->
+            <div class="input-group">
+              <label>Điểm đi</label>
+
+              <div class="airport-select" onclick="toggleAirport('from')">
+                <div class="airport-value">
+                  <i class="fa-solid fa-plane-departure"></i>
+
+                  <span id="from-value"> TP. Hồ Chí Minh (SGN) </span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+                <div class="airport-dropdown" id="from-dropdown">
+                  <input
+                    type="text"
+                    placeholder="Tìm sân bay..."
+                    onkeyup="filterAirport(event, 'from-list')"
+                  />
+
+                  <div class="airport-list" id="from-list">
+                    <div
+                      class="airport-item"
+                      onclick="selectAirport('from', 'TP. Hồ Chí Minh (SGN)')"
+                    >
+                      TP. Hồ Chí Minh (SGN)
+                    </div>
+
+                    <div
+                      class="airport-item"
+                      onclick="selectAirport('from', 'Hà Nội (HAN)')"
+                    >
+                      Hà Nội (HAN)
+                    </div>
+
+                    <div
+                      class="airport-item"
+                      onclick="selectAirport('from', 'Đà Nẵng (DAD)')"
+                    >
+                      Đà Nẵng (DAD)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- SWAP -->
+            <button class="swap-btn" onclick="swapAirport()" type="button">
+              <i class="fa-solid fa-right-left"></i>
+            </button>
+            <!-- TO -->
+            <div class="input-group">
+              <label>Điểm đến</label>
+
+              <div class="airport-select" onclick="toggleAirport('to')">
+                <div class="airport-value">
+                  <i class="fa-solid fa-plane-arrival"></i>
+
+                  <span id="to-value"> Hà Nội (HAN) </span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+                <div class="airport-dropdown" id="to-dropdown">
+                  <input
+                    type="text"
+                    placeholder="Tìm sân bay..."
+                    onkeyup="filterAirport(event, 'to-list')"
+                  />
+
+                  <div class="airport-list" id="to-list">
+                    <div
+                      class="airport-item"
+                      onclick="selectAirport('to', 'Hà Nội (HAN)')"
+                    >
+                      Hà Nội (HAN)
+                    </div>
+
+                    <div
+                      class="airport-item"
+                      onclick="selectAirport('to', 'Phú Quốc (PQC)')"
+                    >
+                      Phú Quốc (PQC)
+                    </div>
+
+                    <div
+                      class="airport-item"
+                      onclick="selectAirport('to', 'Nha Trang (CXR)')"
+                    >
+                      Nha Trang (CXR)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group departure-date mb-4">
+            <label>Ngày đi</label>
+            <input type="date" id="dep-date" />
+          </div>
+
+          <div class="input-group return-date mb-4">
+            <label>Ngày về</label>
+            <input type="date" id="ret-date" />
+          </div>
+
+          <div class="input-group passenger-selector mb-4">
+            <label>Hành khách</label>
+            <div class="passenger-display" onclick="togglePassengerBox()">
+              <div class="passenger-display-left">
+                <i class="fa-solid fa-users"></i>
+
+                <span id="passenger-summary"> 1 Người lớn </span>
+              </div>
+
+              <i
+                class="fa-solid fa-chevron-down dropdown-icon"
+                id="dropdown-icon"
+              ></i>
+            </div>
+
+            <div class="passenger-box" id="passenger-box">
+              <div class="passenger-row">
+                <div>
+                  <strong>Người lớn</strong>
+                  <small>Từ 12 tuổi</small>
+                </div>
+
+                <div class="counter">
+                  <button type="button" onclick="changePassenger('adt', -1)">
+                    -
+                  </button>
+
+                  <span id="adt-count"> 1 </span>
+
+                  <button type="button" onclick="changePassenger('adt', 1)">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="passenger-row">
+                <div>
+                  <strong>Trẻ em</strong>
+                  <small>2 - 11 tuổi</small>
+                </div>
+
+                <div class="counter">
+                  <button type="button" onclick="changePassenger('chd', -1)">
+                    -
+                  </button>
+
+                  <span id="chd-count"> 0 </span>
+
+                  <button type="button" onclick="changePassenger('chd', 1)">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="passenger-row">
+                <div>
+                  <strong>Em bé</strong>
+                  <small>Dưới 2 tuổi</small>
+                </div>
+
+                <div class="counter">
+                  <button type="button" onclick="changePassenger('inf', -1)">
+                    -
+                  </button>
+
+                  <span id="inf-count"> 0 </span>
+
+                  <button type="button" onclick="changePassenger('inf', 1)">
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-search">Tìm chuyến bay</button>
+      </form>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <section class="trust-section">
+        <div class="section-header">
+          <span class="section-badge"> Tại sao chọn VietFly </span>
+
+          <h2 class="section-title">
+            Trải Nghiệm Đặt Vé Đơn Giản Và Minh Bạch
+          </h2>
+
+          <p class="section-description">
+            Hàng nghìn hành khách lựa chọn VietFly mỗi ngày nhờ giá tốt, hỗ trợ
+            nhanh và quy trình đặt vé đơn giản.
+          </p>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-icon">❤️</div>
+
+            <h3 class="trust-title">Được Hành Khách Yêu Thích</h3>
+
+            <p class="trust-description">
+              Tham gia cùng hàng triệu hành khách lựa chọn VietFly cho các
+              chuyến bay nội địa và quốc tế.
+            </p>
+          </div>
+
+          <div class="trust-card">
+            <div class="trust-icon">🎧</div>
+
+            <h3 class="trust-title">Hỗ Trợ 24/7</h3>
+
+            <p class="trust-description">
+              Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ mọi lúc, mọi nơi
+              trong suốt hành trình của bạn.
+            </p>
+          </div>
+
+          <div class="trust-card">
+            <div class="trust-icon">💳</div>
+
+            <h3 class="trust-title">Giá Cả Minh Bạch</h3>
+
+            <p class="trust-description">
+              Không phụ phí ẩn. Giá hiển thị đã bao gồm đầy đủ thuế và phí.
+            </p>
+          </div>
+
+          <div class="trust-card">
+            <div class="trust-icon">🎁</div>
+
+            <h3 class="trust-title">Tích Điểm Thưởng</h3>
+
+            <p class="trust-description">
+              Tích lũy điểm thưởng sau mỗi giao dịch để sử dụng cho các chuyến
+              bay tiếp theo.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <h2 class="section-title">Chặng Bay Phổ Biến</h2>
+
+      <div class="destinations-grid">
+        <div class="destination-card">
+          <div
+            class="destination-img"
+            style="
+              background-image:
+                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
+                url(&quot;https://images.unsplash.com/photo-1509060464153-44667396260f?auto=format&fit=crop&w=600&q=80&quot;);
+            "
+          >
+            HÀ NỘI
+          </div>
+
+          <div class="destination-info">
+            <div class="destination-route">TP.HCM → Hà Nội</div>
+
+            <div class="destination-meta">Vietnam Airlines • Vietjet Air</div>
+
+            <div class="destination-price-row">
+              <span class="badge-promo"> Giá Rẻ </span>
+
+              <span class="price-value"> 790.000 VNĐ </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="destination-card">
+          <div
+            class="destination-img"
+            style="
+              background-image:
+                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
+                url(&quot;https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80&quot;);
+            "
+          >
+            NHA TRANG
+          </div>
+
+          <div class="destination-info">
+            <div class="destination-route">TP.HCM → Nha Trang</div>
+
+            <div class="destination-meta">Vietjet Air</div>
+
+            <div class="destination-price-row">
+              <span class="badge-promo"> Tiết Kiệm </span>
+
+              <span class="price-value"> 590.000 VNĐ </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="destination-card">
+          <div
+            class="destination-img"
+            style="
+              background-image:
+                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
+                url(&quot;https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=600&q=80&quot;);
+            "
+          >
+            ĐÀ NẴNG
+          </div>
+
+          <div class="destination-info">
+            <div class="destination-route">Hà Nội → Đà Nẵng</div>
+
+            <div class="destination-meta">Vietnam Airlines</div>
+
+            <div class="destination-price-row">
+              <span class="badge-promo"> Hot Deal </span>
+
+              <span class="price-value"> 850.000 VNĐ </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="destination-card">
+          <div
+            class="destination-img"
+            style="
+              background-image:
+                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
+                url(&quot;https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80&quot;);
+            "
+          >
+            PHÚ QUỐC
+          </div>
+
+          <div class="destination-info">
+            <div class="destination-route">TP.HCM → Phú Quốc</div>
+
+            <div class="destination-meta">Bamboo Airways</div>
+
+            <div class="destination-price-row">
+              <span class="badge-promo"> Ưu Đãi </span>
+
+              <span class="price-value"> 680.000 VNĐ </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+   FAQ SECTION
+   ========================================================================== -->
+
+      <section class="faq-section">
+        <div class="section-header">
+          <span class="section-badge">Hỗ trợ khách hàng</span>
+
+          <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
+
+          <p class="section-description">
+            Giải đáp nhanh các vấn đề phổ biến khi đặt vé và thanh toán tại
+            VietFly.
+          </p>
+        </div>
+
+        <div class="faq-container">
+          <div class="faq-item active">
+            <div class="faq-question">
+              <span>Làm thế nào để đổi ngày bay sau khi đặt vé?</span>
+              <span>−</span>
+            </div>
+
+            <div class="faq-answer">
+              Sau khi đăng nhập, bạn vào mục “Quản Lý Đặt Chỗ”, nhập mã đặt vé
+              để thực hiện đổi ngày bay theo chính sách của từng hãng hàng
+              không.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Tôi có thể thanh toán bằng phương thức nào?</span>
+              <span>+</span>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>VietFly có hỗ trợ xuất hóa đơn VAT không?</span>
+              <span>+</span>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Trẻ em dưới 2 tuổi có cần mua vé riêng?</span>
+              <span>+</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+   TESTIMONIAL SECTION
+   ========================================================================== -->
+
+      <section class="testimonial-section">
+        <div class="section-header">
+          <span class="section-badge">Khách hàng nói gì?</span>
+
+          <h2 class="section-title">Đánh Giá Từ Hành Khách</h2>
+
+          <p class="section-description">
+            Hơn 50.000+ khách hàng đã đặt vé thành công cùng VietFly.
+          </p>
+        </div>
+
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-top">
+              <img src="https://i.pravatar.cc/100?img=12" alt="" />
+
+              <div>
+                <div class="testimonial-name">Nguyễn Minh Anh</div>
+
+                <div class="testimonial-role">Freelancer Designer</div>
+              </div>
+            </div>
+
+            <div class="testimonial-rating">★★★★★</div>
+
+            <p class="testimonial-content">
+              Đặt vé cực nhanh, giao diện dễ dùng và giá tốt hơn nhiều bên khác.
+              Mình rất thích trải nghiệm thanh toán chỉ trong vài phút.
+            </p>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-top">
+              <img src="https://i.pravatar.cc/100?img=32" alt="" />
+
+              <div>
+                <div class="testimonial-name">Trần Quốc Bảo</div>
+
+                <div class="testimonial-role">Business Analyst</div>
+              </div>
+            </div>
+
+            <div class="testimonial-rating">★★★★★</div>
+
+            <p class="testimonial-content">
+              Hệ thống tìm kiếm chuyến bay rất mượt. Bộ lọc và so sánh giá vé
+              hoạt động cực kỳ trực quan.
+            </p>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-top">
+              <img src="https://i.pravatar.cc/100?img=15" alt="" />
+
+              <div>
+                <div class="testimonial-name">Lê Hoàng Nam</div>
+
+                <div class="testimonial-role">Software Engineer</div>
+              </div>
+            </div>
+
+            <div class="testimonial-rating">★★★★★</div>
+
+            <p class="testimonial-content">
+              Support phản hồi nhanh, đổi lịch bay dễ dàng. Thiết kế UI hiện đại
+              và rất chuyên nghiệp.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <h3>VỀ VIETFLY</h3>
+
+          <p>
+            Hệ thống đặt vé máy bay trực tuyến hiện đại, kết nối các hãng hàng
+            không nội địa và quốc tế.
+          </p>
+
+          <p>📍 95 Lĩnh Nam, Hoàng Mai, Hà Nội</p>
+
+          <p>✉️ support@vietfly.vn</p>
+        </div>
+
+        <div class="footer-col">
+          <h3>CHÍNH SÁCH</h3>
+
+          <ul class="footer-links">
+            <li><a href="#">Điều khoản sử dụng</a></li>
+            <li><a href="#">Bảo mật thông tin</a></li>
+            <li><a href="#">Đổi / Hoàn vé</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>HỖ TRỢ</h3>
+
+          <ul class="footer-links">
+            <li><a href="#">Hướng dẫn đặt vé</a></li>
+            <li><a href="#">Check-in Online</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>ĐỐI TÁC</h3>
+
+          <p>• Vietnam Airlines</p>
+          <p>• Vietjet Air</p>
+          <p>• Bamboo Airways</p>
+          <p>• Pacific Airlines</p>
+        </div>
+      </div>
+
+      <div class="copyright">© 2026 VietFly Airlines. All rights reserved.</div>
+    </footer>
+
+    <script>
+      // Demo remove loader after 3 seconds
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          document.body.classList.add("loaded");
+        }, 2000);
+      });
+
+      let adt = 1;
+      let chd = 0;
+      let inf = 0;
+
+      function togglePassengerBox() {
+        const box = document.getElementById("passenger-box");
+
+        const icon = document.getElementById("dropdown-icon");
+
+        box.classList.toggle("active");
+
+        icon.classList.toggle("rotate");
+      }
+
+      function changePassenger(type, amount) {
+        if (type === "adt") {
+          adt = Math.max(1, adt + amount);
+
+          document.getElementById("adt-count").innerText = adt;
+        }
+
+        if (type === "chd") {
+          chd = Math.max(0, chd + amount);
+
+          document.getElementById("chd-count").innerText = chd;
+        }
+
+        if (type === "inf") {
+          inf = Math.max(0, inf + amount);
+
+          document.getElementById("inf-count").innerText = inf;
+        }
+
+        updateSummary();
+      }
+
+      function updateSummary() {
+        document.getElementById("passenger-summary").innerText =
+          `${adt} Người lớn, ${chd} Trẻ em, ${inf} Em bé`;
+      }
+
+      function toggleAirport(type) {
+        document.getElementById(`${type}-dropdown`).classList.toggle("active");
+      }
+
+      function selectAirport(type, value) {
+        document.getElementById(`${type}-value`).innerText = value;
+
+        document.getElementById(`${type}-dropdown`).classList.remove("active");
+      }
+
+      function swapAirport() {
+        const from = document.getElementById("from-value");
+
+        const to = document.getElementById("to-value");
+
+        const temp = from.innerText;
+
+        from.innerText = to.innerText;
+
+        to.innerText = temp;
+      }
+
+      function filterAirport(event, listId) {
+        const keyword = event.target.value.toLowerCase();
+
+        const items = document.querySelectorAll(`#${listId} .airport-item`);
+
+        items.forEach((item) => {
+          item.style.display = item.innerText.toLowerCase().includes(keyword)
+            ? "block"
+            : "none";
+        });
+      }
+
+      const roundTrip = document.getElementById("round-trip");
+      const oneWay = document.getElementById("one-way");
+      const returnDateInput = document.getElementById("ret-date");
+
+      // Hàm xử lý việc disable/enable
+      function toggleReturnDate() {
+        if (oneWay.checked) {
+          returnDateInput.disabled = true; // Disable input
+          returnDateInput.value = ""; // Xóa giá trị nếu có
+          returnDateInput.style.opacity = "0.5"; // Tạo hiệu ứng mờ
+        } else {
+          returnDateInput.disabled = false; // Enable input
+          returnDateInput.style.opacity = "1";
+        }
+      }
+
+      // Gán sự kiện click cho cả 2 radio button
+      roundTrip.addEventListener("change", toggleReturnDate);
+      oneWay.addEventListener("change", toggleReturnDate);
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const depDateInput = document.getElementById("dep-date"); // ID của input ngày đi
+        const today = new Date().toISOString().split("T")[0];
+
+        // Chỉ cần gán giá trị đúng định dạng YYYY-MM-DD
+        depDateInput.value = today;
+        depDateInput.setAttribute("min", today);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+{
+  "RequestInfo": {
+    "System": "VNA",               // Hệ thống đặt chỗ đích (Ví dụ: Vietnam Airlines, Vietjet...)
+    "Language": "Vi"               // Ngôn ngữ xử lý và trả về thông báo lỗi
+  },
+  
+  "GuestContact": {                // THÔNG TIN LIÊN HỆ CỦA KHÁCH HÀNG (Người đặt vé)
+    "Area": "VN",                  // Mã quốc gia (Ví dụ: VN, US)
+    "Phone": "0912345678",         // Số điện thoại nhận SMS thông báo code vé/delay
+    "Email": "khachhang@gmail.com",// Email nhận vé điện tử (E-ticket)
+    "ReceiveEmail": true           // Cho phép hệ thống tự động gửi mail xác nhận hay không
+  },
+  
+  "AgentContact": {                // THÔNG TIN LIÊN HỆ CỦA ĐẠI LÝ (Chính là hệ thống VietFly của bạn)
+    "Area": "VN",
+    "Phone": "0247778888",         // Hotline của VietFly để hãng liên hệ khi có sự cố khẩn cấp
+    "Email": "booking@vietfly.vn", // Email tổng của hệ thống bạn để nhận bàn giao hóa đơn/báo cáo từ Datacom
+    "ReceiveEmail": true
+  },
+  
+  "ListPassenger": [               // DANH SÁCH HÀNH KHÁCH BAY (Mảng chứa thông tin từng người)
+    {
+      "Index": 1,                  // Số thứ tự hành khách (Bắt đầu từ 1)
+      "ParentId": 0,               // Nếu là người lớn thì để bằng 0
+      "Type": "ADT",               // Loại khách: ADT (Người lớn), CHD (Trẻ em), INF (Em bé)
+      "Gender": 1,                 // Giới tính (1: Nam, 0: Nữ)
+      "GivenName": "VAN A",        // Tên đệm và Tên (Viết hoa không dấu chuẩn hộ chiếu: VAN A)
+      "Surname": "NGUYEN",         // Họ (Viết hoa không dấu: NGUYEN)
+      "DateOfBirth": "15051990",   // Ngày sinh hành khách (Định dạng ddMMyyyy)
+      
+      "Passport": {                // Thông tin Hộ chiếu (Bắt buộc nếu bay chặng quốc tế như CDG, ICN)
+        "Index": 1,                // Khớp với số thứ tự hành khách ở trên
+        "DocumentType": "P",       // Loại giấy tờ (P: Passport - Hộ chiếu thông thường)
+        "DocumentCode": "C1234567",// Số hộ chiếu của khách
+        "DocumentExpiry": "15052030", // Ngày hết hạn hộ chiếu (Phải còn hạn trên 6 tháng so với ngày bay)
+        "Nationality": "VNM",      // Quốc tịch khách (Mã 3 chữ cái chuẩn ISO - VNM: Việt Nam)
+        "IssueCountry": "VNM"      // Quốc gia cấp hộ chiếu
+      },
+      
+      "ListBaggage": [             // Danh sách hành lý mua thêm của khách này (Nếu có)
+        {
+          "Value": "BG20",         // Mã gói hành lý mua thêm (Ví dụ: BG20 = Mua thêm 20kg ký gửi)
+          "Currency": "VND",       // Đơn vị tiền tệ của gói hành lý
+          "StartPoint": "SGN",     // Điểm đi áp dụng gói hành lý này
+          "EndPoint": "CDG",       // Điểm đến áp dụng gói hành lý này
+          "Session": "SS-99a8b..." // Phiên làm việc nhận từ kết quả search trước đó
+        }
+      ],
+      
+      "ListPreSeat": [             // Thông tin đặt trước chỗ ngồi (Nếu khách chọn ghế mất phí trên UI)
+        {
+          "Value": "32A",          // Mã số ghế khách chọn (Ví dụ: Ghế 32A gần cửa sổ)
+          "Currency": "VND",
+          "StartPoint": "SGN",     // Chỗ ngồi này đặt riêng cho chặng bay nào (Ví dụ: Khúc SGN-ICN)
+          "EndPoint": "ICN",
+          "Session": "SS-99a8b..."
+        }
+      ],
+      
+      "ListService": [             // Các dịch vụ đặc biệt mua thêm (Suất ăn, bảo hiểm, xe đẩy...)
+        {
+          "Value": "MEAL_BEEF",    // Mã dịch vụ (Ví dụ: Đăng ký suất ăn cơm bò tót trên máy bay)
+          "Currency": "VND",
+          "StartPoint": "SGN",
+          "EndPoint": "ICN",
+          "Session": "SS-99a8b..."
+        }
+      ],
+      
+      "ListMembership": [          // Thông tin thẻ thành viên/Bông Sen Vàng để tích điểm chặng bay
+        {
+          "Index": 1,
+          "Airline": "VN",         // Hãng quản lý thẻ (Ví dụ: Vietnam Airlines)
+          "MembershipId": "987654321", // Số thẻ thành viên của khách hàng
+          "MembershipType": "GOLD" // Hạng thẻ (Ví dụ: Thẻ Vàng, Thẻ Kim Cương)
+        }
+      ]
+    },
+    {
+      "Index": 2,                  // Hành khách thứ 2 đi cùng (Ví dụ: Em bé đi kèm người lớn trên)
+      "ParentId": 1,               // BẮT BUỘC: Điền Index của người lớn đi kèm (Nối với Index: 1 ở trên)
+      "Type": "INF",               // Loại khách: INF (Em bé dưới 2 tuổi, ngồi chung ghế với người lớn)
+      "Gender": 0,                 // Giới tính (0: Nữ)
+      "GivenName": "THI B",
+      "Surname": "NGUYEN",
+      "DateOfBirth": "22122024",   // Ngày sinh của em bé
+      "Passport": null,            // Chặng nội địa có thể null, chặng quốc tế có thể chung hộ chiếu bố mẹ hoặc điền riêng
+      "ListBaggage": [],
+      "ListPreSeat": [],           // Em bé ngồi chung ghế bố mẹ nên mảng này thường để rỗng
+      "ListService": [],
+      "ListMembership": []
+    }
+  ],
+  
+  "ListAirOption": [               // THÔNG TIN CHUYẾN BAY KHÁCH CHỐT MUA (Lấy từ bước Tìm kiếm/Xem giá)
+    {
+      "Session": "SS-99a8b7c6-d5e4", // Phiên làm việc của đợt tìm kiếm (Bắt buộc để Datacom đối chiếu giá)
+      "SessionType": "GDS",        // Kiểu phiên kết nối hệ thống (GDS, NDC, API)
+      "AirlineOptionId": 1,        // Id của Hãng bay lựa chọn (Bóc từ tầng ListAirOption của response search)
+      "FareOptionId": 1001,        // Id của Khung Giá vé lựa chọn (Bóc từ tầng ListFareOption của response search)
+      "FlightOptionId": 101        // Id của Khung Giờ bay lựa chọn (Bóc từ tầng ListFlightOption của response search)
+    }
+  ],
+  
+  "Option": {                      // CÁC TÙY CHỌN XỬ LÝ NGHIỆP VỤ SAU KHI ĐẶT CHỖ
+    "IssueTicket": false,          // false: Chỉ giữ chỗ lấy Code (PNR) trả sau | true: Thanh toán và xuất vé cứng ngay lập tức
+    "SeparateBooking": false,      // false: Để chung cả đoàn 1 code vé | true: Tách mỗi người 1 code vé riêng lẻ
+    "SendEmail": true              // Tự động kích hoạt hệ thống Datacom gửi mail thông báo đặt chỗ thành công
+  }
+}
