@@ -358,7 +358,7 @@ button {
 ========================================== */
 
 .trust-section {
-  margin: 80px 0;
+  margin: 40px 0;
 }
 
 .trust-grid {

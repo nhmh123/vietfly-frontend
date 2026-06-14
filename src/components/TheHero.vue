@@ -5,9 +5,16 @@
         <BookingForm />
       </div>
 
-      <div class="hero-right">
-        <!-- <h1 class="hero-title">Bay thông minh cùng VietFly</h1>
-        <p class="hero-subtitle">Hệ thống đặt vé máy bay hiện đại, giá tốt, thanh chóng</p> -->
+      <div class="hero-right flex flex-col justify-center px-8">
+        <!-- <span class="hero-badge"> ✈ Smart Airline Booking Platform </span>
+        <h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+          Bay thông minh <br />
+          cùng VietFly
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 leading-relaxed max-w-md">
+          Hệ thống đặt vé máy bay hiện đại, giá tốt, thanh toán nhanh chóng. Trải nghiệm hành trình
+          trọn vẹn cùng gia đình bạn.
+        </p> -->
       </div>
     </div>
   </section>
@@ -20,11 +27,11 @@ import BookingForm from '@/components/BookingForm.vue'
 <style scoped>
 .hero-section {
   position: relative;
-  min-height: 600px;
+  min-height: 700px;
   display: flex;
   align-items: center; /* Căn giữa theo chiều dọc */
   background:
-    linear-gradient(rgba(147, 167, 185, 0), rgba(0, 94, 184, 0)), url('/src/assets/hero-4.png');
+    linear-gradient(rgba(147, 167, 185, 0.2), rgba(0, 94, 184, 0.2)), url('/src/assets/hero-4.png');
   background-size: cover;
   background-position: center;
   padding: 40px 0px;
@@ -62,11 +69,23 @@ import BookingForm from '@/components/BookingForm.vue'
   }
 }
 
+.hero-badge {
+  display: inline-flex;
+  width: fit-content;
+  background: #fff6d6;
+  color: #b8860b;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
 .hero-title {
   font-size: 52px;
   font-weight: 800;
   margin-bottom: 14px;
-  color: var(--white);
+  color: black;
 }
 
 .hero-subtitle {

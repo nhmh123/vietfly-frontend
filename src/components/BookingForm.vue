@@ -5,24 +5,11 @@
       <div class="booking-title">Tìm kiếm chuyến bay</div>
       <div class="flight-type-selector">
         <label class="radio-label">
-          <input
-            type="radio"
-            name="flight-type"
-            id="round-trip"
-            value="round-trip"
-            checked
-            v-model="flightType"
-          />
+          <input type="radio" name="flight-type" id="round-trip" value="round-trip" checked v-model="flightType" />
           Khứ hồi
         </label>
         <label class="radio-label">
-          <input
-            type="radio"
-            name="flight-type"
-            id="one-way"
-            value="one-way"
-            v-model="flightType"
-          />
+          <input type="radio" name="flight-type" id="one-way" value="one-way" v-model="flightType" />
           Một chiều
         </label>
       </div>
@@ -40,23 +27,15 @@
                 <span id="from-value"> {{ fromAirport }} </span>
               </div>
               <i class="fa-solid fa-chevron-down"></i>
-              <div
-                class="airport-dropdown"
-                id="from-dropdown"
-                :class="{ active: showFromDropdown }"
-              >
-                <input
-                  type="text"
-                  placeholder="Tìm sân bay..."
-                  @keyup="filterAirport($event, 'from-list')"
-                />
+              <div class="airport-dropdown" id="from-dropdown" :class="{ active: showFromDropdown }" @click.stop>
+                <div class="input-wrapper">
+                  <input v-model="fromSearchKeyword" type="text" placeholder="Tìm sân bay..."
+                    @keyup="filterAirport($event, 'from-list')" />
+                  <i class="fa-solid fa-xmark clear-icon" @click.stop="clearAirportSearch('from')"></i>
+                </div>
                 <div class="airport-list" id="from-list">
-                  <div
-                    v-for="airport in filteredFromAirports"
-                    :key="airport"
-                    class="airport-item"
-                    @click="selectAirport('from', airport)"
-                  >
+                  <div v-for="airport in filteredFromAirports" :key="airport" class="airport-item"
+                    @click="selectAirport('from', airport)">
                     {{ airport }}
                   </div>
                 </div>
@@ -76,19 +55,15 @@
                 <span id="to-value"> {{ toAirport }} </span>
               </div>
               <i class="fa-solid fa-chevron-down"></i>
-              <div class="airport-dropdown" id="to-dropdown" :class="{ active: showToDropdown }">
-                <input
-                  type="text"
-                  placeholder="Tìm sân bay..."
-                  @keyup="filterAirport($event, 'to-list')"
-                />
+              <div class="airport-dropdown" id="to-dropdown" :class="{ active: showToDropdown }" @click.stop>
+                <div class="input-wrapper">
+                  <input v-model="toSearchKeyword" type="text" placeholder="Tìm sân bay..."
+                    @keyup="filterAirport($event, 'to-list')" />
+                  <i class="fa-solid fa-xmark clear-icon" @click.stop="clearAirportSearch('to')"></i>
+                </div>
                 <div class="airport-list" id="to-list">
-                  <div
-                    v-for="airport in filteredToAirports"
-                    :key="airport"
-                    class="airport-item"
-                    @click="selectAirport('to', airport)"
-                  >
+                  <div v-for="airport in filteredToAirports" :key="airport" class="airport-item"
+                    @click="selectAirport('to', airport)">
                     {{ airport }}
                   </div>
                 </div>
@@ -107,61 +82,60 @@
           <input type="date" id="ret-date" v-model="returnDate" :min="departureDate || today" />
         </div>
 
-        <div class="input-group passenger-selector mb-4">
-          <label>Hành khách</label>
-          <div class="passenger-display" @click="togglePassengerBox">
-            <div class="passenger-display-left">
-              <i class="fa-solid fa-users"></i>
-              <span id="passenger-summary"> {{ passengerSummary }} </span>
+        <div class="search-footer">
+          <div class="input-group passenger-selector mb-4">
+            <label>Hành khách</label>
+            <div class="passenger-display" @click="togglePassengerBox">
+              <div class="passenger-display-left">
+                <i class="fa-solid fa-users"></i>
+                <span id="passenger-summary"> {{ passengerSummary }} </span>
+              </div>
+              <i class="fa-solid fa-chevron-down dropdown-icon" :class="{ rotate: showPassengerBox }"></i>
             </div>
-            <i
-              class="fa-solid fa-chevron-down dropdown-icon"
-              id="dropdown-icon"
-              :class="{ rotate: showPassengerBox }"
-            ></i>
-          </div>
-          <div class="passenger-box" id="passenger-box" :class="{ active: showPassengerBox }">
-            <div class="passenger-row">
-              <div>
-                <strong class="mr-1">Người lớn</strong>
-                <small>(Từ 12 tuổi)</small>
+            <div class="passenger-box" id="passenger-box" :class="{ active: showPassengerBox }">
+              <div class="passenger-row">
+                <div>
+                  <strong class="mr-1">Người lớn</strong>
+                  <small>(Từ 12 tuổi)</small>
+                </div>
+                <div class="counter">
+                  <button type="button" @click="changePassenger('adt', -1)">-</button>
+                  <span id="adt-count"> {{ adt }} </span>
+                  <button type="button" @click="changePassenger('adt', 1)">+</button>
+                </div>
               </div>
-              <div class="counter">
-                <button type="button" @click="changePassenger('adt', -1)">-</button>
-                <span id="adt-count"> {{ adt }} </span>
-                <button type="button" @click="changePassenger('adt', 1)">+</button>
+              <div class="passenger-row">
+                <div>
+                  <strong class="mr-1">Trẻ em</strong>
+                  <small>(2 - 11 tuổi)</small>
+                </div>
+                <div class="counter">
+                  <button type="button" @click="changePassenger('chd', -1)">-</button>
+                  <span id="chd-count"> {{ chd }} </span>
+                  <button type="button" @click="changePassenger('chd', 1)">+</button>
+                </div>
               </div>
-            </div>
-            <div class="passenger-row">
-              <div>
-                <strong class="mr-1">Trẻ em</strong>
-                <small>(2 - 11 tuổi)</small>
-              </div>
-              <div class="counter">
-                <button type="button" @click="changePassenger('chd', -1)">-</button>
-                <span id="chd-count"> {{ chd }} </span>
-                <button type="button" @click="changePassenger('chd', 1)">+</button>
-              </div>
-            </div>
-            <div class="passenger-row">
-              <div>
-                <strong class="mr-1">Em bé</strong>
-                <small>(Dưới 2 tuổi)</small>
-              </div>
-              <div class="counter">
-                <button type="button" @click="changePassenger('inf', -1)">-</button>
-                <span id="inf-count"> {{ inf }} </span>
-                <button type="button" @click="changePassenger('inf', 1)">+</button>
+              <div class="passenger-row">
+                <div>
+                  <strong class="mr-1">Em bé</strong>
+                  <small>(Dưới 2 tuổi)</small>
+                </div>
+                <div class="counter">
+                  <button type="button" @click="changePassenger('inf', -1)">-</button>
+                  <span id="inf-count"> {{ inf }} </span>
+                  <button type="button" @click="changePassenger('inf', 1)">+</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <button class="btn-search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        Tìm chuyến bay
-      </button>
+          <button class="btn-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Tìm chuyến bay
+          </button>
+        </div>
+
+      </div>
     </form>
   </section>
 </template>
@@ -217,6 +191,14 @@ const filteredToAirports = computed(() => {
     airport.toLowerCase().includes(toSearchKeyword.value.toLowerCase()),
   )
 })
+
+const clearAirportSearch = (type) => {
+  if (type === 'from') {
+    fromSearchKeyword.value = ''
+  } else {
+    toSearchKeyword.value = ''
+  }
+};
 
 // Methods
 function togglePassengerBox() {
@@ -291,7 +273,8 @@ onMounted(() => {
   border-radius: 20px;
   padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  width: 100%; /* Đảm bảo nó luôn lấp đầy booking-wrapper */
+  width: 100%;
+  /* Đảm bảo nó luôn lấp đầy booking-wrapper */
 }
 
 .booking-top {
@@ -332,6 +315,7 @@ input[type='radio'] {
 .search-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 }
 
@@ -345,7 +329,8 @@ input[type='radio'] {
 
 /* route selector gom FROM + SWAP + TO */
 .route-selector {
-  display: contents; /* để grid ăn thẳng children */
+  display: contents;
+  /* để grid ăn thẳng children */
 }
 
 /* ROW 2 */
@@ -398,17 +383,41 @@ input[type='radio'] {
   transition: 0.2s;
 }
 
+.input-group .invalid {
+  border: 2px solid #ff4d4f;
+}
+
 .input-group input:focus,
 .input-group select:focus {
   border-color: var(--secondary);
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 4px #ffd700;
+}
 
-  box-shadow: 0 0 0 4px rgba(0, 94, 184, 0.12);
+.input-group input:hover {
+  border-color: #ffd700;
+
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
+}
+
+.search-footer {
+  display: grid;
+  /* Cột 1: Hành khách chiếm 70%, Cột 2: Nút tìm kiếm chiếm 30% */
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  /* Giúp nút và ô input căn đáy thẳng hàng với nhau */
+  width: 100%;
 }
 
 .btn-search {
-  height: 56px;
-  padding: 0 16px;
-  border-radius: 14px;
+  height: 54px;
+  /* Phải bằng chiều cao của passenger-display */
+  padding: 0 32px;
+  margin-top: 12px;
+  /* Tạo độ rộng thoải mái cho nút */
+  border-radius: 12px;
   background: var(--secondary);
   color: var(--white);
   font-size: 16px;
@@ -418,10 +427,16 @@ input[type='radio'] {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  white-space: nowrap;
+  /* Không cho chữ xuống dòng trong nút */
 }
 
-.btn-search:hover {
-  background: var(--secondary-dark);
+/* Responsive: Trên điện thoại thì cho xuống hàng cho thoáng */
+@media (max-width: 600px) {
+  .search-footer {
+    grid-template-columns: 1fr;
+    /* Xuống hàng trên màn hình nhỏ */
+  }
 }
 
 .passenger-selector {
@@ -580,12 +595,27 @@ input[type='radio'] {
 
 .route-selector {
   display: grid;
-
-  grid-template-columns: 1fr auto 1fr;
-
+  /* Dùng minmax để cột tự co giãn, nhưng không quá nhỏ */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 16px;
-
   align-items: end;
+  width: 100%;
+}
+
+/* Tùy chỉnh riêng cho nút Swap trên Desktop nếu cần */
+@media (min-width: 768px) {
+  .route-selector {
+    grid-template-columns: 1fr auto 1fr;
+    /* Desktop: 3 cột */
+  }
+}
+
+@media (max-width: 767px) {
+  .swap-btn {
+    grid-column: 1 / -1;
+    /* Đẩy nút swap ra toàn bộ chiều rộng hàng mới */
+    justify-self: center;
+  }
 }
 
 .airport-select {
@@ -608,6 +638,12 @@ input[type='radio'] {
   background: white;
 
   position: relative;
+}
+
+.airport-select:hover {
+  border-color: #ffd700;
+
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
 }
 
 .airport-value {
@@ -657,6 +693,36 @@ input[type='radio'] {
   border-bottom: 1px solid #eee;
 
   padding: 14px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+
+  /* Để trống một khoảng để không đè lên chữ */
+}
+
+
+.clear-icon {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+  color: #94a3b8;
+  /* Màu xám nhạt */
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.clear-icon:hover {
+  color: #ef4444;
+  /* Chuyển sang màu đỏ khi hover */
 }
 
 .airport-item {
