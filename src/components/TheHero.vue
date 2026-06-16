@@ -27,7 +27,7 @@ import BookingForm from '@/components/BookingForm.vue'
 <style scoped>
 .hero-section {
   position: relative;
-  min-height: 700px;
+  min-height: 500px;
   display: flex;
   align-items: center; /* Căn giữa theo chiều dọc */
   background:

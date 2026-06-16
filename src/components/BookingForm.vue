@@ -1,21 +1,21 @@
 <template>
   <!-- BOOKING -->
   <section class="booking-container">
-    <div class="booking-top">
-      <div class="booking-title">Tìm kiếm chuyến bay</div>
-      <div class="flight-type-selector">
-        <label class="radio-label">
-          <input type="radio" name="flight-type" id="round-trip" value="round-trip" checked v-model="flightType" />
-          Khứ hồi
-        </label>
-        <label class="radio-label">
-          <input type="radio" name="flight-type" id="one-way" value="one-way" v-model="flightType" />
-          Một chiều
-        </label>
+    <form @submit.prevent="handleSubmit">
+      <div class="booking-top">
+        <div class="booking-title">Tìm kiếm chuyến bay</div>
+        <div class="flight-type-selector">
+          <label class="radio-label">
+            <input type="radio" name="flight-type" id="round-trip" value="round-trip" checked v-model="flightType" />
+            Khứ hồi
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="flight-type" id="one-way" value="one-way" v-model="flightType" />
+            Một chiều
+          </label>
+        </div>
       </div>
-    </div>
 
-    <form>
       <div class="search-fields-grid">
         <div class="route-selector mb-4">
           <!-- FROM -->
@@ -24,7 +24,7 @@
             <div class="airport-select" @click="toggleAirport('from')">
               <div class="airport-value">
                 <i class="fa-solid fa-plane-departure"></i>
-                <span id="from-value"> {{ fromAirport }} </span>
+                <span id="from-value"> {{ fromAirport.name }} </span>
               </div>
               <i class="fa-solid fa-chevron-down"></i>
               <div class="airport-dropdown" id="from-dropdown" :class="{ active: showFromDropdown }" @click.stop>
@@ -34,9 +34,9 @@
                   <i class="fa-solid fa-xmark clear-icon" @click.stop="clearAirportSearch('from')"></i>
                 </div>
                 <div class="airport-list" id="from-list">
-                  <div v-for="airport in filteredFromAirports" :key="airport" class="airport-item"
+                  <div v-for="airport in filteredFromAirports" :key="airport.iata" class="airport-item"
                     @click="selectAirport('from', airport)">
-                    {{ airport }}
+                    {{ airport.name }}
                   </div>
                 </div>
               </div>
@@ -52,7 +52,7 @@
             <div class="airport-select" @click="toggleAirport('to')">
               <div class="airport-value">
                 <i class="fa-solid fa-plane-arrival"></i>
-                <span id="to-value"> {{ toAirport }} </span>
+                <span id="to-value"> {{ toAirport.name }} </span>
               </div>
               <i class="fa-solid fa-chevron-down"></i>
               <div class="airport-dropdown" id="to-dropdown" :class="{ active: showToDropdown }" @click.stop>
@@ -62,9 +62,9 @@
                   <i class="fa-solid fa-xmark clear-icon" @click.stop="clearAirportSearch('to')"></i>
                 </div>
                 <div class="airport-list" id="to-list">
-                  <div v-for="airport in filteredToAirports" :key="airport" class="airport-item"
+                  <div v-for="airport in filteredToAirports" :key="airport.iata" class="airport-item"
                     @click="selectAirport('to', airport)">
-                    {{ airport }}
+                    {{ airport.name }}
                   </div>
                 </div>
               </div>
@@ -72,14 +72,24 @@
           </div>
         </div>
 
-        <div class="input-group departure-date mb-4">
-          <label>Ngày đi</label>
-          <input type="date" id="dep-date" v-model="departureDate" :min="today" />
-        </div>
+        <div class="grid grid-cols-2 gap-4">
 
-        <div class="input-group return-date mb-4" v-if="flightType === 'round-trip'">
-          <label>Ngày về</label>
-          <input type="date" id="ret-date" v-model="returnDate" :min="departureDate || today" />
+          <div class="input-group departure-date mb-4">
+            <label>Ngày đi</label>
+
+            <VueDatePicker v-model="departureDate" :locale="vi" :enable-time-picker="false" :min-date="new Date()"
+              format="dd/MM/yyyy" placeholder="Chọn ngày đi" auto-apply :time-config="{ enableTimePicker: false }"
+              :year-range="[2026, 2027]" />
+          </div>
+
+          <div class="input-group return-date mb-4" v-if="flightType === 'round-trip'">
+            <label>Ngày về</label>
+
+            <VueDatePicker v-model="returnDate" :locale="vi" :enable-time-picker="false"
+              :min-date="departureDate || new Date()" format="dd/MM/yyyy" placeholder="Chọn ngày về" auto-apply
+              :time-config="{ enableTimePicker: false }" :year-range="[2026, 2027]" />
+          </div>
+
         </div>
 
         <div class="search-footer">
@@ -134,13 +144,16 @@
             Tìm chuyến bay
           </button>
         </div>
-
       </div>
     </form>
   </section>
 </template>
 
 <script setup>
+import dayjs from 'dayjs';
+import { VueDatePicker } from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import { vi } from 'date-fns/locale'
 import { ref, computed, onMounted } from 'vue'
 
 // Flight type
@@ -150,24 +163,33 @@ const flightType = ref('round-trip')
 const adt = ref(1)
 const chd = ref(0)
 const inf = ref(0)
+const totalPassengers = computed(() => adt.value + chd.value + inf.value)
 const showPassengerBox = ref(false)
 
 // Airports
-const fromAirport = ref('TP. Hồ Chí Minh (SGN)')
-const toAirport = ref('Hà Nội (HAN)')
+const fromAirport = ref({ name: 'TP. Hồ Chí Minh (SGN)', iata: 'SGN' })
+const toAirport = ref({ name: 'Hà Nội (HAN)', iata: 'HAN' })
 const showFromDropdown = ref(false)
 const showToDropdown = ref(false)
 const fromSearchKeyword = ref('')
 const toSearchKeyword = ref('')
 
 // Dates
-const departureDate = ref('')
-const returnDate = ref('')
+const departureDate = ref(null)
+const returnDate = ref(null)
 const today = new Date().toISOString().split('T')[0]
 
 // Airport lists
-const fromAirports = ['TP. Hồ Chí Minh (SGN)', 'Hà Nội (HAN)', 'Đà Nẵng (DAD)']
-const toAirports = ['Hà Nội (HAN)', 'Phú Quốc (PQC)', 'Nha Trang (CXR)']
+const fromAirports = [
+  { name: 'TP. Hồ Chí Minh (SGN)', iata: 'SGN' },
+  { name: 'Hà Nội (HAN)', iata: 'HAN' },
+  { name: 'Đà Nẵng (DAD)', iata: 'DAD' },
+]
+const toAirports = [
+  { name: 'TP. Hồ Chí Minh (SGN)', iata: 'SGN' },
+  { name: 'Hà Nội (HAN)', iata: 'HAN' },
+  { name: 'Đà Nẵng (DAD)', iata: 'DAD' },
+]
 
 // Computed properties
 const passengerSummary = computed(() => {
@@ -181,14 +203,14 @@ const passengerSummary = computed(() => {
 const filteredFromAirports = computed(() => {
   if (!fromSearchKeyword.value) return fromAirports
   return fromAirports.filter((airport) =>
-    airport.toLowerCase().includes(fromSearchKeyword.value.toLowerCase()),
+    airport.name.toLowerCase().includes(fromSearchKeyword.value.toLowerCase()),
   )
 })
 
 const filteredToAirports = computed(() => {
   if (!toSearchKeyword.value) return toAirports
   return toAirports.filter((airport) =>
-    airport.toLowerCase().includes(toSearchKeyword.value.toLowerCase()),
+    airport.name.toLowerCase().includes(toSearchKeyword.value.toLowerCase()),
   )
 })
 
@@ -198,7 +220,7 @@ const clearAirportSearch = (type) => {
   } else {
     toSearchKeyword.value = ''
   }
-};
+}
 
 // Methods
 function togglePassengerBox() {
@@ -207,7 +229,7 @@ function togglePassengerBox() {
 
 function changePassenger(type, amount) {
   if (type === 'adt') {
-    adt.value = Math.max(1, adt.value + amount)
+    adt.value = Math.max(0, adt.value + amount)
   } else if (type === 'chd') {
     chd.value = Math.max(0, chd.value + amount)
   } else if (type === 'inf') {
@@ -250,38 +272,210 @@ function filterAirport(event, listId) {
   }
 }
 
-// Lifecycle hooks
-onMounted(() => {
-  // Remove loader after 2 seconds
-  setTimeout(() => {
-    document.body.classList.add('loaded')
-  }, 2000)
+const normalizeData = () => {
+  const DATE_FORMAT = 'YYYY-MM-DD';
 
-  // Set default departure date
+  return {
+    flightType: flightType.value,
+
+    startPoint: fromAirport.value?.iata?.toUpperCase().trim() ?? null,
+    endPoint: toAirport.value?.iata?.toUpperCase().trim() ?? null,
+
+    departureDate: departureDate.value
+      ? dayjs(departureDate.value).format(DATE_FORMAT)
+      : null,
+
+    returnDate: (flightType.value === 'round-trip' && returnDate.value)
+      ? dayjs(returnDate.value).format(DATE_FORMAT)
+      : null,
+
+    adt: Number(adt.value) || 0,
+    chd: Number(chd.value) || 0,
+    inf: Number(inf.value) || 0,
+  };
+};
+
+const validateSearchForm = (formData) => {
+  const errors = {};
+
+  // FS-001: StartPoint bắt buộc
+  if (!formData.startPoint) {
+    errors.fromAirport = 'Vui lòng chọn điểm đi';
+  }
+
+  // FS-002: EndPoint bắt buộc
+  if (!formData.endPoint) {
+    errors.toAirport = 'Vui lòng chọn điểm đến';
+  }
+
+  // FS-003: StartPoint !== EndPoint
+  if (formData.startPoint && formData.endPoint && formData.startPoint === formData.endPoint) {
+    errors.sameAirport = 'Điểm đi và điểm đến không được giống nhau';
+  }
+
+  // FS-004: StartPoint phải là IATA hợp lệ
+
+  // FS-005: EndPoint phải là IATA hợp lệ
+
+  // FS-010: TripType bắt buộc (ONE_WAY | ROUND_TRIP)
+  if (!formData.flightType) {
+    errors.flightType = 'Vui lòng chọn loại chuyến bay';
+  } else if (formData.flightType !== 'one-way' && formData.flightType !== 'round-trip') {
+    errors.flightType = 'Loại chuyến bay không hợp lệ';
+  }
+
+  // FS-012: Nếu ROUND_TRIP thì ReturnDate bắt buộc
+  if (formData.flightType === 'round-trip' && !formData.returnDate) {
+    errors.returnDate = 'Vui lòng chọn ngày về';
+  }
+
+  // FS-020: DepartDate bắt buộc
+  if (!formData.departureDate) {
+    errors.departureDate = 'Vui lòng chọn ngày đi';
+  }
+
+  // FS-021: DepartDate >= Today
+  if (formData.departureDate) {
+    const depDate = new Date(formData.departureDate);
+    const todayDate = new Date(today);
+    if (depDate < todayDate) {
+      errors.departureDate = 'Ngày đi từ hôm nay trở đi';
+    }
+  }
+
+  // FS-025: ReturnDate bắt buộc nếu ROUND_TRIP
+  if (formData.flightType === 'round-trip' && !formData.returnDate) {
+    errors.returnDate = 'Vui lòng chọn ngày về';
+  }
+
+  // FS-026: ReturnDate >= DepartDate
+  if (formData.returnDate && formData.departureDate) {
+    const depDate = new Date(formData.departureDate);
+    const retDate = new Date(formData.returnDate);
+    if (retDate < depDate) {
+      errors.returnDate = 'Ngày về không được trước ngày đi';
+    }
+  }
+
+  // FS-041: Tổng hành khách > 0
+  if (totalPassengers.value <= 0) {
+    errors.totalPassengers = 'Vui lòng chọn ít nhất 1 hành khách';
+  }
+
+  // FS-042: Tổng hành khách <= 9
+  if (totalPassengers.value > 9) {
+    errors.totalPassengers = 'Tối đa 9 hành khách';
+  }
+
+  // FS-030: ADT bắt buộc
+  if (formData.adt === undefined || formData.adt === null) {
+    errors.adt = 'Vui lòng nhập số lượng người lớn';
+  }
+
+  // FS-031: ADT >= 1
+  if (formData.adt !== undefined && formData.adt !== null) {
+    if (isNaN(formData.adt) || formData.adt < 1) {
+      errors.adt = 'Số lượng người lớn tối thiểu là 1';
+    }
+  }
+
+  // FS-032: ADT là số nguyên
+  if (formData.adt !== undefined && formData.adt !== null) {
+    if (!Number.isInteger(formData.adt)) {
+      errors.adt = 'Số lượng người lớn phải là số nguyên';
+    }
+  }
+
+  // FS-033: ADT >= 0
+  if (formData.adt < 0) {
+    errors.adt = 'Số lượng người lớn không được âm';
+  }
+
+  // FS-035: CHD là số nguyên
+  if (formData.chd !== undefined && formData.chd !== null) {
+    if (!Number.isInteger(formData.chd)) {
+      errors.chd = 'Số lượng trẻ em phải là số nguyên';
+    }
+  }
+
+  // FS-036: CHD >= 0
+  if (formData.chd !== undefined && formData.chd !== null) {
+    if (formData.chd < 0) {
+      errors.chd = 'Số lượng trẻ em không được âm';
+    }
+  }
+
+  // FS-038: INF là số nguyên
+  if (formData.inf !== undefined && formData.inf !== null) {
+    if (!Number.isInteger(formData.inf)) {
+      errors.inf = 'Số lượng em bé phải là số nguyên';
+    }
+  }
+
+  // FS-039: INF >= 0
+  if (formData.inf !== undefined && formData.inf !== null) {
+    if (formData.inf < 0) {
+      errors.inf = 'Số lượng em bé không được âm';
+    }
+  }
+
+  // FS-040: INF <= ADT
+  if (formData.inf > formData.adt) {
+    errors.inf = 'Mỗi người lớn chỉ được đi cùng tối đa 1 em bé';
+  }
+
+  // FS-043: CHD không được đi một mình (ADT phải >= 1)
+  if (formData.chd > 0 && formData.adt < 1) {
+    errors.chd = 'Trẻ em không được đi một mình';
+  }
+
+  // FS-044: INF không được đi một mình (ADT phải >= 1)
+  if (formData.inf > 0 && formData.adt < 1) {
+    errors.inf = 'Em bé không được đi một mình';
+  }
+
+  return errors;
+};
+
+const handleSubmit = () => {
+  const formData = normalizeData();
+  console.log(
+    'FORM DATA',
+    formData
+  );
+  const errors = validateSearchForm(formData)
+  console.log(
+    'ERRORS',
+    errors
+  );
+}
+
+onMounted(() => {
+  // setTimeout(() => {
+  //   document.body.classList.add('loaded')
+  // }, 2000)
+
   departureDate.value = today
 })
 </script>
 
 <style scoped>
 /* ==========================================================================
-           3. BOOKING BOX
-           ========================================================================== */
+3. BOOKING BOX
+========================================================================== */
 
 .booking-container {
-  /* Loại bỏ position: absolute để nó tuân theo layout cha */
   background: var(--white);
   border-radius: 20px;
   padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   width: 100%;
-  /* Đảm bảo nó luôn lấp đầy booking-wrapper */
 }
 
 .booking-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 24px;
 }
 
@@ -319,7 +513,6 @@ input[type='radio'] {
   gap: 16px;
 }
 
-/* ROW 1 */
 .search-row.row-1 {
   display: grid;
   grid-template-columns: 1fr auto 1fr 1fr;
@@ -327,28 +520,15 @@ input[type='radio'] {
   align-items: end;
 }
 
-/* route selector gom FROM + SWAP + TO */
 .route-selector {
   display: contents;
-  /* để grid ăn thẳng children */
 }
 
-/* ROW 2 */
 .search-row.row-2 {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   gap: 16px;
   align-items: end;
-}
-
-/* swap button fix */
-.swap-btn {
-  height: 44px;
-  width: 44px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
 .input-group {
@@ -403,20 +583,16 @@ input[type='radio'] {
 
 .search-footer {
   display: grid;
-  /* Cột 1: Hành khách chiếm 70%, Cột 2: Nút tìm kiếm chiếm 30% */
   grid-template-columns: 1fr auto;
   gap: 16px;
   align-items: center;
-  /* Giúp nút và ô input căn đáy thẳng hàng với nhau */
   width: 100%;
 }
 
 .btn-search {
   height: 54px;
-  /* Phải bằng chiều cao của passenger-display */
   padding: 0 32px;
   margin-top: 12px;
-  /* Tạo độ rộng thoải mái cho nút */
   border-radius: 12px;
   background: var(--secondary);
   color: var(--white);
@@ -428,14 +604,11 @@ input[type='radio'] {
   justify-content: center;
   gap: 10px;
   white-space: nowrap;
-  /* Không cho chữ xuống dòng trong nút */
 }
 
-/* Responsive: Trên điện thoại thì cho xuống hàng cho thoáng */
 @media (max-width: 600px) {
   .search-footer {
     grid-template-columns: 1fr;
-    /* Xuống hàng trên màn hình nhỏ */
   }
 }
 
@@ -709,7 +882,6 @@ input[type='radio'] {
   /* Để trống một khoảng để không đè lên chữ */
 }
 
-
 .clear-icon {
   position: absolute;
   right: 12px;
@@ -744,9 +916,8 @@ input[type='radio'] {
 
   border-radius: 50%;
 
-  background: #ffd700;
 
-  color: #111;
+  color: var(--text-dark);
 
   cursor: pointer;
 

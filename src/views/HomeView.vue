@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Premium Agency Loading Animation -->
-    <div id="preloader">
+    <!-- <div id="preloader">
       <div class="loader-container">
         <div class="main-loader">
           <div class="ring ring-1"></div>
@@ -13,14 +13,14 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <TheHeader />
 
     <TheHero />
 
 
-       <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT -->
     <main class="main-content">
       <section class="trust-section">
         <div class="section-header">
@@ -68,14 +68,11 @@
       <h2 class="section-title">Chặng bay phổ biến</h2>
       <div class="destinations-grid">
         <div class="destination-card">
-          <div
-            class="destination-img"
-            style="
+          <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1509060464153-44667396260f?auto=format&fit=crop&w=600&q=80');
-            "
-          >
+            ">
             HÀ NỘI
           </div>
           <div class="destination-info">
@@ -88,14 +85,11 @@
           </div>
         </div>
         <div class="destination-card">
-          <div
-            class="destination-img"
-            style="
+          <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80');
-            "
-          >
+            ">
             NHA TRANG
           </div>
           <div class="destination-info">
@@ -108,14 +102,11 @@
           </div>
         </div>
         <div class="destination-card">
-          <div
-            class="destination-img"
-            style="
+          <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=600&q=80');
-            "
-          >
+            ">
             ĐÀ NẴNG
           </div>
           <div class="destination-info">
@@ -128,14 +119,11 @@
           </div>
         </div>
         <div class="destination-card">
-          <div
-            class="destination-img"
-            style="
+          <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80');
-            "
-          >
+            ">
             PHÚ QUỐC
           </div>
           <div class="destination-info">
@@ -322,6 +310,12 @@ import { ref, computed, onMounted } from 'vue'
   --border-color: #e5e7eb;
 
   --success: #10b981;
+
+  --dp-font-family: 'Inter', sans-serif;
+  --dp-border-radius: 12px;
+  --dp-cell-border-radius: 8px;
+  --dp-primary-color: #005bb5;
+  --dp-input-padding: 16px 12px;
 }
 
 * {
@@ -575,6 +569,7 @@ footer {
            ========================================================================== */
 
 @media (max-width: 992px) {
+
   .search-fields-grid,
   .destinations-grid,
   .footer-container {
@@ -1093,8 +1088,7 @@ small,
   z-index: 99999;
 }
 
-.loader-container {
-}
+.loader-container {}
 
 .main-loader {
   position: relative;
@@ -1181,6 +1175,7 @@ small,
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px) scale(1);
@@ -1197,6 +1192,4 @@ small,
   visibility: hidden;
   transition: all 0.8s ease;
 }
-
-
 </style>
