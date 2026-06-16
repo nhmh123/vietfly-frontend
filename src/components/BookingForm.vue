@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="date-selector mb-4">
 
           <div class="input-group departure-date mb-4">
             <label>Ngày đi</label>
@@ -80,7 +80,12 @@
             <VueDatePicker v-model="departureDate" :locale="vi" :enable-time-picker="false" :min-date="new Date()"
               format="dd/MM/yyyy" placeholder="Chọn ngày đi" auto-apply :time-config="{ enableTimePicker: false }"
               :year-range="[2026, 2027]" />
+
+            <div v-if="errors.departureDate" class="italic text-red-500 text-sm mt-1">
+              {{ errors.departureDate }}
+            </div>
           </div>
+
 
           <div class="input-group return-date mb-4" v-if="flightType === 'round-trip'">
             <label>Ngày về</label>
@@ -88,7 +93,12 @@
             <VueDatePicker v-model="returnDate" :locale="vi" :enable-time-picker="false"
               :min-date="departureDate || new Date()" format="dd/MM/yyyy" placeholder="Chọn ngày về" auto-apply
               :time-config="{ enableTimePicker: false }" :year-range="[2026, 2027]" />
+
+            <div v-if="errors.returnDate" class="italic text-red-500 text-sm mt-1">
+              {{ errors.returnDate }}
+            </div>
           </div>
+
 
         </div>
 
@@ -137,12 +147,20 @@
                 </div>
               </div>
             </div>
+
+
+
           </div>
 
           <button class="btn-search">
             <i class="fa-solid fa-magnifying-glass"></i>
             Tìm chuyến bay
           </button>
+
+
+        </div>
+        <div v-if="errors.passenger" class="block italic text-red-500 text-sm mt-1">
+          {{ errors.passenger }}
         </div>
       </div>
     </form>
@@ -154,10 +172,19 @@ import dayjs from 'dayjs';
 import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { vi } from 'date-fns/locale'
-import { ref, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 
+const errors = reactive({
+  fromAirport: null,
+  toAirport: null,
+  sameAirport: null,
+  flightType: null,
+  departureDate: null,
+  returnDate: null,
+  passenger: null,
+})
 // Flight type
-const flightType = ref('round-trip')
+const flightType = ref('one-way')
 
 // Passengers
 const adt = ref(1)
@@ -214,6 +241,33 @@ const filteredToAirports = computed(() => {
   )
 })
 
+watch(fromAirport, () => {
+  delete errors.fromAirport
+  delete errors.sameAirport
+})
+
+watch(toAirport, () => {
+  delete errors.toAirport
+  delete errors.sameAirport
+})
+
+watch(departureDate, () => {
+  delete errors.departureDate
+})
+
+watch(returnDate, () => {
+  delete errors.returnDate
+})
+
+watch(flightType, () => {
+  delete errors.flightType
+  delete errors.returnDate
+})
+
+watch([adt, chd, inf], () => {
+  delete errors.passenger
+})
+
 const clearAirportSearch = (type) => {
   if (type === 'from') {
     fromSearchKeyword.value = ''
@@ -228,12 +282,32 @@ function togglePassengerBox() {
 }
 
 function changePassenger(type, amount) {
-  if (type === 'adt') {
-    adt.value = Math.max(0, adt.value + amount)
-  } else if (type === 'chd') {
-    chd.value = Math.max(0, chd.value + amount)
-  } else if (type === 'inf') {
-    inf.value = Math.max(0, inf.value + amount)
+  const nextTotal = totalPassengers.value + amount;
+
+  if (nextTotal > 9) return;
+
+
+  switch (type) {
+    case 'adt':
+      adt.value = Math.max(1, adt.value + amount);
+
+      if (inf.value > adt.value) {
+        inf.value = adt.value;
+      }
+      break;
+
+    case 'chd':
+      chd.value = Math.max(0, chd.value + amount);
+      break;
+
+    case 'inf':
+      const nextInf = inf.value + amount;
+
+      if (nextInf < 0) return;
+      if (nextInf > adt.value) return;
+
+      inf.value = nextInf;
+      break;
   }
 }
 
@@ -296,8 +370,6 @@ const normalizeData = () => {
 };
 
 const validateSearchForm = (formData) => {
-  const errors = {};
-
   // FS-001: StartPoint bắt buộc
   if (!formData.startPoint) {
     errors.fromAirport = 'Vui lòng chọn điểm đi';
@@ -312,10 +384,6 @@ const validateSearchForm = (formData) => {
   if (formData.startPoint && formData.endPoint && formData.startPoint === formData.endPoint) {
     errors.sameAirport = 'Điểm đi và điểm đến không được giống nhau';
   }
-
-  // FS-004: StartPoint phải là IATA hợp lệ
-
-  // FS-005: EndPoint phải là IATA hợp lệ
 
   // FS-010: TripType bắt buộc (ONE_WAY | ROUND_TRIP)
   if (!formData.flightType) {
@@ -359,90 +427,92 @@ const validateSearchForm = (formData) => {
 
   // FS-041: Tổng hành khách > 0
   if (totalPassengers.value <= 0) {
-    errors.totalPassengers = 'Vui lòng chọn ít nhất 1 hành khách';
+    errors.passenger = 'Vui lòng chọn ít nhất 1 hành khách';
   }
 
   // FS-042: Tổng hành khách <= 9
   if (totalPassengers.value > 9) {
-    errors.totalPassengers = 'Tối đa 9 hành khách';
+    errors.passenger = 'Tối đa 9 hành khách';
   }
 
   // FS-030: ADT bắt buộc
   if (formData.adt === undefined || formData.adt === null) {
-    errors.adt = 'Vui lòng nhập số lượng người lớn';
+    errors.passenger = 'Vui lòng nhập số lượng người lớn';
   }
 
   // FS-031: ADT >= 1
   if (formData.adt !== undefined && formData.adt !== null) {
     if (isNaN(formData.adt) || formData.adt < 1) {
-      errors.adt = 'Số lượng người lớn tối thiểu là 1';
+      errors.passenger = 'Số lượng người lớn tối thiểu là 1';
     }
   }
 
   // FS-032: ADT là số nguyên
   if (formData.adt !== undefined && formData.adt !== null) {
     if (!Number.isInteger(formData.adt)) {
-      errors.adt = 'Số lượng người lớn phải là số nguyên';
+      errors.passenger = 'Số lượng người lớn phải là số nguyên';
     }
   }
 
   // FS-033: ADT >= 0
   if (formData.adt < 0) {
-    errors.adt = 'Số lượng người lớn không được âm';
+    errors.passenger = 'Số lượng người lớn không được âm';
   }
 
   // FS-035: CHD là số nguyên
   if (formData.chd !== undefined && formData.chd !== null) {
     if (!Number.isInteger(formData.chd)) {
-      errors.chd = 'Số lượng trẻ em phải là số nguyên';
+      errors.passenger = 'Số lượng trẻ em phải là số nguyên';
     }
   }
 
   // FS-036: CHD >= 0
   if (formData.chd !== undefined && formData.chd !== null) {
     if (formData.chd < 0) {
-      errors.chd = 'Số lượng trẻ em không được âm';
+      errors.passenger = 'Số lượng trẻ em không được âm';
     }
   }
 
   // FS-038: INF là số nguyên
   if (formData.inf !== undefined && formData.inf !== null) {
     if (!Number.isInteger(formData.inf)) {
-      errors.inf = 'Số lượng em bé phải là số nguyên';
+      errors.passenger = 'Số lượng em bé phải là số nguyên';
     }
   }
 
   // FS-039: INF >= 0
   if (formData.inf !== undefined && formData.inf !== null) {
     if (formData.inf < 0) {
-      errors.inf = 'Số lượng em bé không được âm';
+      errors.passenger = 'Số lượng em bé không được âm';
     }
   }
 
   // FS-040: INF <= ADT
   if (formData.inf > formData.adt) {
-    errors.inf = 'Mỗi người lớn chỉ được đi cùng tối đa 1 em bé';
+    errors.passenger = 'Mỗi người lớn chỉ được đi cùng tối đa 1 em bé';
   }
 
   // FS-043: CHD không được đi một mình (ADT phải >= 1)
   if (formData.chd > 0 && formData.adt < 1) {
-    errors.chd = 'Trẻ em không được đi một mình';
+    errors.passenger = 'Trẻ em không được đi một mình';
   }
 
   // FS-044: INF không được đi một mình (ADT phải >= 1)
   if (formData.inf > 0 && formData.adt < 1) {
-    errors.inf = 'Em bé không được đi một mình';
+    errors.passenger = 'Em bé không được đi một mình';
   }
 
   return errors;
 };
 
 const handleSubmit = () => {
+  showPassengerBox.value = false
   const formData = normalizeData();
   console.log(
     'FORM DATA',
     formData
   );
+  console.log(adt.value, chd.value, inf.value, totalPassengers.value)
   const errors = validateSearchForm(formData)
   console.log(
     'ERRORS',
@@ -544,6 +614,8 @@ input[type='radio'] {
   font-weight: 700;
 
   color: var(--text-muted);
+  flex: 1;
+  min-width: 0;
 }
 
 .input-group input,
@@ -582,10 +654,12 @@ input[type='radio'] {
 }
 
 .search-footer {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -614,6 +688,7 @@ input[type='radio'] {
 
 .passenger-selector {
   position: relative;
+  flex-grow: 1;
 }
 
 .passenger-display {
