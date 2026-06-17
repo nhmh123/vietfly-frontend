@@ -1,7 +1,7 @@
 <template>
   <!-- BOOKING -->
   <section class="booking-container">
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSearch">
       <div class="booking-top">
         <div class="booking-title">Tìm kiếm chuyến bay</div>
         <div class="flight-type-selector">
@@ -175,6 +175,7 @@ import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { vi } from 'date-fns/locale'
 import { ref, reactive, computed, onMounted, watch } from 'vue'
+import { searchFlights } from '@/services/flight.service';
 
 const errors = reactive({
   airport: null,
@@ -504,19 +505,26 @@ const validateSearchForm = (formData) => {
   return errors;
 };
 
-const handleSubmit = () => {
-  showPassengerBox.value = false
+const handleSearch = async () => {
   const formData = normalizeData();
-  console.log(
-    'FORM DATA',
-    formData
-  );
-  const errors = validateSearchForm(formData)
-  console.log(
-    'ERRORS',
-    errors
-  );
-}
+
+  const errors = validateSearchForm(formData);
+
+  console.log('Form Data:', formData);
+  console.log('Validation Errors:', errors);
+
+  // if (Object.keys(errors).length > 0) {
+  //   return;
+  // }
+
+  try {
+    const result = await searchFlights(formData);
+
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 onMounted(() => {
   // setTimeout(() => {

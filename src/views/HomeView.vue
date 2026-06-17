@@ -282,8 +282,8 @@
 <script setup>
 import TheHeader from '../components/TheHeader.vue'
 import TheHero from '../components/TheHero.vue'
-import { ref, computed, onMounted } from 'vue'
 
+console.log(import.meta.env.VITE_API_BASE_URL);
 </script>
 
 <style>
