@@ -70,10 +70,15 @@
               </div>
             </div>
           </div>
+
+        </div>
+        <div v-if="errors.airport" class="italic text-red-500 text-sm mt-1 mb-4">
+          {{ errors.airport }}
         </div>
 
-        <div class="date-selector mb-4">
 
+
+        <div class="date-selector mb-4">
           <div class="input-group departure-date mb-4">
             <label>Ngày đi</label>
 
@@ -147,9 +152,6 @@
                 </div>
               </div>
             </div>
-
-
-
           </div>
 
           <button class="btn-search">
@@ -175,9 +177,7 @@ import { vi } from 'date-fns/locale'
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 
 const errors = reactive({
-  fromAirport: null,
-  toAirport: null,
-  sameAirport: null,
+  airport: null,
   flightType: null,
   departureDate: null,
   returnDate: null,
@@ -242,12 +242,11 @@ const filteredToAirports = computed(() => {
 })
 
 watch(fromAirport, () => {
-  delete errors.fromAirport
-  delete errors.sameAirport
+  delete errors.airport
 })
 
 watch(toAirport, () => {
-  delete errors.toAirport
+  delete errors.airport
   delete errors.sameAirport
 })
 
@@ -372,17 +371,17 @@ const normalizeData = () => {
 const validateSearchForm = (formData) => {
   // FS-001: StartPoint bắt buộc
   if (!formData.startPoint) {
-    errors.fromAirport = 'Vui lòng chọn điểm đi';
+    errors.airport = 'Vui lòng chọn điểm đi';
   }
 
   // FS-002: EndPoint bắt buộc
   if (!formData.endPoint) {
-    errors.toAirport = 'Vui lòng chọn điểm đến';
+    errors.airport = 'Vui lòng chọn điểm đến';
   }
 
   // FS-003: StartPoint !== EndPoint
   if (formData.startPoint && formData.endPoint && formData.startPoint === formData.endPoint) {
-    errors.sameAirport = 'Điểm đi và điểm đến không được giống nhau';
+    errors.airport = 'Điểm đi và điểm đến không được giống nhau';
   }
 
   // FS-010: TripType bắt buộc (ONE_WAY | ROUND_TRIP)
@@ -512,7 +511,6 @@ const handleSubmit = () => {
     'FORM DATA',
     formData
   );
-  console.log(adt.value, chd.value, inf.value, totalPassengers.value)
   const errors = validateSearchForm(formData)
   console.log(
     'ERRORS',
