@@ -1,292 +1,230 @@
 <template>
   <div>
-    <!-- Premium Agency Loading Animation -->
-    <!-- <div id="preloader">
-      <div class="loader-container">
-        <div class="main-loader">
-          <div class="ring ring-1"></div>
-          <div class="ring ring-2"></div>
-          <div class="plane"></div>
-          <div class="loader-info">
-            <h1 class="brand">VIETFLY</h1>
-            <p class="subtitle">Loading Experience</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <TheHeader />
-
     <TheHero />
 
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-      <section class="trust-section">
-        <div class="section-header">
-          <span class="section-badge"> Tại sao chọn VietFly </span>
-          <h2 class="section-title">Trải nghiệm đặt vé đơn giản và minh bạch</h2>
-          <p class="section-description">
-            Hàng nghìn hành khách lựa chọn VietFly mỗi ngày nhờ giá tốt, hỗ trợ nhanh và quy trình
-            đặt vé đơn giản.
+    <section class="trust-section">
+      <div class="section-header">
+        <span class="section-badge"> Tại sao chọn VietFly </span>
+        <h2 class="section-title">Trải nghiệm đặt vé đơn giản và minh bạch</h2>
+        <p class="section-description">
+          Hàng nghìn hành khách lựa chọn VietFly mỗi ngày nhờ giá tốt, hỗ trợ nhanh và quy trình
+          đặt vé đơn giản.
+        </p>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="trust-icon">❤️</div>
+          <h3 class="trust-title">Được hành khách yêu thích</h3>
+          <p class="trust-description">
+            Tham gia cùng hàng triệu hành khách lựa chọn VietFly cho các chuyến bay nội địa và
+            quốc tế.
           </p>
         </div>
-        <div class="trust-grid">
-          <div class="trust-card">
-            <div class="trust-icon">❤️</div>
-            <h3 class="trust-title">Được hành khách yêu thích</h3>
-            <p class="trust-description">
-              Tham gia cùng hàng triệu hành khách lựa chọn VietFly cho các chuyến bay nội địa và
-              quốc tế.
-            </p>
-          </div>
-          <div class="trust-card">
-            <div class="trust-icon">🎧</div>
-            <h3 class="trust-title">Hỗ trợ 24/7</h3>
-            <p class="trust-description">
-              Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ mọi lúc, mọi nơi trong suốt hành
-              trình của bạn.
-            </p>
-          </div>
-          <div class="trust-card">
-            <div class="trust-icon">💳</div>
-            <h3 class="trust-title">Giá cả minh bạch</h3>
-            <p class="trust-description">
-              Không phụ phí ẩn. Giá hiển thị đã bao gồm đầy đủ thuế và phí.
-            </p>
-          </div>
-          <div class="trust-card">
-            <div class="trust-icon">🎁</div>
-            <h3 class="trust-title">Tích điểm thưởng</h3>
-            <p class="trust-description">
-              Tích lũy điểm thưởng sau mỗi giao dịch để sử dụng cho các chuyến bay tiếp theo.
-            </p>
-          </div>
+        <div class="trust-card">
+          <div class="trust-icon">🎧</div>
+          <h3 class="trust-title">Hỗ trợ 24/7</h3>
+          <p class="trust-description">
+            Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ mọi lúc, mọi nơi trong suốt hành
+            trình của bạn.
+          </p>
         </div>
-      </section>
+        <div class="trust-card">
+          <div class="trust-icon">💳</div>
+          <h3 class="trust-title">Giá cả minh bạch</h3>
+          <p class="trust-description">
+            Không phụ phí ẩn. Giá hiển thị đã bao gồm đầy đủ thuế và phí.
+          </p>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">🎁</div>
+          <h3 class="trust-title">Tích điểm thưởng</h3>
+          <p class="trust-description">
+            Tích lũy điểm thưởng sau mỗi giao dịch để sử dụng cho các chuyến bay tiếp theo.
+          </p>
+        </div>
+      </div>
+    </section>
 
-      <h2 class="section-title">Chặng bay phổ biến</h2>
-      <div class="destinations-grid">
-        <div class="destination-card">
-          <div class="destination-img" style="
+    <h2 class="section-title">Chặng bay phổ biến</h2>
+    <div class="destinations-grid">
+      <div class="destination-card">
+        <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1509060464153-44667396260f?auto=format&fit=crop&w=600&q=80');
             ">
-            HÀ NỘI
-          </div>
-          <div class="destination-info">
-            <div class="destination-route">TP.HCM → Hà Nội</div>
-            <div class="destination-meta">Vietnam Airlines • Vietjet Air</div>
-            <div class="destination-price-row">
-              <span class="badge-promo"> Giá Rẻ </span>
-              <span class="price-value"> 790.000 VNĐ </span>
-            </div>
+          HÀ NỘI
+        </div>
+        <div class="destination-info">
+          <div class="destination-route">TP.HCM → Hà Nội</div>
+          <div class="destination-meta">Vietnam Airlines • Vietjet Air</div>
+          <div class="destination-price-row">
+            <span class="badge-promo"> Giá Rẻ </span>
+            <span class="price-value"> 790.000 VNĐ </span>
           </div>
         </div>
-        <div class="destination-card">
-          <div class="destination-img" style="
+      </div>
+      <div class="destination-card">
+        <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80');
             ">
-            NHA TRANG
-          </div>
-          <div class="destination-info">
-            <div class="destination-route">TP.HCM → Nha Trang</div>
-            <div class="destination-meta">Vietjet Air</div>
-            <div class="destination-price-row">
-              <span class="badge-promo"> Tiết Kiệm </span>
-              <span class="price-value"> 590.000 VNĐ </span>
-            </div>
+          NHA TRANG
+        </div>
+        <div class="destination-info">
+          <div class="destination-route">TP.HCM → Nha Trang</div>
+          <div class="destination-meta">Vietjet Air</div>
+          <div class="destination-price-row">
+            <span class="badge-promo"> Tiết Kiệm </span>
+            <span class="price-value"> 590.000 VNĐ </span>
           </div>
         </div>
-        <div class="destination-card">
-          <div class="destination-img" style="
+      </div>
+      <div class="destination-card">
+        <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=600&q=80');
             ">
-            ĐÀ NẴNG
-          </div>
-          <div class="destination-info">
-            <div class="destination-route">Hà Nội → Đà Nẵng</div>
-            <div class="destination-meta">Vietnam Airlines</div>
-            <div class="destination-price-row">
-              <span class="badge-promo"> Hot Deal </span>
-              <span class="price-value"> 850.000 VNĐ </span>
-            </div>
+          ĐÀ NẴNG
+        </div>
+        <div class="destination-info">
+          <div class="destination-route">Hà Nội → Đà Nẵng</div>
+          <div class="destination-meta">Vietnam Airlines</div>
+          <div class="destination-price-row">
+            <span class="badge-promo"> Hot Deal </span>
+            <span class="price-value"> 850.000 VNĐ </span>
           </div>
         </div>
-        <div class="destination-card">
-          <div class="destination-img" style="
+      </div>
+      <div class="destination-card">
+        <div class="destination-img" style="
               background-image:
                 linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
                 url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80');
             ">
-            PHÚ QUỐC
-          </div>
-          <div class="destination-info">
-            <div class="destination-route">TP.HCM → Phú Quốc</div>
-            <div class="destination-meta">Bamboo Airways</div>
-            <div class="destination-price-row">
-              <span class="badge-promo"> Ưu Đãi </span>
-              <span class="price-value"> 680.000 VNĐ </span>
-            </div>
+          PHÚ QUỐC
+        </div>
+        <div class="destination-info">
+          <div class="destination-route">TP.HCM → Phú Quốc</div>
+          <div class="destination-meta">Bamboo Airways</div>
+          <div class="destination-price-row">
+            <span class="badge-promo"> Ưu Đãi </span>
+            <span class="price-value"> 680.000 VNĐ </span>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ==========================================================================
+    <!-- ==========================================================================
    FAQ SECTION
    ========================================================================== -->
-      <section class="faq-section">
-        <div class="section-header">
-          <span class="section-badge">Hỗ trợ khách hàng</span>
-          <h2 class="section-title">Câu hỏi thường gặp</h2>
-          <p class="section-description">
-            Giải đáp nhanh các vấn đề phổ biến khi đặt vé và thanh toán tại VietFly.
-          </p>
-        </div>
-        <div class="faq-container">
-          <div class="faq-item active">
-            <div class="faq-question">
-              <span>Làm thế nào để đổi ngày bay sau khi đặt vé?</span>
-              <span>−</span>
-            </div>
-            <div class="faq-answer">
-              Sau khi đăng nhập, bạn vào mục “Quản Lý Đặt Chỗ”, nhập mã đặt vé để thực hiện đổi ngày
-              bay theo chính sách của từng hãng hàng không.
-            </div>
+    <section class="faq-section">
+      <div class="section-header">
+        <span class="section-badge">Hỗ trợ khách hàng</span>
+        <h2 class="section-title">Câu hỏi thường gặp</h2>
+        <p class="section-description">
+          Giải đáp nhanh các vấn đề phổ biến khi đặt vé và thanh toán tại VietFly.
+        </p>
+      </div>
+      <div class="faq-container">
+        <div class="faq-item active">
+          <div class="faq-question">
+            <span>Làm thế nào để đổi ngày bay sau khi đặt vé?</span>
+            <span>−</span>
           </div>
-          <div class="faq-item">
-            <div class="faq-question">
-              <span>Tôi có thể thanh toán bằng phương thức nào?</span>
-              <span>+</span>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question">
-              <span>VietFly có hỗ trợ xuất hóa đơn VAT không?</span>
-              <span>+</span>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question">
-              <span>Trẻ em dưới 2 tuổi có cần mua vé riêng?</span>
-              <span>+</span>
-            </div>
+          <div class="faq-answer">
+            Sau khi đăng nhập, bạn vào mục “Quản Lý Đặt Chỗ”, nhập mã đặt vé để thực hiện đổi ngày
+            bay theo chính sách của từng hãng hàng không.
           </div>
         </div>
-      </section>
-
-      <!-- ==========================================================================
-   TESTIMONIAL SECTION
-   ========================================================================== -->
-      <section class="testimonial-section">
-        <div class="section-header">
-          <span class="section-badge">Khách hàng nói gì?</span>
-          <h2 class="section-title">Đánh giá từ hành khách</h2>
-          <p class="section-description">
-            Hơn 50.000+ khách hàng đã đặt vé thành công cùng VietFly.
-          </p>
-        </div>
-        <div class="testimonial-grid">
-          <div class="testimonial-card">
-            <div class="testimonial-top">
-              <img src="https://i.pravatar.cc/100?img=12" alt="" />
-              <div>
-                <div class="testimonial-name">Nguyễn Minh Anh</div>
-                <div class="testimonial-role">Freelancer Designer</div>
-              </div>
-            </div>
-            <div class="testimonial-rating">★★★★★</div>
-            <p class="testimonial-content">
-              Đặt vé cực nhanh, giao diện dễ dùng và giá tốt hơn nhiều bên khác. Mình rất thích trải
-              nghiệm thanh toán chỉ trong vài phút.
-            </p>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-top">
-              <img src="https://i.pravatar.cc/100?img=32" alt="" />
-              <div>
-                <div class="testimonial-name">Trần Quốc Bảo</div>
-                <div class="testimonial-role">Business Analyst</div>
-              </div>
-            </div>
-            <div class="testimonial-rating">★★★★★</div>
-            <p class="testimonial-content">
-              Hệ thống tìm kiếm chuyến bay rất mượt. Bộ lọc và so sánh giá vé hoạt động cực kỳ trực
-              quan.
-            </p>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-top">
-              <img src="https://i.pravatar.cc/100?img=15" alt="" />
-              <div>
-                <div class="testimonial-name">Lê Hoàng Nam</div>
-                <div class="testimonial-role">Software Engineer</div>
-              </div>
-            </div>
-            <div class="testimonial-rating">★★★★★</div>
-            <p class="testimonial-content">
-              Support phản hồi nhanh, đổi lịch bay dễ dàng. Thiết kế UI hiện đại và rất chuyên
-              nghiệp.
-            </p>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Tôi có thể thanh toán bằng phương thức nào?</span>
+            <span>+</span>
           </div>
         </div>
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="footer-container">
-        <div class="footer-col">
-          <h3>Về VietFly</h3>
-          <p>
-            Hệ thống đặt vé máy bay trực tuyến hiện đại, kết nối các hãng hàng không nội địa và quốc
-            tế.
-          </p>
-          <p>📍 95 Lĩnh Nam, Hoàng Mai, Hà Nội</p>
-          <p>✉️ support@vietfly.vn</p>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>VietFly có hỗ trợ xuất hóa đơn VAT không?</span>
+            <span>+</span>
+          </div>
         </div>
-        <div class="footer-col">
-          <h3>Chính sách</h3>
-          <ul class="footer-links">
-            <li><a href="#">Điều khoản sử dụng</a></li>
-            <li><a href="#">Bảo mật thông tin</a></li>
-            <li><a href="#">Đổi / Hoàn vé</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h3>Hỗ trợ</h3>
-          <ul class="footer-links">
-            <li><a href="#">Hướng dẫn đặt vé</a></li>
-            <li><a href="#">Check-in Online</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h3>Đối tác</h3>
-          <p>• Vietnam Airlines</p>
-          <p>• Vietjet Air</p>
-          <p>• Bamboo Airways</p>
-          <p>• Pacific Airlines</p>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Trẻ em dưới 2 tuổi có cần mua vé riêng?</span>
+            <span>+</span>
+          </div>
         </div>
       </div>
-      <div class="copyright">© 2026 VietFly Airlines. All rights reserved.</div>
-    </footer>
+    </section>
+
+    <!-- ==========================================================================
+   TESTIMONIAL SECTION
+   ========================================================================== -->
+    <section class="testimonial-section">
+      <div class="section-header">
+        <span class="section-badge">Khách hàng nói gì?</span>
+        <h2 class="section-title">Đánh giá từ hành khách</h2>
+        <p class="section-description">
+          Hơn 50.000+ khách hàng đã đặt vé thành công cùng VietFly.
+        </p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-top">
+            <img src="https://i.pravatar.cc/100?img=12" alt="" />
+            <div>
+              <div class="testimonial-name">Nguyễn Minh Anh</div>
+              <div class="testimonial-role">Freelancer Designer</div>
+            </div>
+          </div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-content">
+            Đặt vé cực nhanh, giao diện dễ dùng và giá tốt hơn nhiều bên khác. Mình rất thích trải
+            nghiệm thanh toán chỉ trong vài phút.
+          </p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-top">
+            <img src="https://i.pravatar.cc/100?img=32" alt="" />
+            <div>
+              <div class="testimonial-name">Trần Quốc Bảo</div>
+              <div class="testimonial-role">Business Analyst</div>
+            </div>
+          </div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-content">
+            Hệ thống tìm kiếm chuyến bay rất mượt. Bộ lọc và so sánh giá vé hoạt động cực kỳ trực
+            quan.
+          </p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-top">
+            <img src="https://i.pravatar.cc/100?img=15" alt="" />
+            <div>
+              <div class="testimonial-name">Lê Hoàng Nam</div>
+              <div class="testimonial-role">Software Engineer</div>
+            </div>
+          </div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-content">
+            Support phản hồi nhanh, đổi lịch bay dễ dàng. Thiết kế UI hiện đại và rất chuyên
+            nghiệp.
+          </p>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
 <script setup>
-import TheHeader from '../components/TheHeader.vue'
 import TheHero from '../components/TheHero.vue'
-
-console.log(import.meta.env.VITE_API_BASE_URL);
 </script>
 
-<style>
+<!-- <style>
 /* ==========================================================================
            1. DESIGN SYSTEM
            ========================================================================== */
@@ -1192,4 +1130,4 @@ small,
   visibility: hidden;
   transition: all 0.8s ease;
 }
-</style>
+</style> -->

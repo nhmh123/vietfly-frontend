@@ -15,6 +15,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.1",
     "@vuepic/vue-datepicker": "^14.0.0",
     "axios": "^1.18.0",
     "dayjs": "^1.11.21",
@@ -40,7 +41,7 @@
     "oxlint": "~1.60.0",
     "postcss": "^8.5.15",
     "prettier": "3.8.3",
-    "tailwindcss": "^4.3.0",
+    "tailwindcss": "^4.3.1",
     "vite": "^8.0.8",
     "vite-plugin-vue-devtools": "^8.1.1",
     "vitest": "^4.1.4"
