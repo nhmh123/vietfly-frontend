@@ -46,7 +46,8 @@
 
     <!-- Mobile Menu -->
     <transition name="slide">
-      <div v-if="isMobileMenuOpen" class="lg:hidden bg-white px-5 pb-6 flex flex-col gap-4 font-medium shadow-lg">
+      <div v-if="isMobileMenuOpen"
+        class="lg:hidden bg-white px-5 pb-6 flex flex-col gap-4 font-medium shadow-lg w-full">
         <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Trang Chủ</a>
         <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Vé Nội Địa</a>
         <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Vé Quốc Tế</a>
