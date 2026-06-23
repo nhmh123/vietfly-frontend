@@ -2,10 +2,59 @@
   <div class="flex gap-6">
     <!-- ==================== SIDEBAR PC (giữ nguyên) ==================== -->
     <aside class="hidden md:block w-80 bg-white border border-gray-200 rounded-2xl p-5 h-fit sticky top-6">
-      <!-- ... giữ nguyên phần sidebar như trước ... -->
+      <h2 class="font-bold text-xl mb-5">Bộ lọc</h2>
+
+      <!-- Điểm dừng -->
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fa-solid fa-map-pin text-gray-500"></i>
+          <span class="font-semibold">Điểm dừng</span>
+        </div>
+        <div class="space-y-3">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 accent-blue-600" />
+            <span>Chỉ bay thẳng (21)</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 accent-blue-600" />
+            <span>Tối đa 1 điểm dừng (22)</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 accent-blue-600" />
+            <span>Số điểm dừng bất kỳ (44)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Hãng hàng không -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fa-solid fa-plane text-gray-500"></i>
+          <span class="font-semibold">Hãng hàng không</span>
+        </div>
+        <div class="space-y-3">
+          <label v-for="airline in airlines" :key="airline.name"
+            class="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded-xl">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5 accent-blue-600" :checked="selectedAirlines.includes(airline.name)"
+                @change="toggleAirline(airline.name)" />
+              <span>{{ airline.name }}</span>
+            </div>
+            <span class="text-gray-500 text-sm">{{ airline.price }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mt-8 flex gap-3">
+        <button @click="resetFilter" class="flex-1 py-3 border border-gray-300 rounded-2xl font-medium">
+          Xóa lọc
+        </button>
+        <button @click="applyFilter" class="flex-1 py-3 bg-orange-500 text-white rounded-2xl font-semibold">
+          Áp dụng
+        </button>
+      </div>
     </aside>
 
-    <!-- ==================== BOTTOM SHEET MOBILE (ĐÃ CHỈNH GỌN) ==================== -->
     <div class="md:hidden">
       <button @click="openSheet"
         class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white shadow-xl border border-gray-200 rounded-full px-6 py-3 text-blue-600 font-medium">
@@ -40,7 +89,7 @@
                 <span class="font-semibold">Điểm dừng</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <button class="py-3.5 border-2 border-blue-600 text-blue-600 font-medium rounded-2xl text-sm">
+                <button class="py-3.5 border-2 border-secondary text-secondary font-medium rounded-2xl text-sm">
                   Chỉ bay thẳng (21)
                 </button>
                 <button class="py-3.5 border border-gray-300 hover:border-gray-400 rounded-2xl text-sm">
@@ -60,8 +109,8 @@
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <button v-for="airline in airlines" :key="airline.name" @click="toggleAirline(airline.name)"
-                  class="p-3.5 border rounded-2xl text-left transition text-sm"
-                  :class="{ 'border-blue-600 bg-blue-50': selectedAirlines.includes(airline.name) }">
+                  class="p-3.5 border border-gray-300 rounded-2xl text-left transition text-sm"
+                  :class="{ 'border-secondary bg-blue-50': selectedAirlines.includes(airline.name) }">
                   <div class="font-medium">{{ airline.name }}</div>
                   <div class="text-xs text-gray-500">{{ airline.price }}</div>
                 </button>
@@ -75,7 +124,7 @@
               Xóa lọc
             </button>
             <button @click="applyFilter"
-              class="flex-1 py-3.5 bg-orange-500 text-white rounded-2xl font-semibold text-sm">
+              class="flex-1 py-3.5 bg-secondary text-white rounded-2xl font-semibold text-sm">
               Xem 44 chuyến bay
             </button>
           </div>

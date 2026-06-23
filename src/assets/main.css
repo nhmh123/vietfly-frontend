@@ -1,23 +1,22 @@
 @import 'tailwindcss';
 * {
-  outline: 1px solid red !important;
+  /* outline: 1px solid red !important; */
 }
 
-/*
 @theme {
-  --color-primary: #ffd700;
-  --color-primary-dark: #e6c200;
-  --color-secondary: #005eb8;
-  --color-secondary-dark: #004c94;
+  /* 60% */
   --color-body-bg: #f5f7fa;
-  --color-success: #10b981;
+
+  /* 30% */
+  --color-primary: #005eb8;
+  --color-primary-dark: #004c94;
+
+  /* 10% */
+  --color-secondary: #ffd700;
+  --color-secondary-dark: #e6c200;
 
   --font-inter: 'Inter', sans-serif;
-
-  --radius-dp: 12px;
-  --radius-dp-cell: 8px;
 }
-*/
 
 /*
 @layer base {
