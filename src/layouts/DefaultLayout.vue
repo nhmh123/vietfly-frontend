@@ -1,6 +1,6 @@
 <template>
   <TheHeader />
-  <main class="main-content">
+  <main class="main-content overflow-x-hidden w-full min-h-screen">
     <router-view />
   </main>
   <TheFooter />

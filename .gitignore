@@ -1,3 +1,6 @@
+# Src
+src/components/old/*
+
 # Logs
 logs
 *.log

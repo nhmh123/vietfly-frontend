@@ -1,201 +1,95 @@
 <template>
-  <div>
-    <div class="top-bar">
-      <div class="top-bar-container">
-        <div class="top-left">
-          <span>Giờ làm việc: 08:00 - 22:00 (T2 - CN)</span>
-        </div>
-        <div class="top-right">
+  <div class="w-full overflow-x-hidden">
+    <!-- Top Bar -->
+    <div class="bg-[#1e3a8a] text-white text-sm font-semibold py-3">
+      <div class="max-w-7xl mx-auto px-5 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div>Giờ làm việc: 08:00 - 22:00 (T2 - CN)</div>
+        <div class="flex items-center gap-4">
           <span>Hotline: 1900 6868</span>
-          |
+          <span class="hidden sm:inline">|</span>
           <span>support@vietfly.vn</span>
         </div>
       </div>
     </div>
-    <header>
-      <div class="header-container">
-        <div class="logo">
-          <img src="../assets/vietfly.png" alt="VietFly Logo" />
-          <div class="logo-text">
-            <div class="logo-title">VietFly</div>
-            <div class="logo-subtitle">SMART AIRLINE BOOKING SYSTEM</div>
+
+    <!-- Header -->
+    <header class="bg-white sticky top-0 z-50 shadow-sm overflow-x-hidden">
+      <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <img src="../assets/vietfly.png" alt="VietFly Logo" class="w-10 h-10 object-contain" />
+          <div>
+            <div class="text-2xl font-bold text-[#1e3a8a]">VietFly</div>
+            <div class="text-[10px] text-gray-500 tracking-wider">SMART AIRLINE BOOKING SYSTEM</div>
           </div>
         </div>
-        <nav class="main-nav">
-          <a href="#" class="active">Trang Chủ</a>
-          <a href="#">Vé Nội Địa</a>
-          <a href="#">Vé Quốc Tế</a>
-          <a href="#">Khuyến Mãi</a>
-          <a href="#">Tin Tức</a>
-          <a href="#">Liên Hệ</a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center gap-8 text-base font-semibold">
+          <a href="#" class="text-gray-800 hover:text-[#1e3a8a] transition-colors active">Trang Chủ</a>
+          <a href="#" class="text-gray-800 hover:text-[#1e3a8a] transition-colors">Vé Nội Địa</a>
+          <a href="#" class="text-gray-800 hover:text-[#1e3a8a] transition-colors">Vé Quốc Tế</a>
+          <a href="#" class="text-gray-800 hover:text-[#1e3a8a] transition-colors">Khuyến Mãi</a>
+          <a href="#" class="text-gray-800 hover:text-[#1e3a8a] transition-colors">Tin Tức</a>
+          <a href="#" class="text-gray-800 hover:text-[#1e3a8a] transition-colors">Liên Hệ</a>
         </nav>
-        <div class="header-right">
-          <button class="btn-booking">Quản Lý Đặt Chỗ</button>
-          <button class="btn-login">Đăng Nhập</button>
+
+        <!-- Right Side - Desktop -->
+        <div class="hidden lg:flex items-center gap-3">
+          <button class="px-5 py-3 bg-[#1e3a8a] text-white font-semibold rounded-xl hover:bg-[#1e40af] transition">
+            Đăng Nhập
+          </button>
+        </div>
+
+        <!-- Mobile Right Side -->
+        <div class="flex items-center gap-3 lg:hidden">
+          <!-- Hamburger -->
+          <button @click="toggleMobileMenu" class="text-3xl text-gray-700 p-2">
+            <i class="fa-solid" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+          </button>
         </div>
       </div>
+
+      <!-- Mobile Menu -->
+      <transition name="slide">
+        <div v-if="isMobileMenuOpen"
+          class="lg:hidden bg-white border-t px-5 py-6 flex flex-col gap-4 font-medium shadow-lg">
+          <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Trang Chủ</a>
+          <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Vé Nội Địa</a>
+          <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Vé Quốc Tế</a>
+          <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Khuyến Mãi</a>
+          <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Tin Tức</a>
+          <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Liên Hệ</a>
+          <div class="flex flex-col gap-3">
+            <button class="w-full py-4 bg-[#1e3a8a] text-white font-semibold rounded-2xl text-base sm:text-lg">
+              Đăng Nhập
+            </button>
+          </div>
+        </div>
+      </transition>
     </header>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const isMobileMenuOpen = ref(false)
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
 </script>
 
 <style scoped>
-.top-bar {
-  background: var(--secondary);
-  color: var(--white);
-  font-size: 14px;
-  font-weight: 600;
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
 }
 
-.top-bar-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.top-left,
-.top-right {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-header {
-  background: var(--white);
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-}
-
-.header-container {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.logo img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-}
-
-.logo-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.logo-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--secondary);
-  line-height: 1;
-}
-
-.logo-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 4px;
-  letter-spacing: 0.5px;
-}
-
-.main-nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.main-nav a {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-dark);
-  position: relative;
-  transition: 0.2s;
-}
-
-.main-nav a:hover,
-.main-nav a.active {
-  color: var(--secondary);
-}
-
-.main-nav a.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 100%;
-  height: 3px;
-  border-radius: 10px;
-  background: var(--primary);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.btn-login {
-  background: var(--secondary);
-  color: var(--white);
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  transition: 0.2s;
-}
-
-.btn-login:hover {
-  background: var(--secondary-dark);
-}
-
-.btn-booking {
-  background: transparent;
-  border: 1px solid var(--secondary);
-  color: var(--secondary);
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  transition: 0.2s;
-}
-
-.btn-booking:hover {
-  background: var(--secondary);
-  color: var(--white);
-}
-
-@media (max-width: 992px) {
-  .main-nav {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .top-bar-container,
-  .header-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .header-right {
-    width: 100%;
-  }
-  .btn-login,
-  .btn-booking {
-    flex: 1;
-  }
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
