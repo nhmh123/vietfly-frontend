@@ -1,7 +1,7 @@
 <template>
-  <div class="flex gap-6">
+  <div class="flex gap-6 md:text-sm">
     <!-- ==================== SIDEBAR PC (giữ nguyên) ==================== -->
-    <aside class="hidden md:block w-80 bg-white border border-gray-200 rounded-2xl p-5 h-fit sticky top-6">
+    <aside class="hidden md:block w-80 bg-white border border-gray-200 rounded-2xl p-5 h-fit">
       <h2 class="font-bold text-xl mb-5">Bộ lọc</h2>
 
       <!-- Điểm dừng -->

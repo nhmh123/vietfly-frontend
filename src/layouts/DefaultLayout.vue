@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg-body-bg">
     <TheTopBar />
     <TheHeader />
-    <main>
+    <main class="max-w-7xl mx-auto ">
       <router-view />
     </main>
     <TheFooter />
