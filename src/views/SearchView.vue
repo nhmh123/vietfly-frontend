@@ -1,10 +1,10 @@
 <template>
   <!-- <TempComponent /> -->
 
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 mb-12">
     <!-- Filter -->
     <aside class="lg:col-span-1">
-      <div class="sticky top-44">
+      <div class="sticky top-[90px]">
         <FlightFilter />
       </div>
     </aside>
@@ -38,6 +38,77 @@
             { airport: 'HAN', duration: '1h 10m' },
             { airport: 'BKK', duration: '50m' }
           ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+          <FlightCard :stop-num="3" :stop-points="[
+            { airport: 'DAD', duration: '45m' },
+            { airport: 'HAN', duration: '1h 10m' },
+            { airport: 'BKK', duration: '50m' }
+          ]" />
+
         </ul>
       </section>
 

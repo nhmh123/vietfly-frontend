@@ -1,8 +1,29 @@
 <template>
-  <div class="flex gap-6 md:text-sm">
+  <div class="hidden md:flex items-center gap-3 mb-5">
+    <div class="w-1 h-7 rounded-full bg-primary"></div>
+
+    <h2 class="text-2xl font-bold text-gray-900">
+      Bộ lọc
+    </h2>
+  </div>
+  <div class="flex gap-6">
     <!-- ==================== SIDEBAR PC (giữ nguyên) ==================== -->
-    <aside class="hidden md:block w-80 bg-white border border-gray-200 rounded-2xl p-5 h-fit">
-      <h2 class="font-bold text-xl mb-5">Bộ lọc</h2>
+    <aside class="hidden md:block w-full bg-white border border-gray-200 rounded-2xl p-5 h-fit">
+
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fa-solid fa-arrow-down-wide-short text-gray-500"></i>
+          <span class="font-semibold">Sắp xếp</span>
+        </div>
+
+        <div class="space-y-3">
+          <label v-for="option in sortOptions" :key="option.value" class="flex items-center gap-3 cursor-pointer">
+            <input type="radio" name="sort" class="w-5 h-5 accent-blue-600" :checked="selectedSort === option.value"
+              @change="selectSort(option.value)" />
+            <span>{{ option.label }}</span>
+          </label>
+        </div>
+      </div>
 
       <!-- Điểm dừng -->
       <div class="mb-8">
@@ -10,18 +31,28 @@
           <i class="fa-solid fa-map-pin text-gray-500"></i>
           <span class="font-semibold">Điểm dừng</span>
         </div>
-        <div class="space-y-3">
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" class="w-5 h-5 accent-blue-600" />
-            <span>Chỉ bay thẳng (21)</span>
-          </label>
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" class="w-5 h-5 accent-blue-600" />
-            <span>Tối đa 1 điểm dừng (22)</span>
-          </label>
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" class="w-5 h-5 accent-blue-600" />
-            <span>Số điểm dừng bất kỳ (44)</span>
+
+        <div class="space-y-2">
+          <label v-for="option in stopPointOptions" :key="option.value"
+            class="flex items-center justify-between rounded-xl border p-3 cursor-pointer transition-all" :class="selectedStopPoint === option.value
+              ? 'border-primary bg-primary/5'
+              : 'border-gray-200 hover:border-gray-300'
+              ">
+            <div class="flex items-center gap-3">
+              <input type="radio" name="stop-point" class="w-4 h-4 accent-primary"
+                :checked="selectedStopPoint === option.value" @change="selectStopPoint(option.value)" />
+
+              <span :class="selectedStopPoint === option.value
+                ? 'text-primary font-medium'
+                : 'text-gray-700'
+                ">
+                {{ option.label }}
+              </span>
+            </div>
+
+            <span class="text-sm text-gray-500">
+              ({{ option.count }})
+            </span>
           </label>
         </div>
       </div>
@@ -34,7 +65,7 @@
         </div>
         <div class="space-y-3">
           <label v-for="airline in airlines" :key="airline.name"
-            class="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded-xl">
+            class="flex items-center justify-between cursor-pointer hover:bg-gray-50 rounded-xl">
             <div class="flex items-center gap-3">
               <input type="checkbox" class="w-5 h-5 accent-blue-600" :checked="selectedAirlines.includes(airline.name)"
                 @change="toggleAirline(airline.name)" />
@@ -46,10 +77,11 @@
       </div>
 
       <div class="mt-8 flex gap-3">
-        <button @click="resetFilter" class="flex-1 py-3 border border-gray-300 rounded-2xl font-medium">
+        <button @click="resetFilter" class="cursor-pointer flex-1 py-3 border border-gray-300 rounded-2xl font-medium">
           Xóa lọc
         </button>
-        <button @click="applyFilter" class="flex-1 py-3 bg-orange-500 text-white rounded-2xl font-semibold">
+        <button @click="applyFilter"
+          class="cursor-pointer flex-1 py-3 bg-primary hover:bg-primary-dark text-white rounded-2xl font-semibold">
           Áp dụng
         </button>
       </div>
@@ -57,7 +89,7 @@
 
     <div class="md:hidden">
       <button @click="openSheet"
-        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white shadow-xl border border-gray-200 rounded-full px-6 py-3 text-blue-600 font-medium">
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white shadow-xl border border-gray-200 rounded-full px-6 py-3 text-primary font-medium">
         <i class="fa-solid fa-filter"></i>
         <span>Lọc</span>
       </button>
@@ -75,13 +107,33 @@
           </div>
 
           <!-- Header -->
-          <div class="px-5 pb-3 flex justify-between items-center border-b">
+          <div class="px-5 pb-3 flex justify-between items-center">
             <h2 class="text-lg font-bold">Tùy chỉnh lựa chọn bay</h2>
             <button @click="closeSheet" class="text-gray-500 text-2xl leading-none">✕</button>
           </div>
 
-          <!-- Content - Giảm padding -->
           <div class="flex-1 overflow-auto p-4 space-y-6">
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-arrow-down-wide-short text-gray-500"></i>
+                <span class="font-semibold">Sắp xếp</span>
+              </div>
+
+              <div class="grid grid-cols-1 gap-2">
+                <button v-for="option in sortOptions" :key="option.value" type="button"
+                  @click="selectSort(option.value)"
+                  class="flex items-center justify-between p-3.5 border rounded-2xl text-left transition text-sm"
+                  :class="selectedSort === option.value
+                    ? 'border border-primary text-primary font-medium'
+                    : 'border border-gray-300 hover:border-gray-400 text-gray-700'
+                    ">
+                  <span class="font-medium">{{ option.label }}</span>
+
+                  <i v-if="selectedSort === option.value" class="fa-solid fa-check text-primary"></i>
+                </button>
+              </div>
+            </div>
+
             <!-- Điểm dừng -->
             <div>
               <div class="flex items-center gap-2 mb-3">
@@ -89,14 +141,11 @@
                 <span class="font-semibold">Điểm dừng</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <button class="py-3.5 border-2 border-secondary text-secondary font-medium rounded-2xl text-sm">
-                  Chỉ bay thẳng (21)
-                </button>
-                <button class="py-3.5 border border-gray-300 hover:border-gray-400 rounded-2xl text-sm">
-                  Tối đa 1 điểm dừng (22)
-                </button>
-                <button class="col-span-2 py-3.5 border border-gray-300 hover:border-gray-400 rounded-2xl text-sm">
-                  Số điểm dừng bất kỳ (44)
+                <button v-for="option in stopPointOptions" :key="option.value" type="button"
+                  @click="selectStopPoint(option.value)" class="py-3.5 rounded-2xl text-sm transition-all" :class="selectedStopPoint === option.value
+                    ? 'border border-primary text-primary font-medium'
+                    : 'border border-gray-300 hover:border-gray-400 text-gray-700'">
+                  {{ option.label }} ({{ option.count }})
                 </button>
               </div>
             </div>
@@ -110,7 +159,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <button v-for="airline in airlines" :key="airline.name" @click="toggleAirline(airline.name)"
                   class="p-3.5 border border-gray-300 rounded-2xl text-left transition text-sm"
-                  :class="{ 'border-secondary bg-blue-50': selectedAirlines.includes(airline.name) }">
+                  :class="{ 'border-primary bg-blue-50': selectedAirlines.includes(airline.name) }">
                   <div class="font-medium">{{ airline.name }}</div>
                   <div class="text-xs text-gray-500">{{ airline.price }}</div>
                 </button>
@@ -119,12 +168,13 @@
           </div>
 
           <!-- Footer -->
-          <div class="p-4 border-t bg-white flex gap-3">
-            <button @click="resetFilter" class="flex-1 py-3.5 border border-gray-300 rounded-2xl font-medium text-sm">
+          <div class="p-4 bg-white flex gap-3">
+            <button @click="resetFilter"
+              class="cursor-pointer flex-1 py-3.5 border border-gray-300 rounded-2xl font-medium text-sm">
               Xóa lọc
             </button>
             <button @click="applyFilter"
-              class="flex-1 py-3.5 bg-secondary text-white rounded-2xl font-semibold text-sm">
+              class="cursor-pointer flex-1 py-3.5 bg-primary text-white rounded-2xl font-semibold text-sm">
               Xem 44 chuyến bay
             </button>
           </div>
@@ -148,6 +198,44 @@ const airlines = [
   // thêm các hãng khác nếu cần
 ]
 
+const selectedSort = ref('recommended')
+
+const sortOptions = [
+  { value: 'recommended', label: 'Đề xuất' },
+  { value: 'price_asc', label: 'Giá thấp nhất' },
+  { value: 'duration_asc', label: 'Thời gian bay ngắn nhất' },
+  { value: 'departure_asc', label: 'Giờ khởi hành sớm nhất' },
+  { value: 'departure_desc', label: 'Giờ khởi hành muộn nhất' },
+]
+
+const selectSort = (value) => {
+  selectedSort.value = value
+}
+
+const selectedStopPoint = ref('all')
+
+const stopPointOptions = [
+  {
+    value: 'direct',
+    label: 'Chỉ bay thẳng',
+    count: 21,
+  },
+  {
+    value: 'max-1-stop',
+    label: 'Tối đa 1 điểm dừng',
+    count: 22,
+  },
+  {
+    value: 'all',
+    label: 'Số điểm dừng bất kỳ',
+    count: 44,
+  },
+]
+
+const selectStopPoint = (value) => {
+  selectedStopPoint.value = value
+}
+
 const openSheet = () => {
   isOpen.value = true
   document.body.style.overflow = 'hidden'
@@ -166,9 +254,17 @@ const toggleAirline = (name) => {
   }
 }
 
-const resetFilter = () => selectedAirlines.value = []
+const resetFilter = () => {
+  selectedAirlines.value = []
+  selectedSort.value = 'recommended'
+  selectedStopPoint.value = 'all'
+}
 const applyFilter = () => {
-  console.log('Filters:', selectedAirlines.value)
+  console.log('Filters:', {
+    airlines: selectedAirlines.value,
+    sort: selectedSort.value,
+  })
+
   closeSheet()
 }
 </script>

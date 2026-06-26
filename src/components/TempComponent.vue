@@ -1,5 +1,5 @@
 <template>
-  <section class="sticky top-19 z-40 bg-primary lg:bg-body-bg text-white lg:text-black px-4 py-3 w-full">
+  <section class="sticky top-19 z-40 bg-primary md:bg-body-bg text-white lg:text-black px-4 py-3 md:mt-4 w-full">
     <div class="max-w-6xl mx-auto">
 
       <!-- Mobile -->
