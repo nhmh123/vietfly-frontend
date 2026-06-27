@@ -110,23 +110,18 @@ const props = defineProps({
   airlineName: String,
   flightNumber: String,
   aircraft: String,
-
   origin: String,
   destination: String,
-
   departureTime: String,
   arrivalTime: String,
   durationText: String,
-
   stopNum: Number,
   stopPoints: {
     type: Array,
     default: () => [],
   },
-
   fareClass: String,
   priceText: String,
-
   fareConditions: {
     type: Array,
     default: () => [],
@@ -138,7 +133,6 @@ const props = defineProps({
 })
 
 const hasStop = computed(() => props.stopNum > 0)
-
 const stopLabel = computed(() =>
   hasStop.value
     ? `${props.stopNum} điểm dừng`

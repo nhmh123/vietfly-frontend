@@ -7,7 +7,7 @@
     </h2>
   </div>
   <div class="flex gap-6">
-    <!-- ==================== SIDEBAR PC (giữ nguyên) ==================== -->
+    <!-- ==================== SIDEBAR PC ==================== -->
     <aside class="hidden md:block w-full bg-white border border-gray-200 rounded-2xl p-5 h-fit">
 
       <div class="mb-8">
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <!-- Điểm dừng -->
+      <!-- Stop Points -->
       <div class="mb-8">
         <div class="flex items-center gap-2 mb-4">
           <i class="fa-solid fa-map-pin text-gray-500"></i>
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <!-- Hãng hàng không -->
+      <!-- Airlines -->
       <div>
         <div class="flex items-center gap-2 mb-4">
           <i class="fa-solid fa-plane text-gray-500"></i>
@@ -87,6 +87,7 @@
       </div>
     </aside>
 
+    <!-- ==================== SIDEBAR MOBILE ==================== -->
     <div class="md:hidden">
       <button @click="openSheet"
         class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white shadow-xl border border-gray-200 rounded-full px-6 py-3 text-primary font-medium">
@@ -134,7 +135,7 @@
               </div>
             </div>
 
-            <!-- Điểm dừng -->
+            <!-- Stop Point -->
             <div>
               <div class="flex items-center gap-2 mb-3">
                 <i class="fa-solid fa-map-pin text-gray-500"></i>
@@ -150,7 +151,7 @@
               </div>
             </div>
 
-            <!-- Hãng hàng không -->
+            <!-- Airlines -->
             <div>
               <div class="flex items-center gap-2 mb-3">
                 <i class="fa-solid fa-plane text-gray-500"></i>
@@ -185,57 +186,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const isOpen = ref(false)
-const selectedAirlines = ref([])
+const emit = defineEmits([
+  'update:selectedSort',
+  'update:selectedStopPoint',
+  'update:selectedAirlines',
+  'reset',
+])
+const props = defineProps({
+  airlines: {
+    type: Array,
+    default: () => [],
+  },
+  sortOptions: {
+    type: Array,
+    default: () => [],
+  },
+  stopPointOptions: {
+    type: Array,
+    default: () => [],
+  },
+  selectedSort: {
+    type: String,
+    default: 'recommended',
+  },
+  selectedStopPoint: {
+    type: String,
+    default: 'all',
+  },
+  selectedAirlines: {
+    type: Array,
+    default: () => [],
+  },
+})
 
-const airlines = [
-  { name: 'VietJetAir', price: '2.100.000 ₫' },
-  { name: 'Vietravel Airlines', price: '2.264.000 ₫' },
-  { name: 'Vietnam Airlines', price: '2.806.000 ₫' },
-  { name: 'Thai Airways', price: '4.700.000 ₫' },
-  // thêm các hãng khác nếu cần
-]
-
-const selectedSort = ref('recommended')
-
-const sortOptions = [
-  { value: 'recommended', label: 'Đề xuất' },
-  { value: 'price_asc', label: 'Giá thấp nhất' },
-  { value: 'duration_asc', label: 'Thời gian bay ngắn nhất' },
-  { value: 'departure_asc', label: 'Giờ khởi hành sớm nhất' },
-  { value: 'departure_desc', label: 'Giờ khởi hành muộn nhất' },
-]
+const isOpen = ref(true);
 
 const selectSort = (value) => {
-  selectedSort.value = value
+  emit('update:selectedSort', value);
 }
-
-const selectedStopPoint = ref('all')
-
-const stopPointOptions = [
-  {
-    value: 'direct',
-    label: 'Chỉ bay thẳng',
-    count: 21,
-  },
-  {
-    value: 'max-1-stop',
-    label: 'Tối đa 1 điểm dừng',
-    count: 22,
-  },
-  {
-    value: 'all',
-    label: 'Số điểm dừng bất kỳ',
-    count: 44,
-  },
-]
 
 const selectStopPoint = (value) => {
-  selectedStopPoint.value = value
+  emit('update:selectedStopPoint', value)
 }
-
 const openSheet = () => {
   isOpen.value = true
   document.body.style.overflow = 'hidden'
@@ -247,24 +241,21 @@ const closeSheet = () => {
 }
 
 const toggleAirline = (name) => {
-  if (selectedAirlines.value.includes(name)) {
-    selectedAirlines.value = selectedAirlines.value.filter(a => a !== name)
+  const airlines = [...props.airlines];
+  const index = airlines.indexOf(name)
+  if (index >= 0) {
+    airlines.splice(index, 1)
   } else {
-    selectedAirlines.value.push(name)
+    airlines.push(name)
   }
+
+  emit('update:selectedAirlines', airlines)
 }
 
 const resetFilter = () => {
-  selectedAirlines.value = []
-  selectedSort.value = 'recommended'
-  selectedStopPoint.value = 'all'
+  emit('reset')
 }
 const applyFilter = () => {
-  console.log('Filters:', {
-    airlines: selectedAirlines.value,
-    sort: selectedSort.value,
-  })
-
   closeSheet()
 }
 </script>

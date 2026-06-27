@@ -5,13 +5,17 @@
     <!-- Filter -->
     <aside class="lg:col-span-1">
       <div class="sticky top-22.5">
-        <FlightFilter @reset="resetFilter" />
+        <FlightFilterSkeleton v-if="loading" />
+        <FlightFilter v-else :airlines="airlineOptions" :sort-options="sortOptions"
+          :stop-point-options="stopPointOptions" :selected-sort="selectedSort" :selected-stop-point="selectedStopPoint"
+          :selected-airlines="selectedAirlines" @update:selected-sort="selectedSort = $event"
+          @update:selected-stop-point="selectedStopPoint = $event" @update:selected-airlines="selectedAirlines = $event"
+          @reset="resetFilter" />
       </div>
     </aside>
 
-    <!-- Danh sách chuyến bay -->
+    <!-- Result -->
     <section class="lg:col-span-3 space-y-10">
-
       <!-- Loading -->
       <div v-if="loading" class="space-y-10">
         <section v-for="section in flightSections" :key="section.key" class="px-4">
@@ -43,7 +47,7 @@
           action-text="Xóa bộ lọc" @action="resetFilter" />
       </div>
 
-      <!-- Success -->
+      <!-- Flight List -->
       <div v-else class="space-y-10">
         <section v-for="section in flightSections" :key="section.key" class="px-4">
           <div class="flex items-center gap-3 mb-5">
@@ -55,49 +59,65 @@
           </div>
 
           <ul class="space-y-4">
-            <FlightCard v-for="flight in section.flights" :key="flight.id" :stop-num="flight.stopNum"
-              :stop-points="flight.stopPoints" />
+            <TransitionGroup name="flight-list" tag="ul" class="space-y-4">
+              <FlightCard v-for="flight in section.flights" :key="flight.option_id"
+                :airline-name="getAirlineName(flight.airline)" :flight-number="flight.flight_number"
+                :origin="flight.origin" :destination="flight.destination"
+                :departure-time="formatTime(flight.departure_date)" :arrival-time="formatTime(flight.arrival_date)"
+                :duration-text="formatDuration(flight.duration)" :stop-num="flight.stop_num" :stop-points="[]"
+                :fare-class="flight.fare_class" :price-text="formatCurrency(flight.total_fare, flight.currency)" />
+            </TransitionGroup>
           </ul>
         </section>
       </div>
-
     </section>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 import FlightFilter from '@/components/FlightFilter.vue';
+import FlightFilterSkeleton from '@/components/FlightFilterSkeleton.vue';
 import FlightCard from '@/components/FlightCard.vue';
 import FlightCardSkeleton from '@/components/FlightCardSkeleton.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import ErrorState from '@/components/ErrorState.vue';
+import { useRoute } from 'vue-router';
+import { searchFlights } from '@/services/flight.service'
 // import TempComponent from '@/components/TempComponent.vue';
 
-
+const route = useRoute()
 const loading = ref(true)
 const error = ref(false)
 const errorCode = ref('')
-
-const tripType = ref('roundTrip')
-
-const outboundFlights = ref([1, 2, 3])
+const outboundFlights = ref([])
 const inboundFlights = ref([])
+const selectedAirlines = ref([])
+const selectedSort = ref('recommended')
+const sortOptions = [
+  { value: 'recommended', label: 'Đề xuất' },
+  { value: 'price_asc', label: 'Giá thấp nhất' },
+  { value: 'duration_asc', label: 'Thời gian bay ngắn nhất' },
+  { value: 'departure_asc', label: 'Giờ khởi hành sớm nhất' },
+  { value: 'departure_desc', label: 'Giờ khởi hành muộn nhất' },
+]
+const selectedStopPoint = ref('all')
 
+const tripType = computed(() => route.query.flightType || 'one-way')
 const flightSections = computed(() => {
   const sections = [
     {
       key: 'outbound',
       title: 'Chuyến bay đi',
-      flights: outboundFlights.value,
+      flights: filteredOutboundFlights.value,
     },
   ]
 
-  if (tripType.value === 'roundTrip') {
+  if (tripType.value === 'round-trip') {
     sections.push({
       key: 'inbound',
       title: 'Chuyến bay về',
-      flights: inboundFlights.value,
+      flights: filteredInboundFlights.value,
     })
   }
 
@@ -105,25 +125,231 @@ const flightSections = computed(() => {
 })
 
 const hasNoFlights = computed(() => {
-  if (tripType.value === 'roundTrip') {
-    return outboundFlights.value.length === 0 || inboundFlights.value.length === 0
+  if (tripType.value === 'round-trip') {
+    return filteredOutboundFlights.value.length === 0 || filteredInboundFlights.value.length === 0
   }
 
-  return outboundFlights.value.length === 0
+  return filteredOutboundFlights.value.length === 0
 })
+
+const allFlights = computed(() => [
+  ...outboundFlights.value,
+  ...inboundFlights.value,
+])
+
+const stopPointCountMap = computed(() => {
+  return allFlights.value.reduce(
+    (result, flight) => {
+      const stopNum = Number(flight.stop_num ?? 0)
+
+      result.all += 1
+
+      if (stopNum === 0) {
+        result.direct += 1
+      }
+
+      if (stopNum === 1) {
+        result.max_1_stop += 1
+      }
+
+      if (stopNum >= 2) {
+        result.min_2_stops += 1
+      }
+
+      return result
+    },
+    {
+      direct: 0,
+      max_1_stop: 0,
+      min_2_stops: 0,
+      all: 0,
+    },
+  )
+})
+
+const stopPointOptions = computed(() => [
+  {
+    value: 'direct',
+    label: 'Bay thẳng',
+    count: stopPointCountMap.value.direct,
+  },
+  {
+    value: 'max-1-stop',
+    label: '1 điểm dừng',
+    count: stopPointCountMap.value.max_1_stop,
+  },
+  {
+    value: 'min-2-stops',
+    label: 'Từ 2 điểm dừng',
+    count: stopPointCountMap.value.min_2_stops,
+  },
+  {
+    value: 'all',
+    label: 'Tất cả',
+    count: stopPointCountMap.value.all,
+  },
+])
+
+const filteredOutboundFlights = computed(() => {
+  return filterFlights(outboundFlights.value)
+})
+
+const filteredInboundFlights = computed(() => {
+  return filterFlights(inboundFlights.value)
+})
+
+
+onMounted(async () => {
+  loading.value = true
+  error.value = false
+
+  try {
+    const payload = {
+      trip_type: route.query.flightType,
+      origin: route.query.startPoint,
+      destination: route.query.endPoint,
+      departure_date: route.query.departureDate,
+      return_date: route.query.returnDate || null,
+      adults: Number(route.query.adt),
+      children: Number(route.query.chd),
+      infants: Number(route.query.inf),
+    }
+
+    const result = await searchFlights(payload)
+
+    outboundFlights.value = result.outbound_flights
+    inboundFlights.value = result.inbound_flights ?? []
+  } catch (e) {
+    error.value = true
+    console.error(e)
+  } finally {
+    loading.value = false
+  }
+})
+
+function formatTime(dateString) {
+  if (!dateString) return '--:--'
+
+  return new Date(dateString).toLocaleTimeString('vi-VN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
+}
+
+function formatDuration(minutes) {
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+
+  if (h === 0) return `${m}m`
+  if (m === 0) return `${h}h`
+
+  return `${h}h ${m}m`
+}
+
+function formatCurrency(amount, currency = 'VND') {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency,
+  }).format(amount)
+}
+
+function getAirlineName(code) {
+  const airlines = {
+    VN: 'Vietnam Airlines',
+    VJ: 'VietJet Air',
+    QH: 'Bamboo Airways',
+    VU: 'Vietravel Airlines',
+  }
+
+  return airlines[code] ?? code
+}
 
 function fetchFlights() {
   console.log('retry fetch flights')
 }
 
-onMounted(() => {
-  const timer = setInterval(() => {
-    loading.value = false
-    clearInterval(timer)
-  }, 3000)
-})
-
 function resetFilter() {
   console.log('Reset filter')
 }
+
+const sortFlights = (flightList) => {
+  let result = [...flightList];
+
+  switch (selectedSort.value) {
+    case 'recommend':
+      break;
+    case 'price_asc':
+      result.sort((a, b) => a.total_fare - b.total_fare)
+      break;
+    case 'duration_asc':
+      result.sort((a, b) => a.duration - b.duration)
+      break;
+    case 'departure_asc':
+      return result.sort((a, b) => new Date(a.departure_date) - new Date(b.departure_date))
+      break;
+    case 'departure_desc':
+      return result.sort((a, b) => new Date(b.departure_date) - new Date(a.departure_date))
+      break;
+    default:
+      break;
+  }
+
+  return result;
+}
+
+const filterByStopPoint = (flightList) => {
+  let result = [...flightList]
+
+  switch (selectedStopPoint.value) {
+    case 'direct':
+      result = result.filter(flight => flight.stop_num === 0)
+      break
+
+    case 'max-1-stop':
+      result = result.filter(flight => flight.stop_num === 1)
+      break
+
+    case 'min-2-stops':
+      result = result.filter(flight => flight.stop_num >= 2)
+      break
+
+    case 'all':
+    default:
+      break
+  }
+
+  return result;
+}
+
+const filterFlights = (flightList) => {
+  let result = [...flightList]
+
+  result = sortFlights(result)
+  result = filterByStopPoint(result)
+
+  return result
+}
 </script>
+
+<style scoped>
+.flight-list-move,
+.flight-list-enter-active,
+.flight-list-leave-active {
+  transition: all 0.25s ease;
+}
+
+.flight-list-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.flight-list-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.flight-list-leave-active {
+  position: absolute;
+}
+</style>

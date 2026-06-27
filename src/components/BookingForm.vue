@@ -175,7 +175,8 @@ import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { vi } from 'date-fns/locale'
 import { ref, reactive, computed, onMounted, watch } from 'vue'
-import { searchFlights } from '@/services/flight.service';
+
+const emit = defineEmits(['search'])
 
 const errors = reactive({
   airport: null,
@@ -369,162 +370,69 @@ const normalizeData = () => {
   };
 };
 
+const clearErrors = () => {
+  errors.airport = null
+  errors.flightType = null
+  errors.departureDate = null
+  errors.returnDate = null
+  errors.passenger = null
+}
+
+
 const validateSearchForm = (formData) => {
-  // FS-001: StartPoint bắt buộc
+  clearErrors()
+
   if (!formData.startPoint) {
-    errors.airport = 'Vui lòng chọn điểm đi';
+    errors.airport = 'Vui lòng chọn điểm đi'
   }
 
-  // FS-002: EndPoint bắt buộc
   if (!formData.endPoint) {
-    errors.airport = 'Vui lòng chọn điểm đến';
+    errors.airport = 'Vui lòng chọn điểm đến'
   }
 
-  // FS-003: StartPoint !== EndPoint
-  if (formData.startPoint && formData.endPoint && formData.startPoint === formData.endPoint) {
-    errors.airport = 'Điểm đi và điểm đến không được giống nhau';
+  if (
+    formData.startPoint &&
+    formData.endPoint &&
+    formData.startPoint === formData.endPoint
+  ) {
+    errors.airport = 'Điểm đi và điểm đến không được giống nhau'
   }
 
-  // FS-010: TripType bắt buộc (ONE_WAY | ROUND_TRIP)
-  if (!formData.flightType) {
-    errors.flightType = 'Vui lòng chọn loại chuyến bay';
-  } else if (formData.flightType !== 'one-way' && formData.flightType !== 'round-trip') {
-    errors.flightType = 'Loại chuyến bay không hợp lệ';
-  }
-
-  // FS-012: Nếu ROUND_TRIP thì ReturnDate bắt buộc
-  if (formData.flightType === 'round-trip' && !formData.returnDate) {
-    errors.returnDate = 'Vui lòng chọn ngày về';
-  }
-
-  // FS-020: DepartDate bắt buộc
   if (!formData.departureDate) {
-    errors.departureDate = 'Vui lòng chọn ngày đi';
+    errors.departureDate = 'Vui lòng chọn ngày đi'
   }
 
-  // FS-021: DepartDate >= Today
-  if (formData.departureDate) {
-    const depDate = new Date(formData.departureDate);
-    const todayDate = new Date(today);
-    if (depDate < todayDate) {
-      errors.departureDate = 'Ngày đi từ hôm nay trở đi';
-    }
-  }
-
-  // FS-025: ReturnDate bắt buộc nếu ROUND_TRIP
   if (formData.flightType === 'round-trip' && !formData.returnDate) {
-    errors.returnDate = 'Vui lòng chọn ngày về';
+    errors.returnDate = 'Vui lòng chọn ngày về'
   }
 
-  // FS-026: ReturnDate >= DepartDate
   if (formData.returnDate && formData.departureDate) {
-    const depDate = new Date(formData.departureDate);
-    const retDate = new Date(formData.returnDate);
-    if (retDate < depDate) {
-      errors.returnDate = 'Ngày về không được trước ngày đi';
+    if (new Date(formData.returnDate) < new Date(formData.departureDate)) {
+      errors.returnDate = 'Ngày về không được trước ngày đi'
     }
   }
 
-  // FS-041: Tổng hành khách > 0
-  if (totalPassengers.value <= 0) {
-    errors.passenger = 'Vui lòng chọn ít nhất 1 hành khách';
-  }
-
-  // FS-042: Tổng hành khách <= 9
   if (totalPassengers.value > 9) {
-    errors.passenger = 'Tối đa 9 hành khách';
+    errors.passenger = 'Tối đa 9 hành khách'
   }
 
-  // FS-030: ADT bắt buộc
-  if (formData.adt === undefined || formData.adt === null) {
-    errors.passenger = 'Vui lòng nhập số lượng người lớn';
+  if (inf.value > adt.value) {
+    errors.passenger = 'Mỗi người lớn chỉ được đi cùng tối đa 1 em bé'
   }
 
-  // FS-031: ADT >= 1
-  if (formData.adt !== undefined && formData.adt !== null) {
-    if (isNaN(formData.adt) || formData.adt < 1) {
-      errors.passenger = 'Số lượng người lớn tối thiểu là 1';
-    }
-  }
+  return !Object.values(errors).some(Boolean)
+}
 
-  // FS-032: ADT là số nguyên
-  if (formData.adt !== undefined && formData.adt !== null) {
-    if (!Number.isInteger(formData.adt)) {
-      errors.passenger = 'Số lượng người lớn phải là số nguyên';
-    }
-  }
+const handleSearch = () => {
+  clearErrors()
 
-  // FS-033: ADT >= 0
-  if (formData.adt < 0) {
-    errors.passenger = 'Số lượng người lớn không được âm';
-  }
+  const formData = normalizeData()
+  const isValid = validateSearchForm(formData)
 
-  // FS-035: CHD là số nguyên
-  if (formData.chd !== undefined && formData.chd !== null) {
-    if (!Number.isInteger(formData.chd)) {
-      errors.passenger = 'Số lượng trẻ em phải là số nguyên';
-    }
-  }
+  if (!isValid) return
 
-  // FS-036: CHD >= 0
-  if (formData.chd !== undefined && formData.chd !== null) {
-    if (formData.chd < 0) {
-      errors.passenger = 'Số lượng trẻ em không được âm';
-    }
-  }
-
-  // FS-038: INF là số nguyên
-  if (formData.inf !== undefined && formData.inf !== null) {
-    if (!Number.isInteger(formData.inf)) {
-      errors.passenger = 'Số lượng em bé phải là số nguyên';
-    }
-  }
-
-  // FS-039: INF >= 0
-  if (formData.inf !== undefined && formData.inf !== null) {
-    if (formData.inf < 0) {
-      errors.passenger = 'Số lượng em bé không được âm';
-    }
-  }
-
-  // FS-040: INF <= ADT
-  if (formData.inf > formData.adt) {
-    errors.passenger = 'Mỗi người lớn chỉ được đi cùng tối đa 1 em bé';
-  }
-
-  // FS-043: CHD không được đi một mình (ADT phải >= 1)
-  if (formData.chd > 0 && formData.adt < 1) {
-    errors.passenger = 'Trẻ em không được đi một mình';
-  }
-
-  // FS-044: INF không được đi một mình (ADT phải >= 1)
-  if (formData.inf > 0 && formData.adt < 1) {
-    errors.passenger = 'Em bé không được đi một mình';
-  }
-
-  return errors;
-};
-
-const handleSearch = async () => {
-  const formData = normalizeData();
-
-  const errors = validateSearchForm(formData);
-
-  console.log('Form Data:', formData);
-  console.log('Validation Errors:', errors);
-
-  // if (Object.keys(errors).length > 0) {
-  //   return;
-  // }
-
-  try {
-    const result = await searchFlights(formData);
-
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-};
+  emit('search', formData)
+}
 
 onMounted(() => {
   // setTimeout(() => {

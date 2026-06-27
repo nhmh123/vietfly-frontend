@@ -2,7 +2,7 @@
   <section class="hero-section">
     <div class="hero-container">
       <div class="hero-left">
-        <BookingForm />
+        <BookingForm @search="goToSearchPage" />
       </div>
 
       <div class="hero-right flex flex-col justify-center px-8">
@@ -21,7 +21,15 @@
 </template>
 
 <script setup>
+import router from '@/router';
 import BookingForm from '@/components/BookingForm.vue'
+
+function goToSearchPage(payload) {
+  router.push({
+    name: 'search-flight',
+    query: payload,
+  })
+}
 </script>
 
 <style scoped>

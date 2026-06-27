@@ -221,7 +221,7 @@
 </template>
 
 <script setup>
-import TheHero from '../components/TheHero.vue'
+import TheHero from '@/components/TheHero.vue'
 </script>
 
 <!-- <style>
