@@ -75,7 +75,7 @@
           </p>
         </div>
 
-        <div class="flex flex-row items-center gap-4">
+        <div class="flex flex-row lg:flex-col lg:grow items-center lg:w-full lg:items-end gap-4 lg:gap-1">
           <button type="button"
             class="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm text-nowrap md:px-0 text-gray-500 hover:bg-gray-50 hover:text-primary transition-all"
             @click="isDetailOpen = true">
@@ -83,7 +83,7 @@
             <span>Chi tiết</span>
           </button>
           <button
-            class="bg-primary hover:bg-primary-dark cursor-pointer text-white px-6 py-2 rounded-xl font-semibold transition-transform active:scale-95">
+            class="bg-primary hover:bg-primary-dark cursor-pointer text-white px-6 py-2 rounded-xl font-semibold transition-transform active:scale-95 self-stretch">
             Chọn
           </button>
         </div>

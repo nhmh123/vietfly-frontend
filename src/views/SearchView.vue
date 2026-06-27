@@ -21,7 +21,11 @@
           </h2>
         </div>
 
-        <ul class="space-y-4">
+        <div v-if="loading" class="space-y-6">
+          <FlightCardSkeleton v-for="item in 16" :key="item" />
+        </div>
+
+        <ul v-else class="space-y-4">
           <FlightCard :stop-num="0" :stop-points="[]" />
 
           <FlightCard :stop-num="1" :stop-points="[
@@ -108,7 +112,6 @@
             { airport: 'HAN', duration: '1h 10m' },
             { airport: 'BKK', duration: '50m' }
           ]" />
-
         </ul>
       </section>
 
@@ -122,7 +125,11 @@
           </h2>
         </div>
 
-        <ul class="space-y-4">
+        <div v-if="loading" class="space-y-6">
+          <FlightCardSkeleton v-for="item in 16" :key="item" />
+        </div>
+
+        <ul v-else class="space-y-4">
           <FlightCard />
           <FlightCard />
           <FlightCard />
@@ -133,9 +140,20 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import FlightFilter from '@/components/FlightFilter.vue';
 import FlightCard from '@/components/FlightCard.vue';
+import FlightCardSkeleton from '@/components/FlightCardSkeleton.vue';
 import TempComponent from '@/components/TempComponent.vue';
 
+
+const loading = ref(true)
 const tripType = 'roundTrip'
+
+onMounted(() => {
+  const timer = setInterval(() => {
+    loading.value = false
+    clearInterval(timer)
+  }, 3000)
+})
 </script>
