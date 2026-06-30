@@ -64,14 +64,14 @@
           <span class="font-semibold">Hãng hàng không</span>
         </div>
         <div class="space-y-3">
-          <label v-for="airline in airlines" :key="airline.name"
+          <label v-for="airline in airlines" :key="airline.code"
             class="flex items-center justify-between cursor-pointer hover:bg-gray-50 rounded-xl">
             <div class="flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5 accent-blue-600" :checked="selectedAirlines.includes(airline.name)"
-                @change="toggleAirline(airline.name)" />
+              <input type="checkbox" class="w-5 h-5 accent-blue-600" :checked="selectedAirlines.includes(airline.code)"
+                @change="toggleAirline(airline.code)" />
               <span>{{ airline.name }}</span>
             </div>
-            <span class="text-gray-500 text-sm">{{ airline.price }}</span>
+            <span class="text-gray-500 text-sm">Từ {{ formatCurrency(airline.minPrice) }}</span>
           </label>
         </div>
       </div>
@@ -158,9 +158,9 @@
                 <span class="font-semibold">Hãng hàng không</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <button v-for="airline in airlines" :key="airline.name" @click="toggleAirline(airline.name)"
+                <button v-for="airline in airlines" :key="airline.code" @click="toggleAirline(airline.code)"
                   class="p-3.5 border border-gray-300 rounded-2xl text-left transition text-sm"
-                  :class="{ 'border-primary bg-blue-50': selectedAirlines.includes(airline.name) }">
+                  :class="{ 'border-primary bg-blue-50': selectedAirlines.includes(airline.code) }">
                   <div class="font-medium">{{ airline.name }}</div>
                   <div class="text-xs text-gray-500">{{ airline.price }}</div>
                 </button>
@@ -187,6 +187,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { formatCurrency } from '@/utils/currency'
 
 const emit = defineEmits([
   'update:selectedSort',
@@ -221,7 +222,7 @@ const props = defineProps({
   },
 })
 
-const isOpen = ref(true);
+const isOpen = ref(false);
 
 const selectSort = (value) => {
   emit('update:selectedSort', value);
@@ -240,16 +241,18 @@ const closeSheet = () => {
   document.body.style.overflow = ''
 }
 
-const toggleAirline = (name) => {
-  const airlines = [...props.airlines];
-  const index = airlines.indexOf(name)
+const toggleAirline = (code) => {
+  const selected = [...props.selectedAirlines]
+
+  const index = selected.indexOf(code)
+
   if (index >= 0) {
-    airlines.splice(index, 1)
+    selected.splice(index, 1)
   } else {
-    airlines.push(name)
+    selected.push(code)
   }
 
-  emit('update:selectedAirlines', airlines)
+  emit('update:selectedAirlines', selected)
 }
 
 const resetFilter = () => {

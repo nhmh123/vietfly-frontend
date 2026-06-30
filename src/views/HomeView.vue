@@ -224,7 +224,7 @@
 import TheHero from '@/components/TheHero.vue'
 </script>
 
-<!-- <style>
+<style scoped>
 /* ==========================================================================
            1. DESIGN SYSTEM
            ========================================================================== */
@@ -1130,4 +1130,4 @@ small,
   visibility: hidden;
   transition: all 0.8s ease;
 }
-</style> -->
+</style>

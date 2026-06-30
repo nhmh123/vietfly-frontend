@@ -32,24 +32,16 @@ function goToSearchPage(payload) {
 }
 </script>
 
-<style scoped>
+<style>
 .hero-section {
   position: relative;
-  /* Dùng 100vh để ảnh luôn lấp đầy màn hình */
   min-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Cấu hình background chuẩn */
   background: linear-gradient(rgba(147, 167, 185, 0.3), rgba(0, 94, 184, 0.3)),
-    url('/src/assets/hero-4.png') no-repeat center center;
+    url('/src/assets/images/hero-4.png') no-repeat center center;
   background-size: cover;
-  /* Quan trọng nhất để ảnh không méo */
-
-  /* Thêm thuộc tính này nếu muốn ảnh "tĩnh" khi cuộn */
-  /* background-attachment: fixed; */
-
   padding: 40px 20px;
 }
 

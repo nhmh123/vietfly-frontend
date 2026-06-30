@@ -4,7 +4,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 mb-12">
     <!-- Filter -->
     <aside class="lg:col-span-1">
-      <div class="sticky top-22.5">
+      <div class="pb-6">
         <FlightFilterSkeleton v-if="loading" />
         <FlightFilter v-else :airlines="airlineOptions" :sort-options="sortOptions"
           :stop-point-options="stopPointOptions" :selected-sort="selectedSort" :selected-stop-point="selectedStopPoint"
@@ -34,14 +34,14 @@
       </div>
 
       <!-- Error -->
-      <div v-else-if="error" class="px-4 mt-13">
+      <div v-else-if="error" class="px-4 md:mt-13">
         <ErrorState title="Không thể tải danh sách chuyến bay"
           message="Hệ thống đang gặp sự cố khi tìm kiếm chuyến bay. Vui lòng thử lại." :error-code="errorCode"
           @retry="fetchFlights" />
       </div>
 
       <!-- Empty -->
-      <div v-else-if="hasNoFlights" class="px-4 mt-13">
+      <div v-else-if="hasNoFlights" class="px-4 md:mt-13">
         <EmptyState title="Không tìm thấy chuyến bay"
           message="Không có chuyến bay nào phù hợp với bộ lọc hiện tại. Hãy thử đổi ngày bay, điểm đến hoặc xóa bộ lọc."
           action-text="Xóa bộ lọc" @action="resetFilter" />
@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, reactive } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import FlightFilter from '@/components/FlightFilter.vue';
 import FlightFilterSkeleton from '@/components/FlightFilterSkeleton.vue';
 import FlightCard from '@/components/FlightCard.vue';
@@ -84,6 +84,8 @@ import EmptyState from '@/components/EmptyState.vue';
 import ErrorState from '@/components/ErrorState.vue';
 import { useRoute } from 'vue-router';
 import { searchFlights } from '@/services/flight.service'
+import { AIRLINES } from '@/constants/airlines';
+import { formatCurrency } from '@/utils/currency'
 // import TempComponent from '@/components/TempComponent.vue';
 
 const route = useRoute()
@@ -132,13 +134,44 @@ const hasNoFlights = computed(() => {
   return filteredOutboundFlights.value.length === 0
 })
 
+const airlineOptions = computed(() => {
+  return Object.values(
+    allFlights.value.reduce((result, flight) => {
+      const airline = AIRLINES[flight.airline]
+
+      if (!airline) return result
+
+      if (!result[airline.code]) {
+        result[airline.code] = {
+          ...airline,
+          count: 0,
+          minPrice: flight.total_fare,
+        }
+      }
+
+      result[airline.code].count++
+
+      result[airline.code].minPrice = Math.min(
+        result[airline.code].minPrice,
+        flight.total_fare,
+      )
+
+      return result
+    }, {}),
+  )
+})
+
 const allFlights = computed(() => [
   ...outboundFlights.value,
   ...inboundFlights.value,
 ])
 
+const airlineFilteredAllFlights = computed(() => {
+  return filterByAirline(allFlights.value)
+})
+
 const stopPointCountMap = computed(() => {
-  return allFlights.value.reduce(
+  return airlineFilteredAllFlights.value.reduce(
     (result, flight) => {
       const stopNum = Number(flight.stop_num ?? 0)
 
@@ -190,6 +223,40 @@ const stopPointOptions = computed(() => [
   },
 ])
 
+const filterByStopPoint = (flightList) => {
+  let result = [...flightList]
+
+  switch (selectedStopPoint.value) {
+    case 'direct':
+      result = result.filter(flight => flight.stop_num === 0)
+      break
+
+    case 'max-1-stop':
+      result = result.filter(flight => flight.stop_num === 1)
+      break
+
+    case 'min-2-stops':
+      result = result.filter(flight => flight.stop_num >= 2)
+      break
+
+    case 'all':
+    default:
+      break
+  }
+
+  return result;
+}
+
+const filterByAirline = (flightList) => {
+  if (selectedAirlines.value.length === 0) {
+    return flightList
+  }
+
+  return flightList.filter(flight =>
+    selectedAirlines.value.includes(flight.airline)
+  )
+}
+
 const filteredOutboundFlights = computed(() => {
   return filterFlights(outboundFlights.value)
 })
@@ -198,6 +265,15 @@ const filteredInboundFlights = computed(() => {
   return filterFlights(inboundFlights.value)
 })
 
+const filterFlights = (flightList) => {
+  let result = [...flightList]
+
+  result = filterByAirline(result)
+  result = filterByStopPoint(result)
+  result = sortFlights(result)
+
+  return result
+}
 
 onMounted(async () => {
   loading.value = true
@@ -247,13 +323,6 @@ function formatDuration(minutes) {
   return `${h}h ${m}m`
 }
 
-function formatCurrency(amount, currency = 'VND') {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency,
-  }).format(amount)
-}
-
 function getAirlineName(code) {
   const airlines = {
     VN: 'Vietnam Airlines',
@@ -270,7 +339,9 @@ function fetchFlights() {
 }
 
 function resetFilter() {
-  console.log('Reset filter')
+  selectedStopPoint.value = 'all';
+  selectedAirlines.value = [];
+  selectedSort.value = 'recommended';
 }
 
 const sortFlights = (flightList) => {
@@ -296,39 +367,6 @@ const sortFlights = (flightList) => {
   }
 
   return result;
-}
-
-const filterByStopPoint = (flightList) => {
-  let result = [...flightList]
-
-  switch (selectedStopPoint.value) {
-    case 'direct':
-      result = result.filter(flight => flight.stop_num === 0)
-      break
-
-    case 'max-1-stop':
-      result = result.filter(flight => flight.stop_num === 1)
-      break
-
-    case 'min-2-stops':
-      result = result.filter(flight => flight.stop_num >= 2)
-      break
-
-    case 'all':
-    default:
-      break
-  }
-
-  return result;
-}
-
-const filterFlights = (flightList) => {
-  let result = [...flightList]
-
-  result = sortFlights(result)
-  result = filterByStopPoint(result)
-
-  return result
 }
 </script>
 
