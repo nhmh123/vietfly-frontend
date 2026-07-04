@@ -84,7 +84,7 @@
           </button>
           <button
             class="bg-primary hover:bg-primary-dark cursor-pointer text-white px-6 py-2 rounded-xl font-semibold transition-transform active:scale-95 self-stretch">
-            Chọn
+            CHỌN
           </button>
         </div>
       </div>

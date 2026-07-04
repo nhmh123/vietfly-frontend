@@ -247,6 +247,38 @@ const filterByStopPoint = (flightList) => {
   return result;
 }
 
+const fetchFlights = async () => {
+  loading.value = true
+  error.value = null
+
+  try {
+    const payload = {
+      trip_type: route.query.flightType,
+      origin: route.query.startPoint,
+      destination: route.query.endPoint,
+      departure_date: route.query.departureDate,
+      return_date: route.query.returnDate || null,
+      adults: Number(route.query.adt),
+      children: Number(route.query.chd),
+      infants: Number(route.query.inf),
+    }
+
+    const result = await searchFlights(payload)
+
+    outboundFlights.value = result.outbound_flights ?? []
+    inboundFlights.value = result.inbound_flights ?? []
+  } catch (e) {
+    const code = e.response?.data?.code || 'UNKNOWN_ERROR'
+    error.value = {
+      code,
+      message: getErrorMessage(code),
+      status: e.response?.status || null,
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
 const filterByAirline = (flightList) => {
   if (selectedAirlines.value.length === 0) {
     return flightList
@@ -275,33 +307,7 @@ const filterFlights = (flightList) => {
   return result
 }
 
-onMounted(async () => {
-  loading.value = true
-  error.value = false
-
-  try {
-    const payload = {
-      trip_type: route.query.flightType,
-      origin: route.query.startPoint,
-      destination: route.query.endPoint,
-      departure_date: route.query.departureDate,
-      return_date: route.query.returnDate || null,
-      adults: Number(route.query.adt),
-      children: Number(route.query.chd),
-      infants: Number(route.query.inf),
-    }
-
-    const result = await searchFlights(payload)
-
-    outboundFlights.value = result.outbound_flights
-    inboundFlights.value = result.inbound_flights ?? []
-  } catch (e) {
-    error.value = true
-    console.error(e)
-  } finally {
-    loading.value = false
-  }
-})
+onMounted(fetchFlights)
 
 function formatTime(dateString) {
   if (!dateString) return '--:--'
@@ -334,8 +340,16 @@ function getAirlineName(code) {
   return airlines[code] ?? code
 }
 
-function fetchFlights() {
-  console.log('retry fetch flights')
+const getErrorMessage = (code) => {
+  const messages = {
+    PROVIDER_BUSINESS_ERROR: 'Giá vé không còn khả dụng. Vui lòng tìm kiếm lại.',
+    PROVIDER_TIMEOUT: 'Hệ thống tìm kiếm chuyến bay phản hồi quá lâu. Vui lòng thử lại.',
+    PROVIDER_CONNECTION_ERROR: 'Không thể kết nối tới hệ thống vé máy bay. Vui lòng thử lại sau.',
+    PROVIDER_INVALID_SCHEMA: 'Dữ liệu chuyến bay chưa hợp lệ. Vui lòng thử lại.',
+    TOO_MANY_REQUESTS: 'Bạn thao tác quá nhanh. Vui lòng thử lại sau ít phút.',
+  }
+
+  return messages[code] || 'Hệ thống đang gặp sự cố. Vui lòng thử lại.'
 }
 
 function resetFilter() {
