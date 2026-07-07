@@ -70,43 +70,30 @@
               </div>
             </div>
           </div>
-
         </div>
         <div v-if="errors.airport" class="italic text-red-500 text-sm mt-1 mb-4">
           {{ errors.airport }}
         </div>
-
-
-
         <div class="date-selector mb-4">
           <div class="input-group departure-date mb-4">
             <label>Ngày đi</label>
-
             <VueDatePicker v-model="departureDate" :locale="vi" :enable-time-picker="false" :min-date="new Date()"
               format="dd/MM/yyyy" placeholder="Chọn ngày đi" auto-apply :time-config="{ enableTimePicker: false }"
               :year-range="[2026, 2027]" />
-
             <div v-if="errors.departureDate" class="italic text-red-500 text-sm mt-1">
               {{ errors.departureDate }}
             </div>
           </div>
-
-
           <div class="input-group return-date mb-4" v-if="flightType === 'round-trip'">
             <label>Ngày về</label>
-
             <VueDatePicker v-model="returnDate" :locale="vi" :enable-time-picker="false"
               :min-date="departureDate || new Date()" format="dd/MM/yyyy" placeholder="Chọn ngày về" auto-apply
               :time-config="{ enableTimePicker: false }" :year-range="[2026, 2027]" />
-
             <div v-if="errors.returnDate" class="italic text-red-500 text-sm mt-1">
               {{ errors.returnDate }}
             </div>
           </div>
-
-
         </div>
-
         <div class="search-footer">
           <div class="input-group passenger-selector mb-4">
             <label>Hành khách</label>
@@ -153,13 +140,10 @@
               </div>
             </div>
           </div>
-
           <button class="btn-search">
             <i class="fa-solid fa-magnifying-glass"></i>
             Tìm chuyến bay
           </button>
-
-
         </div>
         <div v-if="errors.passenger" class="block italic text-red-500 text-sm mt-1">
           {{ errors.passenger }}
@@ -177,7 +161,6 @@ import { vi } from 'date-fns/locale'
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 
 const emit = defineEmits(['search'])
-
 const errors = reactive({
   airport: null,
   flightType: null,
@@ -187,14 +170,12 @@ const errors = reactive({
 })
 // Flight type
 const flightType = ref('one-way')
-
 // Passengers
 const adt = ref(1)
 const chd = ref(0)
 const inf = ref(0)
 const totalPassengers = computed(() => adt.value + chd.value + inf.value)
 const showPassengerBox = ref(false)
-
 // Airports
 const fromAirport = ref({ name: 'TP. Hồ Chí Minh (SGN)', iata: 'SGN' })
 const toAirport = ref({ name: 'Hà Nội (HAN)', iata: 'HAN' })

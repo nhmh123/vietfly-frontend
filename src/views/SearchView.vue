@@ -18,19 +18,10 @@
     <section class="lg:col-span-3 space-y-10">
       <!-- Loading -->
       <div v-if="loading" class="space-y-10">
-        <section v-for="section in flightSections" :key="section.key" class="px-4">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-1 h-7 rounded-full bg-primary"></div>
 
-            <h2 class="text-2xl font-bold text-gray-900">
-              {{ section.title }}
-            </h2>
-          </div>
-
-          <div class="space-y-6">
-            <FlightCardSkeleton v-for="item in 8" :key="item" />
-          </div>
-        </section>
+        <div class="space-y-6 px-4">
+          <FlightCardSkeleton v-for="item in 8" :key="item" />
+        </div>
       </div>
 
       <!-- Error -->

@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white border border-gray-200 rounded-xl p-3 animate-pulse">
+  <div class="bg-white border border-gray-200 p-3 animate-pulse">
     <div class="flex flex-col lg:flex-row gap-6">
 
       <!-- Airline -->
       <div class="lg:w-1/4 flex items-center gap-4">
-        <div class="w-16 h-16 rounded-xl bg-gray-100"></div>
+        <div class="w-16 h-16 bg-gray-100"></div>
 
         <div class="space-y-3 flex-1">
           <div class="h-5 w-36 bg-gray-100 rounded"></div>
@@ -49,7 +49,7 @@
 
         <div class="flex items-center gap-4">
           <div class="h-5 w-16 bg-gray-100 rounded"></div>
-          <div class="h-10 w-20 bg-gray-100 rounded-xl"></div>
+          <div class="h-10 w-20 bg-gray-100"></div>
         </div>
       </div>
 

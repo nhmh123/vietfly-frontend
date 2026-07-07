@@ -8,7 +8,7 @@
   </div>
   <div class="flex gap-6">
     <!-- ==================== SIDEBAR PC ==================== -->
-    <aside class="hidden md:block w-full bg-white border border-gray-200 rounded-2xl p-5 h-fit">
+    <aside class="hidden md:block w-full bg-white shadow-md p-5 h-fit">
 
       <div class="mb-8">
         <div class="flex items-center gap-2 mb-4">
@@ -18,7 +18,7 @@
 
         <div class="space-y-3">
           <label v-for="option in sortOptions" :key="option.value" class="flex items-center gap-3 cursor-pointer">
-            <input type="radio" name="sort" class="w-5 h-5 accent-blue-600" :checked="selectedSort === option.value"
+            <input type="radio" name="sort" class="w-5 h-5 accent-primary" :checked="selectedSort === option.value"
               @change="selectSort(option.value)" />
             <span>{{ option.label }}</span>
           </label>
@@ -34,7 +34,7 @@
 
         <div class="space-y-2">
           <label v-for="option in stopPointOptions" :key="option.value"
-            class="flex items-center justify-between rounded-xl border p-3 cursor-pointer transition-all" :class="selectedStopPoint === option.value
+            class="flex items-center justify-between border p-3 cursor-pointer transition-all" :class="selectedStopPoint === option.value
               ? 'border-primary bg-primary/5'
               : 'border-gray-200 hover:border-gray-300'
               ">
@@ -77,13 +77,13 @@
       </div>
 
       <div class="mt-8 flex gap-3">
-        <button @click="resetFilter" class="cursor-pointer flex-1 py-3 border border-gray-300 rounded-2xl font-medium">
+        <button @click="resetFilter" class="cursor-pointer flex-1 py-3 border border-gray-300 font-medium">
           Xóa lọc
         </button>
-        <button @click="applyFilter"
-          class="cursor-pointer flex-1 py-3 bg-primary hover:bg-primary-dark text-white rounded-2xl font-semibold">
+        <!-- <button @click="applyFilter"
+          class="cursor-pointer flex-1 py-3 bg-primary hover:bg-primary-dark text-white font-semibold">
           Áp dụng
-        </button>
+        </button> -->
       </div>
     </aside>
 

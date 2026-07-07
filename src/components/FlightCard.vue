@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white border border-gray-200 rounded-xl p-3 transition-all hover:shadow-md">
+  <div class="bg-white  p-3 transition-all shadow-md cursor-pointer">
     <div class="flex flex-col lg:flex-row gap-6">
       <div class="lg:w-1/4 flex lg:flex-col items-center lg:items-start gap-3">
         <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-gray-50">
@@ -83,7 +83,7 @@
             <span>Chi tiết</span>
           </button>
           <button
-            class="bg-primary hover:bg-primary-dark cursor-pointer text-white px-6 py-2 rounded-xl font-semibold transition-transform active:scale-95 self-stretch">
+            class="bg-primary hover:bg-primary-dark cursor-pointer text-white px-6 py-2 font-semibold transition-transform active:scale-95 self-stretch">
             CHỌN
           </button>
         </div>

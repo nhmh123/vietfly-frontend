@@ -1,5 +1,5 @@
 <template>
-  <aside class="hidden md:block w-full bg-white border border-gray-200 rounded-2xl p-5 h-fit animate-pulse">
+  <aside class="hidden md:block w-full bg-white border border-gray-200  p-5 h-fit animate-pulse">
     <!-- Sort -->
     <div class="mb-8">
       <div class="flex items-center gap-2 mb-4">
@@ -56,8 +56,8 @@
 
     <!-- Buttons -->
     <div class="mt-8 flex gap-3">
-      <div class="flex-1 h-12 rounded-2xl bg-gray-200"></div>
-      <div class="flex-1 h-12 rounded-2xl bg-gray-200"></div>
+      <div class="flex-1 h-12  bg-gray-200"></div>
+      <!-- <div class="flex-1 h-12  bg-gray-200"></div> -->
     </div>
   </aside>
 </template>
