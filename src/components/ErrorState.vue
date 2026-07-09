@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white border border-red-100 rounded-2xl px-6 py-12 text-center">
-    <div class="mx-auto w-16 h-16 rounded-full bg-red-50 flex items-center justify-center">
+  <div class="bg-white border border-red-100 shadow-md px-6 py-12 text-center">
+    <div class="mx-auto w-16 h-16 bg-red-50 flex items-center justify-center">
       <i class="fa-solid fa-triangle-exclamation text-2xl text-red-500"></i>
     </div>
 
@@ -17,7 +17,7 @@
     </p>
 
     <button type="button"
-      class="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark transition active:scale-95"
+      class="mt-6 inline-flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark transition active:scale-95 cursor-pointer"
       @click="$emit('retry')">
       <i class="fa-solid fa-rotate-right text-xs"></i>
       Thử lại

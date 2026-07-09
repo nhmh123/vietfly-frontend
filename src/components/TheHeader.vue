@@ -5,18 +5,15 @@
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center">
         <img src="../assets/images/vietfly.png" alt="VietFly Logo" class="w-15 h-15 object-contain" />
-
         <div>
           <div class="text-2xl font-bold text-primary">
             VietFly
           </div>
-
           <div class="text-[10px] text-gray-500 tracking-wider">
             SMART AIRLINE BOOKING SYSTEM
           </div>
         </div>
       </RouterLink>
-
       <!-- Desktop Navigation -->
       <nav class="hidden lg:flex items-center gap-8 text-base font-semibold">
         <router-link to="/" class="text-gray-800 hover:text-primary relative group">
@@ -24,50 +21,43 @@
           <span
             class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
         </router-link>
-
         <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
           Vé Nội Địa
           <span
             class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
         </router-link>
-
         <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
           Vé Quốc Tế
           <span
             class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
         </router-link>
-
         <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
           Khuyến Mãi
           <span
             class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
         </router-link>
-
         <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
           Tin Tức
           <span
             class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
         </router-link>
-
         <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
           Liên Hệ
           <span
             class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
         </router-link>
       </nav>
-
       <!-- Right Side - Desktop -->
       <div class="hidden lg:flex items-center">
-        <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-700 hover:text-primary transition">
+        <a href="#" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-primary transition">
           <i class="fa-regular fa-user text-lg"></i>
           <span class="font-medium">Đăng nhập</span>
         </a>
       </div>
-
       <!-- Mobile Right Side -->
       <div class="flex items-center gap-3 lg:hidden">
         <!-- Hamburger -->
-        <button @click="toggleMobileMenu" class="text-3xl text-gray-700 p-2">
+        <button @click="toggleMobileMenu" class="text-3xl text-gray-700 p-2 cursor-pointer">
           <i class="fa-solid" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
         </button>
       </div>
@@ -84,7 +74,7 @@
         <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Tin Tức</a>
         <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Liên Hệ</a>
         <div class="flex flex-col gap-3">
-          <button class="w-full py-4 bg-primary text-white font-semibold rounded-2xl text-base sm:text-lg">
+          <button class="w-full py-4 bg-primary text-white font-semibold text-base sm:text-lg">
             Đăng Nhập
           </button>
         </div>

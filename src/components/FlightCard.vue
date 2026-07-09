@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white  p-3 transition-all shadow-md cursor-pointer">
+  <div class="bg-white  p-3 transition-all shadow-md cursor-pointer hover:border hover:border-primary">
     <div class="flex flex-col lg:flex-row gap-6">
       <div class="lg:w-1/4 flex lg:flex-col items-center lg:items-start gap-3">
         <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-gray-50">
-          <img src="https://download.logo.wine/logo/Vietnam_Airlines/Vietnam_Airlines-Logo.wine.png"
-            class="object-contain" alt="Airline">
+          <!-- <img src="https://download.logo.wine/logo/Vietnam_Airlines/Vietnam_Airlines-Logo.wine.png"
+            class="object-contain" alt="Airline"> -->
         </div>
 
         <div>

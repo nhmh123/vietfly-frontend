@@ -1,8 +1,7 @@
 <template>
-  <!-- <TempComponent /> -->
+  <!-- <FlightSearchHeader /> -->
 
-  <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 mb-12">
-    <!-- Filter -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 mb-12 gap-x-4  px-4 md:px-0">
     <aside class="lg:col-span-1">
       <div class="pb-6">
         <FlightFilterSkeleton v-if="loading" />
@@ -13,42 +12,34 @@
           @reset="resetFilter" />
       </div>
     </aside>
-
-    <!-- Result -->
     <section class="lg:col-span-3 space-y-10">
-      <!-- Loading -->
       <div v-if="loading" class="space-y-10">
-
-        <div class="space-y-6 px-4">
+        <div class="space-y-6">
           <FlightCardSkeleton v-for="item in 8" :key="item" />
         </div>
       </div>
-
-      <!-- Error -->
-      <div v-else-if="error" class="px-4 md:mt-13">
+      <div v-else-if="error" class="md:mt-13">
         <ErrorState title="Không thể tải danh sách chuyến bay"
           message="Hệ thống đang gặp sự cố khi tìm kiếm chuyến bay. Vui lòng thử lại." :error-code="errorCode"
           @retry="fetchFlights" />
       </div>
-
-      <!-- Empty -->
-      <div v-else-if="hasNoFlights" class="px-4 md:mt-13">
+      <div v-else-if="hasNoFlights" class="md:mt-13">
         <EmptyState title="Không tìm thấy chuyến bay"
           message="Không có chuyến bay nào phù hợp với bộ lọc hiện tại. Hãy thử đổi ngày bay, điểm đến hoặc xóa bộ lọc."
           action-text="Xóa bộ lọc" @action="resetFilter" />
       </div>
-
-      <!-- Flight List -->
       <div v-else class="space-y-10">
-        <section v-for="section in flightSections" :key="section.key" class="px-4">
+        <section v-for="section in flightSections" :key="section.key">
           <div class="flex items-center gap-3 mb-5">
             <div class="w-1 h-7 rounded-full bg-primary"></div>
-
             <h2 class="text-2xl font-bold text-gray-900">
               {{ section.title }}
             </h2>
           </div>
-
+          <div class="my-4">
+            <DateRangeSlider :start-date="startDate" :return-date="returnDate" :selected-date="selectedDate"
+              @select-date="handleDateChange" />
+          </div>
           <ul class="space-y-4">
             <TransitionGroup name="flight-list" tag="ul" class="space-y-4">
               <FlightCard v-for="flight in section.flights" :key="flight.option_id"
@@ -77,7 +68,19 @@ import { useRoute } from 'vue-router';
 import { searchFlights } from '@/services/flight.service'
 import { AIRLINES } from '@/constants/airlines';
 import { formatCurrency } from '@/utils/currency'
-// import TempComponent from '@/components/TempComponent.vue';
+import FlightSearchHeader from '@/components/FlightSearchHeader.vue';
+import DateRangeSlider from '@/components/DateRangeSlider.vue';
+
+const startDate = new Date(2026, 6, 7); // Tháng bắt đầu từ 0
+const returnDate = new Date(2026, 6, 13);
+const selectedDate = ref(new Date(2026, 6, 10));
+
+const handleDateChange = (date) => {
+  selectedDate.value = date;
+  console.log("Ngày được chọn:", date);
+  // Ở đây sau này bạn sẽ gọi fetchFlights(date)
+};
+
 
 const route = useRoute()
 const loading = ref(true)
@@ -101,11 +104,10 @@ const flightSections = computed(() => {
   const sections = [
     {
       key: 'outbound',
-      title: 'Chuyến bay đi',
+      title: 'Chọn chuyến bay đi',
       flights: filteredOutboundFlights.value,
     },
   ]
-
   if (tripType.value === 'round-trip') {
     sections.push({
       key: 'inbound',
@@ -113,7 +115,6 @@ const flightSections = computed(() => {
       flights: filteredInboundFlights.value,
     })
   }
-
   return sections
 })
 
@@ -121,7 +122,6 @@ const hasNoFlights = computed(() => {
   if (tripType.value === 'round-trip') {
     return filteredOutboundFlights.value.length === 0 || filteredInboundFlights.value.length === 0
   }
-
   return filteredOutboundFlights.value.length === 0
 })
 
@@ -129,9 +129,7 @@ const airlineOptions = computed(() => {
   return Object.values(
     allFlights.value.reduce((result, flight) => {
       const airline = AIRLINES[flight.airline]
-
       if (!airline) return result
-
       if (!result[airline.code]) {
         result[airline.code] = {
           ...airline,
@@ -139,14 +137,11 @@ const airlineOptions = computed(() => {
           minPrice: flight.total_fare,
         }
       }
-
       result[airline.code].count++
-
       result[airline.code].minPrice = Math.min(
         result[airline.code].minPrice,
         flight.total_fare,
       )
-
       return result
     }, {}),
   )
@@ -165,21 +160,16 @@ const stopPointCountMap = computed(() => {
   return airlineFilteredAllFlights.value.reduce(
     (result, flight) => {
       const stopNum = Number(flight.stop_num ?? 0)
-
       result.all += 1
-
       if (stopNum === 0) {
         result.direct += 1
       }
-
       if (stopNum === 1) {
         result.max_1_stop += 1
       }
-
       if (stopNum >= 2) {
         result.min_2_stops += 1
       }
-
       return result
     },
     {
@@ -216,32 +206,26 @@ const stopPointOptions = computed(() => [
 
 const filterByStopPoint = (flightList) => {
   let result = [...flightList]
-
   switch (selectedStopPoint.value) {
     case 'direct':
       result = result.filter(flight => flight.stop_num === 0)
       break
-
     case 'max-1-stop':
       result = result.filter(flight => flight.stop_num === 1)
       break
-
     case 'min-2-stops':
       result = result.filter(flight => flight.stop_num >= 2)
       break
-
     case 'all':
     default:
       break
   }
-
   return result;
 }
 
 const fetchFlights = async () => {
   loading.value = true
   error.value = null
-
   try {
     const payload = {
       trip_type: route.query.flightType,
@@ -253,9 +237,7 @@ const fetchFlights = async () => {
       children: Number(route.query.chd),
       infants: Number(route.query.inf),
     }
-
     const result = await searchFlights(payload)
-
     outboundFlights.value = result.outbound_flights ?? []
     inboundFlights.value = result.inbound_flights ?? []
   } catch (e) {
@@ -274,7 +256,6 @@ const filterByAirline = (flightList) => {
   if (selectedAirlines.value.length === 0) {
     return flightList
   }
-
   return flightList.filter(flight =>
     selectedAirlines.value.includes(flight.airline)
   )
@@ -290,11 +271,9 @@ const filteredInboundFlights = computed(() => {
 
 const filterFlights = (flightList) => {
   let result = [...flightList]
-
   result = filterByAirline(result)
   result = filterByStopPoint(result)
   result = sortFlights(result)
-
   return result
 }
 
@@ -302,7 +281,6 @@ onMounted(fetchFlights)
 
 function formatTime(dateString) {
   if (!dateString) return '--:--'
-
   return new Date(dateString).toLocaleTimeString('vi-VN', {
     hour: '2-digit',
     minute: '2-digit',
@@ -313,10 +291,8 @@ function formatTime(dateString) {
 function formatDuration(minutes) {
   const h = Math.floor(minutes / 60)
   const m = minutes % 60
-
   if (h === 0) return `${m}m`
   if (m === 0) return `${h}h`
-
   return `${h}h ${m}m`
 }
 
@@ -326,8 +302,9 @@ function getAirlineName(code) {
     VJ: 'VietJet Air',
     QH: 'Bamboo Airways',
     VU: 'Vietravel Airlines',
+    BL: 'Pacific Airlines',
+    P8: 'Air Mekong',
   }
-
   return airlines[code] ?? code
 }
 
@@ -339,7 +316,6 @@ const getErrorMessage = (code) => {
     PROVIDER_INVALID_SCHEMA: 'Dữ liệu chuyến bay chưa hợp lệ. Vui lòng thử lại.',
     TOO_MANY_REQUESTS: 'Bạn thao tác quá nhanh. Vui lòng thử lại sau ít phút.',
   }
-
   return messages[code] || 'Hệ thống đang gặp sự cố. Vui lòng thử lại.'
 }
 
@@ -370,7 +346,6 @@ const sortFlights = (flightList) => {
     default:
       break;
   }
-
   return result;
 }
 </script>

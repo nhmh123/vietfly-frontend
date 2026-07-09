@@ -1,7 +1,6 @@
 <template>
   <div class="hidden md:flex items-center gap-3 mb-5">
     <div class="w-1 h-7 rounded-full bg-primary"></div>
-
     <h2 class="text-2xl font-bold text-gray-900">
       Bộ lọc
     </h2>
@@ -24,7 +23,7 @@
           </label>
         </div>
       </div>
-
+      <hr class="border-t border-gray-200 mb-6" />
       <!-- Stop Points -->
       <div class="mb-8">
         <div class="flex items-center gap-2 mb-4">
@@ -57,6 +56,8 @@
         </div>
       </div>
 
+      <hr class="border-t border-gray-200 mb-6" />
+
       <!-- Airlines -->
       <div>
         <div class="flex items-center gap-2 mb-4">
@@ -75,7 +76,6 @@
           </label>
         </div>
       </div>
-
       <div class="mt-8 flex gap-3">
         <button @click="resetFilter" class="cursor-pointer flex-1 py-3 border border-gray-300 font-medium">
           Xóa lọc
@@ -86,7 +86,6 @@
         </button> -->
       </div>
     </aside>
-
     <!-- ==================== SIDEBAR MOBILE ==================== -->
     <div class="md:hidden">
       <button @click="openSheet"
@@ -100,8 +99,7 @@
       </transition>
 
       <transition name="slide-up">
-        <div v-if="isOpen"
-          class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl z-50 max-h-[78vh] flex flex-col">
+        <div v-if="isOpen" class="fixed bottom-0 left-0 right-0 bg-white  shadow-2xl z-50 max-h-[78vh] flex flex-col">
           <!-- Handle -->
           <div class="flex justify-center pt-3 pb-2">
             <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
@@ -112,29 +110,24 @@
             <h2 class="text-lg font-bold">Tùy chỉnh lựa chọn bay</h2>
             <button @click="closeSheet" class="text-gray-500 text-2xl leading-none">✕</button>
           </div>
-
           <div class="flex-1 overflow-auto p-4 space-y-6">
             <div>
               <div class="flex items-center gap-2 mb-3">
                 <i class="fa-solid fa-arrow-down-wide-short text-gray-500"></i>
                 <span class="font-semibold">Sắp xếp</span>
               </div>
-
               <div class="grid grid-cols-1 gap-2">
                 <button v-for="option in sortOptions" :key="option.value" type="button"
                   @click="selectSort(option.value)"
-                  class="flex items-center justify-between p-3.5 border rounded-2xl text-left transition text-sm"
-                  :class="selectedSort === option.value
+                  class="flex items-center justify-between p-3.5 border text-left transition text-sm" :class="selectedSort === option.value
                     ? 'border border-primary text-primary font-medium'
                     : 'border border-gray-300 hover:border-gray-400 text-gray-700'
                     ">
                   <span class="font-medium">{{ option.label }}</span>
-
                   <i v-if="selectedSort === option.value" class="fa-solid fa-check text-primary"></i>
                 </button>
               </div>
             </div>
-
             <!-- Stop Point -->
             <div>
               <div class="flex items-center gap-2 mb-3">
@@ -143,14 +136,13 @@
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <button v-for="option in stopPointOptions" :key="option.value" type="button"
-                  @click="selectStopPoint(option.value)" class="py-3.5 rounded-2xl text-sm transition-all" :class="selectedStopPoint === option.value
+                  @click="selectStopPoint(option.value)" class="py-3.5 text-sm transition-all" :class="selectedStopPoint === option.value
                     ? 'border border-primary text-primary font-medium'
                     : 'border border-gray-300 hover:border-gray-400 text-gray-700'">
                   {{ option.label }} ({{ option.count }})
                 </button>
               </div>
             </div>
-
             <!-- Airlines -->
             <div>
               <div class="flex items-center gap-2 mb-3">
@@ -159,10 +151,10 @@
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <button v-for="airline in airlines" :key="airline.code" @click="toggleAirline(airline.code)"
-                  class="p-3.5 border border-gray-300 rounded-2xl text-left transition text-sm"
+                  class="p-3.5 border border-gray-300 text-left transition text-sm"
                   :class="{ 'border-primary bg-blue-50': selectedAirlines.includes(airline.code) }">
                   <div class="font-medium">{{ airline.name }}</div>
-                  <div class="text-xs text-gray-500">{{ airline.price }}</div>
+                  <div class="text-xs text-gray-500">Từ {{ formatCurrency(airline.minPrice) }}</div>
                 </button>
               </div>
             </div>
@@ -171,13 +163,13 @@
           <!-- Footer -->
           <div class="p-4 bg-white flex gap-3">
             <button @click="resetFilter"
-              class="cursor-pointer flex-1 py-3.5 border border-gray-300 rounded-2xl font-medium text-sm">
+              class="cursor-pointer flex-1 py-3.5 border border-gray-300 font-medium text-sm">
               Xóa lọc
             </button>
-            <button @click="applyFilter"
-              class="cursor-pointer flex-1 py-3.5 bg-primary text-white rounded-2xl font-semibold text-sm">
+            <!-- <button @click="applyFilter"
+              class="cursor-pointer flex-1 py-3.5 bg-primary text-white font-semibold text-sm">
               Xem 44 chuyến bay
-            </button>
+            </button> -->
           </div>
         </div>
       </transition>

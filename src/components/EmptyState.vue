@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white border border-gray-200 rounded-2xl px-6 py-12 text-center">
+  <div class="bg-white border border-gray-200 px-6 py-12 text-center">
     <div class="mx-auto w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center">
       <i :class="[icon, 'text-2xl text-primary']"></i>
     </div>
@@ -13,7 +13,7 @@
     </p>
 
     <button v-if="actionText" type="button"
-      class="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark transition"
+      class="mt-6 inline-flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark transition cursor-pointer"
       @click="$emit('action')">
       <i class="fa-solid fa-rotate-left text-xs"></i>
       {{ actionText }}
