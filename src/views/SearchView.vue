@@ -1,5 +1,5 @@
 <template>
-  <FlightSearchHeader />
+  <!-- <FlightSearchHeader /> -->
   <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 mb-12 gap-x-4  px-4 md:px-0">
     <aside class="lg:col-span-1">
       <div class="pb-6">
@@ -35,10 +35,6 @@
               {{ stepTitle }}
             </h2>
           </div>
-          <div class="my-4">
-            <DateRangeSlider :start-date="startDate" :return-date="returnDate" :selected-date="selectedDate"
-              @select-date="handleDateChange" />
-          </div>
           <TransitionGroup name="flight-list" tag="ul" class="space-y-4">
             <FlightCard v-for="flight in currentFlights" :key="flight.option_id"
               :airline-name="getAirlineName(flight.airline)" :flight-number="flight.flight_number"
@@ -69,20 +65,9 @@ import { useRoute } from 'vue-router';
 import { searchFlights } from '@/services/flight.service'
 import { AIRLINES } from '@/constants/airlines';
 import { formatCurrency } from '@/utils/currency'
-import FlightSearchHeader from '@/components/FlightSearchHeader.vue';
-import DateRangeSlider from '@/components/DateRangeSlider.vue';
 import SelectedFlightStickyBar from '@/components/SelectedFlightStickyBar.vue';
 
-const emit = defineEmits(['back', 'continue']);
 
-const startDate = new Date(2026, 6, 7); // Tháng bắt đầu từ 0
-const returnDate = new Date(2026, 6, 13);
-const selectedDate = ref(new Date(2026, 6, 10));
-const handleDateChange = (date) => {
-  selectedDate.value = date;
-  console.log("Ngày được chọn:", date);
-  // Ở đây sau này bạn sẽ gọi fetchFlights(date)
-};
 const route = useRoute()
 const loading = ref(true)
 const error = ref(false)
@@ -370,10 +355,14 @@ const handleSelectFlight = (flight) => {
 };
 
 const handleBack = () => {
-  if (currentStep.value === BOOKING_STEPS.INBOUND_SELECTION) {
+  if (tripType.value === 'one-way') {
     currentStep.value = BOOKING_STEPS.OUTBOUND_SELECTION;
-  } else if (currentStep.value === BOOKING_STEPS.PASSENGER_INFO) {
-    currentStep.value = BOOKING_STEPS.INBOUND_SELECTION;
+  } else if (tripType.value === 'round-trip') {
+    if (currentStep.value === BOOKING_STEPS.INBOUND_SELECTION) {
+      currentStep.value = BOOKING_STEPS.OUTBOUND_SELECTION;
+    } else if (currentStep.value === BOOKING_STEPS.PASSENGER_INFO) {
+      currentStep.value = BOOKING_STEPS.INBOUND_SELECTION;
+    }
   }
 }
 

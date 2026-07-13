@@ -26,15 +26,27 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-  startDate: { type: Date, required: true },
-  returnDate: { type: Date, required: true },
-  selectedDate: { type: Date, default: null }
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  returnDate: {
+    type: Date,
+    required: true,
+  },
+  selectedDate: {
+    type: Date,
+    default: null,
+  },
 });
 
+defineEmits(['select-date']);
+
 const startOfDay = (date) => {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  return d;
+  const result = new Date(date);
+  result.setHours(0, 0, 0, 0);
+
+  return result;
 };
 
 const isPastDate = (date) => {
@@ -44,26 +56,41 @@ const isPastDate = (date) => {
   return targetDate < today;
 };
 
-// Hàm tạo danh sách ngày từ startDate đến returnDate
 const dateRangeList = computed(() => {
   const dates = [];
-  let current = new Date(props.startDate);
 
-  while (current <= props.returnDate) {
+  const current = startOfDay(props.startDate);
+  const endDate = startOfDay(props.returnDate);
+
+  while (current <= endDate) {
     dates.push({
       fullDate: new Date(current),
-      dayName: current.toLocaleDateString('vi-VN', { weekday: 'short' }), // T2, T3...
-      displayDate: current.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }) // 10/07
+      dayName: current.toLocaleDateString('vi-VN', {
+        weekday: 'short',
+      }),
+      displayDate: current.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+      }),
     });
+
     current.setDate(current.getDate() + 1);
   }
+
   return dates;
 });
 
 const isSelected = (date) => {
-  return props.selectedDate &&
-    startOfDay(date).getTime() === startOfDay(props.selectedDate).getTime();
+  const targetDate = startOfDay(date);
+
+  const selected = props.selectedDate
+    ? startOfDay(props.selectedDate)
+    : startOfDay(new Date());
+
+  return targetDate.getTime() === selected.getTime();
 };
 
-const scroll = (direction) => { /* Xử lý scroll ngang nếu list dài */ };
+const scroll = (direction) => {
+  // Xử lý sau
+};
 </script>
