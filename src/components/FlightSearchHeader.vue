@@ -24,51 +24,74 @@
           </div>
         </div>
       </div>
-      <form class="hidden md:block  items-end bg-white p-6 shadow-lg border border-gray-100">
-        <div class="flex gap-6 mb-4">
-          <label class="flex items-center cursor-pointer gap-2 font-medium">
-            <input type="radio" name="flightType" v-model="flightType" value="one-way" class="accent-primary w-4 h-4" />
+      <!-- Flight type -->
+      <div class="shrink-0">
+        <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 block">
+          Loại chuyến
+        </label>
+
+        <div class="flex gap-3 items-center">
+          <label class="flex items-center cursor-pointer gap-1.5 text-sm font-medium">
+            <input type="radio" name="flightType" v-model="flightType" value="one-way" class="accent-primary" />
             Một chiều
           </label>
-          <label class="flex items-center cursor-pointer gap-2 font-medium">
-            <input type="radio" name="flightType" v-model="flightType" value="round-trip"
-              class="accent-primary w-4 h-4" />
+
+          <label class="flex items-center cursor-pointer gap-1.5 text-sm font-medium">
+            <input type="radio" name="flightType" v-model="flightType" value="round-trip" class="accent-primary" />
             Khứ hồi
           </label>
         </div>
-        <div class="col-span-1 md:col-span-2 grid grid-cols-2 gap-4">
-          <div class="flex flex-col">
-            <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wider">Điểm đi</label>
-            <input type="text" placeholder="Hà Nội (HAN)"
-              class="w-full p-3 bg-gray-50 border border-gray-200  outline-none transition-all">
-          </div>
-          <div class="flex flex-col">
-            <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wider">Điểm đến</label>
-            <input type="text" placeholder="TP. HCM (SGN)"
-              class="w-full p-3 bg-gray-50 border border-gray-200  outline-none transition-all">
-          </div>
+      </div>
+      <form class="hidden md:flex items-end gap-3 bg-white px-5 py-4 shadow-lg border border-gray-100">
+
+        <!-- Origin -->
+        <div class="flex-1 min-w-[160px]">
+          <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 block">
+            Điểm đi
+          </label>
+          <input type="text" placeholder="Hà Nội (HAN)"
+            class="w-full h-[46px] px-3 bg-gray-50 border border-gray-200 outline-none" />
         </div>
-        <div class="flex flex-col col-span-1 md:col-span-1">
-          <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wider">Ngày đi - Về</label>
+
+        <!-- Destination -->
+        <div class="flex-1 min-w-[160px]">
+          <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 block">
+            Điểm đến
+          </label>
+          <input type="text" placeholder="TP. HCM (SGN)"
+            class="w-full h-[46px] px-3 bg-gray-50 border border-gray-200 outline-none" />
+        </div>
+
+        <!-- Date -->
+        <div class="w-[260px] shrink-0">
+          <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 block">
+            Ngày đi - về
+          </label>
+
           <VueDatePicker v-if="flightType === 'round-trip'" :locale="vi" v-model="dateRange" range
-            :enable-time-picker="false" format="dd/MM/yyyy" placeholder="Chọn ngày đi - về" class="w-full"
-            :time-config="{ enableTimePicker: false }" />
+            :enable-time-picker="false" format="dd/MM/yyyy" placeholder="Chọn ngày đi - về" class="w-full" />
+
           <VueDatePicker v-else :locale="vi" v-model="dateSingle" :enable-time-picker="false" format="dd/MM/yyyy"
             placeholder="Chọn ngày đi" class="w-full" />
         </div>
-        <div class="flex flex-col">
-          <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 tracking-wider">Hành khách</label>
-          <select class="w-full p-3 bg-gray-50 border border-gray-200  outline-none transition-all">
+
+        <!-- Passenger -->
+        <div class="w-[150px] shrink-0">
+          <label class="text-[11px] uppercase font-bold text-gray-400 mb-1.5 block">
+            Hành khách
+          </label>
+          <select class="w-full h-[46px] px-3 bg-gray-50 border border-gray-200 outline-none">
             <option>1 người lớn</option>
             <option>2 người lớn</option>
           </select>
         </div>
+
+        <!-- Submit -->
         <button type="submit"
-          class="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6  transition-all shadow-lg shadow-blue-500/30 active:scale-95 cursor-pointer">
-          TÌM CHUYẾN BAY
+          class="h-[46px] shrink-0 bg-primary hover:bg-primary-dark text-white font-bold px-5 transition-all shadow-lg shadow-blue-500/30 active:scale-95 cursor-pointer">
+          TÌM
         </button>
       </form>
-
     </div>
   </section>
 </template>

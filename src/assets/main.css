@@ -18,22 +18,37 @@
   --font-inter: 'Inter', sans-serif;
 }
 
-/*
 @layer base {
   body {
-    @apply bg-body-bg text-gray-800 font-inter antialiased;
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--color-body-bg);
+  }
+
+  body::before {
+    content: '';
+
+    position: fixed;
+    inset: 0;
+
+    background: url('./images/body-bg-2.png') center/cover no-repeat;
+
+    opacity: 0.5;
+
+    z-index: -1;
+    pointer-events: none;
   }
 
   a {
-    @apply no-underline text-inherit;
+    text-decoration: none;
+    color: inherit;
   }
 
   ul {
-    @apply list-none;
+    list-style: none;
   }
 
   button {
-    @apply border-none outline-none cursor-pointer;
+    cursor: pointer;
   }
 }
-  */

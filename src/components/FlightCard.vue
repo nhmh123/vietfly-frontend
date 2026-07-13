@@ -1,5 +1,13 @@
 <template>
-  <div class="bg-white  p-3 transition-all shadow-md cursor-pointer hover:border hover:border-primary">
+  <div class="bg-white p-3 shadow-md transition-all border" :class="[
+    isSelected
+      ? 'border-primary ring-2 ring-blue-100'
+      : 'border-transparent',
+
+    isBlured
+      ? 'opacity-50 hover:opacity-100'
+      : 'opacity-100'
+  ]">
     <div class="flex flex-col lg:flex-row gap-6">
       <div class="lg:w-1/4 flex lg:flex-col items-center lg:items-start gap-3">
         <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-gray-50">
@@ -77,14 +85,18 @@
 
         <div class="flex flex-row lg:flex-col lg:grow items-center lg:w-full lg:items-end gap-4 lg:gap-1">
           <button type="button"
-            class="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm text-nowrap md:px-0 text-gray-500 hover:bg-gray-50 hover:text-primary transition-all"
+            class="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm text-gray-500 hover:bg-gray-50 hover:text-primary transition-all"
             @click="isDetailOpen = true">
             <i class="fa-solid fa-circle-info"></i>
             <span>Chi tiết</span>
           </button>
-          <button
-            class="bg-primary hover:bg-primary-dark cursor-pointer text-white px-6 py-2 font-semibold transition-transform active:scale-95 self-stretch">
-            CHỌN
+          <button :class="[
+            isSelected
+              ? 'bg-gray-200 text-gray-900 cursor-default'
+              : 'bg-primary hover:bg-primary-dark text-white cursor-pointer active:scale-95'
+          ]" class="px-6 py-2 font-semibold transition-all self-stretch" :disabled="isSelected"
+            @click="emit('select')">
+            {{ isSelected ? 'ĐÃ CHỌN' : 'CHỌN' }}
           </button>
         </div>
       </div>
@@ -100,6 +112,10 @@
 <script setup>
 import { computed, ref } from 'vue'
 import FlightDetailModal from '@/components/FlightDetailModal.vue'
+
+const emit = defineEmits([
+  'select'
+]);
 
 const props = defineProps({
   airlineName: {
@@ -158,6 +174,14 @@ const props = defineProps({
       'Đổi lịch bay có thể mất phí theo quy định của hãng.',
       'Hành lý ký gửi tùy theo điều kiện hạng vé.',
     ],
+  },
+  isBlured: {
+    type: Boolean,
+    default: false,
+  },
+  isSelected: {
+    type: Boolean,
+    default: false,
   },
 })
 
