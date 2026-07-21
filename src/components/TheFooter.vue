@@ -1,61 +1,124 @@
 <template>
-  <!-- FOOTER -->
-  <footer class="bg-[#0f172a] text-white/80 pt-8 pb-8">
-    <div class="max-w-7xl mx-auto px-5">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+  <footer class="footer skin-light-footer">
+    <div>
+      <div class="container">
+        <div class="row">
 
-        <!-- Cột 1: Về VietFly -->
-        <div class="lg:col-span-5">
-          <h3 class="text-white text-xl font-semibold mb-5">Về VietFly</h3>
-          <p class="text-sm leading-relaxed mb-6">
-            Hệ thống đặt vé máy bay trực tuyến hiện đại, kết nối các hãng hàng không nội địa và quốc tế.
-          </p>
-          <div class="space-y-3 text-sm">
-            <p>📍 95 Lĩnh Nam, Hoàng Mai, Hà Nội</p>
-            <p>✉️ support@vietfly.vn</p>
+          <div class="col-lg-3 col-md-4">
+            <div class="footer-widget">
+              <div class="d-flex align-items-start flex-column mb-3">
+                <div class="d-inline-block"><img src="../assets/vendor/geotrip/img/logo.png" class="img-fluid"
+                    width="160" alt="Footer Logo">
+                </div>
+              </div>
+              <div class="footer-add pe-xl-3">
+                <p>We make your dream more beautiful & enjoyful with lots of happiness.</p>
+              </div>
+              <div class="foot-socials">
+                <ul>
+                  <li><a href="JavaScript:Void(0);"><i class="fa-brands fa-facebook"></i></a></li>
+                  <li><a href="JavaScript:Void(0);"><i class="fa-brands fa-linkedin"></i></a></li>
+                  <li><a href="JavaScript:Void(0);"><i class="fa-brands fa-google-plus"></i></a></li>
+                  <li><a href="JavaScript:Void(0);"><i class="fa-brands fa-twitter"></i></a></li>
+                  <li><a href="JavaScript:Void(0);"><i class="fa-brands fa-dribbble"></i></a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
+          <div class="col-lg-2 col-md-4">
+            <div class="footer-widget">
+              <h4 class="widget-title">The Navigation</h4>
+              <ul class="footer-menu">
+                <li><a href="JavaScript:Void(0);">Talent Marketplace</a></li>
+                <li><a href="JavaScript:Void(0);">Payroll Services</a></li>
+                <li><a href="JavaScript:Void(0);">Direct Contracts</a></li>
+                <li><a href="JavaScript:Void(0);">Hire Worldwide</a></li>
+                <li><a href="JavaScript:Void(0);">Hire in the USA</a></li>
+                <li><a href="JavaScript:Void(0);">How to Hire</a></li>
+              </ul>
+            </div>
+          </div>
 
-        <!-- Cột 2: Chính sách -->
-        <div class="lg:col-span-2">
-          <h3 class="text-white text-xl font-semibold mb-5">Chính sách</h3>
-          <ul class="space-y-3 text-sm">
-            <li><a href="#" class="hover:text-white transition-colors">Điều khoản sử dụng</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Bảo mật thông tin</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Đổi / Hoàn vé</a></li>
-          </ul>
-        </div>
+          <div class="col-lg-2 col-md-4">
+            <div class="footer-widget">
+              <h4 class="widget-title">Our Resources</h4>
+              <ul class="footer-menu">
+                <li><a href="JavaScript:Void(0);">Free Business tools</a></li>
+                <li><a href="JavaScript:Void(0);">Affiliate Program</a></li>
+                <li><a href="JavaScript:Void(0);">Success Stories</a></li>
+                <li><a href="JavaScript:Void(0);">Upwork Reviews</a></li>
+                <li><a href="JavaScript:Void(0);">Resources</a></li>
+                <li><a href="JavaScript:Void(0);">Help & Support</a></li>
+              </ul>
+            </div>
+          </div>
 
-        <!-- Cột 3: Hỗ trợ -->
-        <div class="lg:col-span-2">
-          <h3 class="text-white text-xl font-semibold mb-5">Hỗ trợ</h3>
-          <ul class="space-y-3 text-sm">
-            <li><a href="#" class="hover:text-white transition-colors">Hướng dẫn đặt vé</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Check-in Online</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-          </ul>
-        </div>
+          <div class="col-lg-2 col-md-6">
+            <div class="footer-widget">
+              <h4 class="widget-title">The Company</h4>
+              <ul class="footer-menu">
+                <li><a href="JavaScript:Void(0);">About Us</a></li>
+                <li><a href="JavaScript:Void(0);">Leadership</a></li>
+                <li><a href="JavaScript:Void(0);">Contact Us</a></li>
+                <li><a href="JavaScript:Void(0);">Investor Relations</a></li>
+                <li><a href="JavaScript:Void(0);">Trust, Safety & Security</a></li>
+              </ul>
+            </div>
+          </div>
 
-        <!-- Cột 4: Đối tác -->
-        <div class="lg:col-span-3">
-          <h3 class="text-white text-xl font-semibold mb-5">Đối tác</h3>
-          <ul class="space-y-3 text-sm">
-            <li>• Vietnam Airlines</li>
-            <li>• Vietjet Air</li>
-            <li>• Bamboo Airways</li>
-            <li>• Pacific Airlines</li>
-          </ul>
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-widget">
+              <h4 class="widget-title">Payment Methods</h4>
+              <div class="pmt-wrap">
+                <img src="../assets/vendor/geotrip/img/payment.png" class="img-fluid" alt="">
+              </div>
+              <div class="our-prtwrap mt-4">
+                <div class="prtn-title">
+                  <p class="text-muted-2 fw-medium">Our Partners</p>
+                </div>
+                <div class="prtn-thumbs d-flex align-items-center justify-content-start">
+                  <div class="pmt-wrap pe-4">
+                    <img src="../assets/vendor/geotrip/img/mytrip.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="pmt-wrap pe-4">
+                    <img src="../assets/vendor/geotrip/img/tripadv.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="pmt-wrap pe-4">
+                    <img src="../assets/vendor/geotrip/img/goibibo.png" class="img-fluid" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+    </div>
 
-      <!-- Copyright -->
-      <div class="border-t border-white/10 mt-12 pt-8 text-center text-xs opacity-60">
-        © 2026 VietFly Airlines. All rights reserved.
+    <div class="footer-bottom border-top">
+      <div class="container">
+        <div class="row align-items-center justify-content-between">
+
+          <div class="col-xl-6 col-lg-6 col-md-6">
+            <p class="mb-0">© 2025 GeoTrip Design by Themezhub.</p>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6">
+            <ul class="p-0 d-flex justify-content-start justify-content-md-end text-start text-md-end m-0">
+              <li><a href="#">Terms of services</a></li>
+              <li class="ms-3"><a href="#">Privacy Policies</a></li>
+              <li class="ms-3"><a href="#">Cookies</a></li>
+            </ul>
+          </div>
+
+        </div>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup>
-// Không cần script nếu không có tương tác
+
 </script>
+
+<style lang="scss" scoped></style>

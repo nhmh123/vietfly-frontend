@@ -1,107 +1,253 @@
 <template>
-  <!-- Header -->
-  <header class="sticky top-0 z-50 bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-5 py-2 flex items-center justify-between">
-      <!-- Logo -->
-      <RouterLink to="/" class="flex items-center">
-        <img src="../assets/images/vietfly.png" alt="VietFly Logo" class="w-15 h-15 object-contain" />
-        <div>
-          <div class="text-2xl font-bold text-primary">
-            VietFly
-          </div>
-          <div class="text-[10px] text-gray-500 tracking-wider">
-            SMART AIRLINE BOOKING SYSTEM
+  <!-- Start Navigation -->
+  <div class="header header-light">
+    <div class="container">
+      <nav id="navigation" class="navigation navigation-landscape">
+        <div class="nav-header">
+          <a class="nav-brand" href="#"><img src="../assets/vendor/geotrip/img/logo.png" class="logo" alt=""></a>
+          <div class="nav-toggle"></div>
+          <div class="mobile_nav">
+            <ul>
+              <li class="languageDropdown me-3">
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#countryModal">
+                  <span class="d-flex align-items-center gap-2">INR |<i class="bi bi-globe h-auto"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-primary rounded" data-bs-toggle="modal" data-bs-target="#login">
+                  <svg width="34" height="34" viewBox="0 0 24 24" class="fill-primary"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.3"
+                      d="M22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2C17.5 2 22 6.5 22 12ZM12 7C10.3 7 9 8.3 9 10C9 11.7 10.3 13 12 13C13.7 13 15 11.7 15 10C15 8.3 13.7 7 12 7Z" />
+                    <path
+                      d="M12 22C14.6 22 17 21 18.7 19.4C17.9 16.9 15.2 15 12 15C8.8 15 6.09999 16.9 5.29999 19.4C6.99999 21 9.4 22 12 22Z" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </RouterLink>
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-8 text-base font-semibold">
-        <router-link to="/" class="text-gray-800 hover:text-primary relative group">
-          Trang Chủ
-          <span
-            class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
-        </router-link>
-        <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
-          Vé Nội Địa
-          <span
-            class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
-        </router-link>
-        <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
-          Vé Quốc Tế
-          <span
-            class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
-        </router-link>
-        <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
-          Khuyến Mãi
-          <span
-            class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
-        </router-link>
-        <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
-          Tin Tức
-          <span
-            class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
-        </router-link>
-        <router-link to="/flights/search" class="text-gray-800 hover:text-primary relative group">
-          Liên Hệ
-          <span
-            class="absolute -bottom-7 left-0 h-1 bg-secondary w-0 transition-all group-hover:w-full router-link-active:w-full"></span>
-        </router-link>
-      </nav>
-      <!-- Right Side - Desktop -->
-      <div class="hidden lg:flex items-center">
-        <a href="#" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-primary transition">
-          <i class="fa-regular fa-user text-lg"></i>
-          <span class="font-medium">Đăng nhập</span>
-        </a>
-      </div>
-      <!-- Mobile Right Side -->
-      <div class="flex items-center gap-3 lg:hidden">
-        <!-- Hamburger -->
-        <button @click="toggleMobileMenu" class="text-3xl text-gray-700 p-2 cursor-pointer">
-          <i class="fa-solid" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
-        </button>
-      </div>
-    </div>
+        <div class="nav-menus-wrapper" style="transition-property: none;">
+          <ul class="nav-menu">
 
-    <!-- Mobile Menu -->
-    <transition name="slide">
-      <div v-if="isMobileMenuOpen"
-        class="lg:hidden bg-white px-5 pb-6 flex flex-col gap-4 font-medium shadow-lg w-full">
-        <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Trang Chủ</a>
-        <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Vé Nội Địa</a>
-        <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Vé Quốc Tế</a>
-        <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Khuyến Mãi</a>
-        <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Tin Tức</a>
-        <a href="#" class="py-2 text-gray-800 text-base lg:text-lg truncate">Liên Hệ</a>
-        <div class="flex flex-col gap-3">
-          <button class="w-full py-4 bg-primary text-white font-semibold text-base sm:text-lg">
-            Đăng Nhập
-          </button>
+            <li><a href="JavaScript:Void(0);">Home<span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu">
+                <li>
+                  <a href="index.html">Home version 01</a>
+                </li>
+                <li>
+                  <a href="home-2.html">Home version 02</a>
+                </li>
+                <li>
+                  <a href="home-3.html">Home version 03</a>
+                </li>
+                <li>
+                  <a href="home-4.html">Home version 04</a>
+                </li>
+                <li>
+                  <a href="home-5.html">Home version 05</a>
+                </li>
+                <li>
+                  <a href="slider-home.html">Home version 06</a>
+                </li>
+              </ul>
+            </li>
+
+            <li><a href="JavaScript:Void(0);">Listing<span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu">
+                <li><a href="JavaScript:Void(0);">Hotel<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="hotel-list-01.html">Hotel list 01</a></li>
+                    <li><a href="hotel-list-02.html">Hotel list 02</a></li>
+                    <li><a href="hotel-list-03.html">Hotel list 03</a></li>
+                    <li><a href="hotel-detail.html">Hotel Detail 01</a></li>
+                    <li><a href="hotel-detail-2.html">Hotel Detail 02</a></li>
+                  </ul>
+                </li>
+                <li><a href="JavaScript:Void(0);">Flight<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="flight-list-01.html">Flight List 01</a></li>
+                    <li><a href="flight-list-02.html">Flight List 02</a></li>
+                    <li><a href="Flight-detail.html">Flight Detail</a></li>
+                  </ul>
+                </li>
+                <li><a href="JavaScript:Void(0);">Rental<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="property-list-01.html">Rental List 01</a></li>
+                    <li><a href="property-list-02.html">Rental List 02</a></li>
+                    <li><a href="property-list-03.html">Rental List 03</a></li>
+                    <li><a href="rental-detail.html">Rental Detail</a></li>
+                  </ul>
+                </li>
+                <li><a href="JavaScript:Void(0);">Car<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="car-list-01.html">Car List 01</a></li>
+                    <li><a href="car-list-02.html">Car List 02</a></li>
+                    <li><a href="car-list-03.html">Car List 03</a></li>
+                    <li><a href="car-detail.html">Car Detail</a></li>
+                  </ul>
+                </li>
+                <li><a href="JavaScript:Void(0);">Destination<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="destination-01.html">Destination List 01</a></li>
+                    <li><a href="destination-02.html">Destination List 02</a></li>
+                    <li><a href="destination-03.html">Destination List 03</a></li>
+                    <li><a href="destination-detail.html">Destination Detail</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="join-us.html">Join with GeoTrip</a>
+                </li>
+                <li>
+                  <a href="add-listing.html">Add Listing</a>
+                </li>
+                <li>
+                  <a href="compare-listing.html">Compare Listing</a>
+                </li>
+                <li>
+                  <a href="booking-page.html">Booking Page</a>
+                </li>
+                <li>
+                  <a href="my-profile.html">User Dashboard</a>
+                </li>
+              </ul>
+            </li>
+
+            <li><a href="JavaScript:Void(0);">Pages<span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu">
+                <li><a href="JavaScript:Void(0);">Blog<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="classic-blog.html">Classic Blog</a></li>
+                    <li><a href="blog.html">Blog Grid Style</a></li>
+                    <li><a href="blog-detail.html">Single Blog</a></li>
+                  </ul>
+                </li>
+                <li><a href="JavaScript:Void(0);">Authentication<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="login.html">Sign In</a></li>
+                    <li><a href="register.html">Sign Up</a></li>
+                    <li><a href="forgot-password.html">Forgot Password</a></li>
+                    <li><a href="two-factor-auth.html">Two factor authentication</a></li>
+                  </ul>
+                </li>
+                <li><a href="about-us.html">About Us</a></li>
+                <li><a href="career-page.html">Career Page</a></li>
+                <li><a href="help-center.html">Help Center</a></li>
+                <li><a href="faq.html">FAQ's</a></li>
+                <li><a href="404.html">Error Page</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="JavaScript:Void(0);">Contact Us<span class="submenu-indicator"></span></a>
+                  <ul class="nav-dropdown nav-submenu">
+                    <li><a href="contact-v1.html">Contact V.01</a></li>
+                    <li><a href="contact-v2.html">Contact V0.2</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li><a href="JavaScript:Void(0);">Menu<span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu xxl-menu">
+                <li>
+                  <a href="home-stay.html">
+                    <div class="mega-advance-menu">
+                      <div class="mega-first square--50 rounded-2 gray-simple text-success fs-4"><i
+                          class="fa-solid fa-spa"></i></div>
+                      <div class="mega-last ps-2">
+                        <h6 class="lh-base fs-6 font--bold m-0">Home Stays</h6>
+                        <p class="text-sm-muted m-0">Beautiful Place for stays</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="home-hotel.html">
+                    <div class="mega-advance-menu">
+                      <div class="mega-first square--50 rounded-2 gray-simple text-warning fs-4"><i
+                          class="fa-solid fa-hotel"></i></div>
+                      <div class="mega-last ps-2">
+                        <h6 class="lh-base fs-6 font--bold m-0">Home Hotel</h6>
+                        <p class="text-sm-muted m-0">Beautiful Place for stays</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="home-flight.html">
+                    <div class="mega-advance-menu">
+                      <div class="mega-first square--50 rounded-2 gray-simple text-primary fs-4"><i
+                          class="fa-solid fa-plane"></i></div>
+                      <div class="mega-last ps-2">
+                        <h6 class="lh-base fs-6 font--bold m-0">Home Flight</h6>
+                        <p class="text-sm-muted m-0">Beautiful Place for stays</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="home-rental.html">
+                    <div class="mega-advance-menu">
+                      <div class="mega-first square--50 rounded-2 gray-simple text-purple fs-4"><i
+                          class="fa-solid fa-eye"></i></div>
+                      <div class="mega-last ps-2">
+                        <h6 class="lh-base fs-6 font--bold m-0">Home Rental</h6>
+                        <p class="text-sm-muted m-0">Beautiful Place for stays</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="home-car.html">
+                    <div class="mega-advance-menu">
+                      <div class="mega-first square--50 rounded-2 gray-simple text-seagreen fs-4"><i
+                          class="fa-brands fa-dropbox"></i></div>
+                      <div class="mega-last ps-2">
+                        <h6 class="lh-base fs-6 font--bold m-0">Home Cabs</h6>
+                        <p class="text-sm-muted m-0">Beautiful Place for stays</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="home-stay.html">
+                    <div class="mega-advance-menu">
+                      <div class="mega-first square--50 rounded-2 gray-simple text-info fs-4"><i
+                          class="fa-solid fa-person-walking-luggage"></i></div>
+                      <div class="mega-last ps-2">
+                        <h6 class="lh-base fs-6 font--bold m-0">Home Destination</h6>
+                        <p class="text-sm-muted m-0">Beautiful Place for stays</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li><a href="documantion/index.html" target="_blank">Docs</a></li>
+
+          </ul>
+
+          <ul class="nav-menu nav-menu-social align-to-right">
+            <li class="languageDropdown me-2">
+              <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#countryModal">INR | <i
+                  class="bi bi-globe"></i></a>
+            </li>
+            <li class="list-buttons">
+              <a href="#" class="bg-primary" data-bs-toggle="modal" data-bs-target="#login"><i
+                  class="fa-regular fa-circle-user fs-6 me-2"></i>Sign In / Register</a>
+            </li>
+          </ul>
         </div>
-      </div>
-    </transition>
-  </header>
+      </nav>
+    </div>
+  </div>
+  <!-- End Navigation -->
+  <div class="clearfix"></div>
+
 </template>
 
 <script setup>
-import { ref } from 'vue'
 
-const isMobileMenuOpen = ref(false)
-
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value
-}
 </script>
 
-<style scoped>
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>
+<style lang="scss" scoped></style>

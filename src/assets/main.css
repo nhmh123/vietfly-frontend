@@ -1,54 +1,7 @@
-@import 'tailwindcss';
-* {
-  /* outline: 1px solid red !important; */
-}
+/* @import 'tailwindcss'; */
 
-@theme {
-  /* 60% */
-  --color-body-bg: #eceff1;
-
-  /* 30% */
-  --color-primary: #005eb8;
-  --color-primary-dark: #004c94;
-
-  /* 10% */
-  --color-secondary: #ffd700;
-  --color-secondary-dark: #e6c200;
-
-  --font-inter: 'Inter', sans-serif;
-}
-
-@layer base {
-  body {
-    position: relative;
-    min-height: 100vh;
-    background-color: var(--color-body-bg);
-  }
-
-  body::before {
-    content: '';
-
-    position: fixed;
-    inset: 0;
-
-    background: url('./images/body-bg-2.png') center/cover no-repeat;
-
-    opacity: 0.5;
-
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  ul {
-    list-style: none;
-  }
-
-  button {
-    cursor: pointer;
-  }
-}
+@import './vendor/geotrip/css/bootstrap.min.css';
+@import './vendor/geotrip/css/animation.css';
+@import './vendor/geotrip/css/bootstrap-icons.css';
+@import './vendor/geotrip/css/fontawesome.css';
+@import './vendor/geotrip/css/style.css';
