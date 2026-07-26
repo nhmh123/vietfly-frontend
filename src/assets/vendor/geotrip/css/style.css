@@ -11,7 +11,7 @@ This files table contents are outlined below>>>>>
 *******************************************
 *******************************************
 
-** - Common Elentns 
+** - Common Elentns
 ** - Default Style
 ** - Navbar & Header Styles
 ** - Intro Banner & Hero Header
@@ -22,9 +22,9 @@ This files table contents are outlined below>>>>>
 /*--------------------------------------------------
 Default Style
 ---------------------------------------------------*/
-@import url("https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800&display=swap');
 :root,
-[data-bs-theme=light] {
+[data-bs-theme='light'] {
   --bs-primary: #0466c8;
   --bs-primary-bg-subtle: #e0eeff;
   --bs-primary-bg-dark: #0353a4;
@@ -33,7 +33,7 @@ Default Style
   --bs-success: #009688;
   --bs-success-bg-subtle: #d5f9f5;
   --bs-success-bg-dark: #0ca799;
-  --bs-info: #106BDA;
+  --bs-info: #106bda;
   --bs-info-bg-subtle: #cfe1f8;
   --bs-info-bg-dark: #0b63d0;
   --bs-warning: #ffc107;
@@ -43,7 +43,7 @@ Default Style
   --bs-danger-bg-subtle: #ffefe9;
   --bs-danger-bg-dark: #f1511f;
   --bs-light: #f4f5f7;
-  --bs-dark: #13293D;
+  --bs-dark: #13293d;
   --bs-dark-bg-subtle: #1b344a;
   --bs-cyan: #04765f;
   --bs-cyan-bg-subtle: #cdf1e9;
@@ -64,8 +64,8 @@ Default Style
   --bs-bordercolor: #dfe0e4;
   --bs-navcolor: #191e3b;
   --bs-placeholder: #191e3b;
-  --body-font-family: "Jost", sans-serif;
-  --heading-font-family: "Jost", sans-serif;
+  --body-font-family: 'Jost', sans-serif;
+  --heading-font-family: 'Jost', sans-serif;
   --bs-body-color: #2d3033;
   --paragraphColor: #5d6f7d;
   --headingColor: #191e3b;
@@ -347,7 +347,7 @@ h6 {
   align-items: center;
   justify-content: flex-start;
   -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
 }
 
 span.mod-close {
@@ -392,7 +392,8 @@ span.mod-close {
   }
 }
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(-25%);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
   }
@@ -402,7 +403,8 @@ span.mod-close {
   }
 }
 @keyframes leftright {
-  0%, 100% {
+  0%,
+  100% {
     transform: translatex(-25%);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
   }
@@ -449,7 +451,7 @@ span.mod-close {
 }
 .btn::after {
   background-color: rgba(255, 255, 255, 0.76);
-  content: "";
+  content: '';
   height: 150px;
   left: -75px;
   position: absolute;
@@ -1167,7 +1169,8 @@ textarea.form-control {
   color: var(--bs-primary) !important;
 }
 
-.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+.select2-container--default
+  .select2-results__option--highlighted.select2-results__option--selectable {
   background-color: var(--bs-primary) !important;
   color: var(--bs-white) !important;
 }
@@ -1304,7 +1307,8 @@ textarea.form-control {
   /* Firefox */
 }
 
-.fw-bold ::-moz-placeholder, .fw-bold::-moz-placeholder {
+.fw-bold ::-moz-placeholder,
+.fw-bold::-moz-placeholder {
   font-weight: 600;
 }
 
@@ -1377,7 +1381,17 @@ textarea.form-control {
   padding: 0;
   line-height: 0;
 }
-.selection-container .traveler-dropdown .clouse .counter button .selection-container .dropdown-box .clouse .counter button i {
+.selection-container
+  .traveler-dropdown
+  .clouse
+  .counter
+  button
+  .selection-container
+  .dropdown-box
+  .clouse
+  .counter
+  button
+  i {
   width: auto;
   height: auto;
   margin: 0;
@@ -1607,7 +1621,7 @@ textarea.form-control {
 }
 
 /*--------------------------------------------------
- Common Elentns 
+ Common Elentns
 ---------------------------------------------------*/
 .progress {
   margin-bottom: 1.5em;
@@ -1630,7 +1644,7 @@ address {
 
 .explore-content p {
   font-size: 19px;
-  font-family: "Lora", serif;
+  font-family: 'Lora', serif;
   font-style: italic;
 }
 
@@ -1696,7 +1710,7 @@ address {
   transition: all 0.3s linear;
 }
 .slideToggle .form-switch i:after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   width: 46px;
@@ -2457,7 +2471,7 @@ address {
   background: #252525;
 }
 
-.bg-img-holder:not([class*=col-]) {
+.bg-img-holder:not([class*='col-']) {
   width: 100%;
 }
 
@@ -2486,7 +2500,7 @@ address {
 }
 [data-overlay]:before {
   position: absolute;
-  content: "";
+  content: '';
   background: #020d16;
   width: 100%;
   height: 100%;
@@ -2503,47 +2517,47 @@ address {
   background: #4a90e2;
 }
 
-[data-overlay="1"]:before {
+[data-overlay='1']:before {
   opacity: 0.1;
 }
 
-[data-overlay="2"]:before {
+[data-overlay='2']:before {
   opacity: 0.2;
 }
 
-[data-overlay="3"]:before {
+[data-overlay='3']:before {
   opacity: 0.3;
 }
 
-[data-overlay="4"]:before {
+[data-overlay='4']:before {
   opacity: 0.4;
 }
 
-[data-overlay="5"]:before {
+[data-overlay='5']:before {
   opacity: 0.5;
 }
 
-[data-overlay="6"]:before {
+[data-overlay='6']:before {
   opacity: 0.6;
 }
 
-[data-overlay="7"]:before {
+[data-overlay='7']:before {
   opacity: 0.7;
 }
 
-[data-overlay="8"]:before {
+[data-overlay='8']:before {
   opacity: 0.8;
 }
 
-[data-overlay="9"]:before {
+[data-overlay='9']:before {
   opacity: 0.9;
 }
 
-[data-overlay="10"]:before {
+[data-overlay='10']:before {
   opacity: 1;
 }
 
-[data-overlay="0"]:before {
+[data-overlay='0']:before {
   opacity: 0;
 }
 
@@ -2553,7 +2567,7 @@ address {
 
 [data-scrim-bottom]:before {
   position: absolute;
-  content: "";
+  content: '';
   width: 100%;
   height: 80%;
   /* FF3.6+ */
@@ -2588,43 +2602,43 @@ address {
   background: #fff;
 }
 
-[data-scrim-bottom="1"]:before {
+[data-scrim-bottom='1']:before {
   opacity: 0.1;
 }
 
-[data-scrim-bottom="2"]:before {
+[data-scrim-bottom='2']:before {
   opacity: 0.2;
 }
 
-[data-scrim-bottom="3"]:before {
+[data-scrim-bottom='3']:before {
   opacity: 0.3;
 }
 
-[data-scrim-bottom="4"]:before {
+[data-scrim-bottom='4']:before {
   opacity: 0.4;
 }
 
-[data-scrim-bottom="5"]:before {
+[data-scrim-bottom='5']:before {
   opacity: 0.5;
 }
 
-[data-scrim-bottom="6"]:before {
+[data-scrim-bottom='6']:before {
   opacity: 0.6;
 }
 
-[data-scrim-bottom="7"]:before {
+[data-scrim-bottom='7']:before {
   opacity: 0.7;
 }
 
-[data-scrim-bottom="8"]:before {
+[data-scrim-bottom='8']:before {
   opacity: 0.8;
 }
 
-[data-scrim-bottom="9"]:before {
+[data-scrim-bottom='9']:before {
   opacity: 0.9;
 }
 
-[data-scrim-bottom="10"]:before {
+[data-scrim-bottom='10']:before {
   opacity: 1;
 }
 
@@ -2634,7 +2648,7 @@ address {
 
 [data-scrim-top]:before {
   position: absolute;
-  content: "";
+  content: '';
   width: 100%;
   height: 80%;
   /* FF3.6+ */
@@ -2667,43 +2681,43 @@ address {
   background: #fff;
 }
 
-[data-scrim-top="1"]:before {
+[data-scrim-top='1']:before {
   opacity: 0.1;
 }
 
-[data-scrim-top="2"]:before {
+[data-scrim-top='2']:before {
   opacity: 0.2;
 }
 
-[data-scrim-top="3"]:before {
+[data-scrim-top='3']:before {
   opacity: 0.3;
 }
 
-[data-scrim-top="4"]:before {
+[data-scrim-top='4']:before {
   opacity: 0.4;
 }
 
-[data-scrim-top="5"]:before {
+[data-scrim-top='5']:before {
   opacity: 0.5;
 }
 
-[data-scrim-top="6"]:before {
+[data-scrim-top='6']:before {
   opacity: 0.6;
 }
 
-[data-scrim-top="7"]:before {
+[data-scrim-top='7']:before {
   opacity: 0.7;
 }
 
-[data-scrim-top="8"]:before {
+[data-scrim-top='8']:before {
   opacity: 0.8;
 }
 
-[data-scrim-top="9"]:before {
+[data-scrim-top='9']:before {
   opacity: 0.9;
 }
 
-[data-scrim-top="10"]:before {
+[data-scrim-top='10']:before {
   opacity: 1;
 }
 
@@ -2775,7 +2789,7 @@ div[data-overlay] p {
 /*---------- Common Elentns: Background Settings ---------*/
 .object-fit {
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .bg-cover {
@@ -2806,7 +2820,7 @@ div[data-overlay] p {
   bottom: 0;
   background: #182538;
   display: block;
-  content: "";
+  content: '';
   opacity: 0.8;
 }
 
@@ -3014,7 +3028,11 @@ div[data-overlay] p {
 }
 
 .bg--graysmoke {
-  background-image: linear-gradient(180deg, rgba(244, 244, 249, 0.8) 50%, rgba(244, 244, 249, 0.05) 100%);
+  background-image: linear-gradient(
+    180deg,
+    rgba(244, 244, 249, 0.8) 50%,
+    rgba(244, 244, 249, 0.05) 100%
+  );
 }
 
 .shape--bg:after {
@@ -3049,15 +3067,15 @@ ul.colored-list li {
 }
 
 ul.simple-list li:before {
-  content: "\f192";
-  font-family: "Font Awesome 6 Free";
+  content: '\f192';
+  font-family: 'Font Awesome 6 Free';
   position: absolute;
   left: 0;
 }
 
 ul.colored-list li:before {
-  content: "\f192";
-  font-family: "Font Awesome 6 Free";
+  content: '\f192';
+  font-family: 'Font Awesome 6 Free';
   color: #cd2c22;
   position: absolute;
   left: 0;
@@ -3461,8 +3479,8 @@ table.table tr th {
 }
 
 .accordion-button::after {
-  content: "\f0d8";
-  font-family: "Font Awesome 6 Free";
+  content: '\f0d8';
+  font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   background-image: none;
   width: 28px;
@@ -3477,8 +3495,8 @@ table.table tr th {
 }
 
 .accordion-button:not(.collapsed)::after {
-  content: "\f0d7";
-  font-family: "Font Awesome 6 Free";
+  content: '\f0d7';
+  font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   background-image: none;
   width: 28px;
@@ -3668,8 +3686,8 @@ table.table tr th {
 }
 
 .arrow-collapse:before {
-  content: "\f0d7";
-  font-family: "Font Awesome 6 Free";
+  content: '\f0d7';
+  font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   width: 30px;
   height: 30px;
@@ -3684,8 +3702,8 @@ table.table tr th {
 }
 
 .arrow-collapse.collapsed:before {
-  content: "\f0d8";
-  font-family: "Font Awesome 6 Free";
+  content: '\f0d8';
+  font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   width: 30px;
   height: 30px;
@@ -3762,7 +3780,9 @@ table.table tr th {
 
 .flatpickr-day.inRange {
   border-radius: 0;
-  box-shadow: -5px 0 0 var(--bs-primary-bg-subtle), 5px 0 0 var(--bs-primary-bg-subtle);
+  box-shadow:
+    -5px 0 0 var(--bs-primary-bg-subtle),
+    5px 0 0 var(--bs-primary-bg-subtle);
 }
 
 .flatpickr-day.selected.startRange + .endRange,
@@ -3788,7 +3808,7 @@ table.table tr th {
 }
 
 .breadcrumb.breadcrumb-dots .breadcrumb-item + .breadcrumb-item::before {
-  content: "•";
+  content: '•';
   font-size: 22px;
   line-height: 0;
   height: 100%;
@@ -4036,13 +4056,15 @@ nav a:hover {
 }
 
 .nav-toggle:before {
-  content: "";
+  content: '';
   position: absolute;
   width: 24px;
   height: 2px;
   background-color: #70798b;
   border-radius: 10px;
-  box-shadow: 0 0.5em 0 0 #70798b, 0 1em 0 0 #70798b;
+  box-shadow:
+    0 0.5em 0 0 #70798b,
+    0 1em 0 0 #70798b;
 }
 
 .navigation-portrait .nav-toggle {
@@ -4136,7 +4158,9 @@ nav a:hover {
 .nav-menu > li > a {
   padding: 14px 12px;
   display: inline-block;
-  transition: color 0.3s, background 0.3s;
+  transition:
+    color 0.3s,
+    background 0.3s;
   font-weight: 500;
   letter-spacing: 0.2px;
   text-transform: capitalize;
@@ -4389,7 +4413,10 @@ nav a {
   transform: rotate(45deg);
 }
 
-.navigation-portrait .nav-dropdown .submenu-indicator.submenu-indicator-up .submenu-indicator-chevron {
+.navigation-portrait
+  .nav-dropdown
+  .submenu-indicator.submenu-indicator-up
+  .submenu-indicator-chevron {
   transform: rotate(225deg);
 }
 
@@ -4903,7 +4930,7 @@ Intro Banner & Hero Header
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .home-slider ul.slick-dots {
   position: absolute;
@@ -5103,7 +5130,7 @@ GeoTrip Elements Styles
 }
 
 .segmentDeparture ul:before {
-  content: "";
+  content: '';
   position: absolute;
   width: 20px;
   height: 20px;
@@ -5115,7 +5142,7 @@ GeoTrip Elements Styles
 }
 
 .segmentDeparture ul:after {
-  content: "";
+  content: '';
   position: absolute;
   width: 20px;
   height: 20px;
@@ -5178,7 +5205,7 @@ GeoTrip Elements Styles
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 10px;
 }
 .geotrip-gallery .right-grid {
@@ -5192,7 +5219,7 @@ GeoTrip Elements Styles
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 10px;
 }
 
@@ -5211,7 +5238,7 @@ GeoTrip Elements Styles
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   display: block;
 }
 .mmt-gallery .right-column {
@@ -5230,7 +5257,7 @@ GeoTrip Elements Styles
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 /*---------- GeoTrip Elements Styles: Select Date Styles ------------*/
@@ -5324,8 +5351,8 @@ GeoTrip Elements Styles
 }
 
 .flightLine.departure:before {
-  content: "\f0fb";
-  font-family: "Font Awesome 6 Free";
+  content: '\f0fb';
+  font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -5335,8 +5362,8 @@ GeoTrip Elements Styles
 }
 
 .flightLine.return:before {
-  content: "\e518";
-  font-family: "Font Awesome 6 Free";
+  content: '\e518';
+  font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   left: 50%;
   transform: translate(65%, -50%);
@@ -5373,7 +5400,7 @@ GeoTrip Elements Styles
 .ratio::before {
   display: block;
   width: 100%;
-  content: "";
+  content: '';
 }
 
 .ratio-full::before {
@@ -5446,7 +5473,7 @@ GeoTrip Elements Styles
   display: block;
 }
 .destinations-pics a:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0;
@@ -5469,7 +5496,7 @@ GeoTrip Elements Styles
   border-radius: inherit;
 }
 .cardOffer-content:before {
-  content: "";
+  content: '';
   border-radius: inherit;
   position: absolute;
   z-index: -1;
@@ -5546,7 +5573,7 @@ GeoTrip Elements Styles
   background-size: cover !important;
 }
 .recommend-module-card .bokker-bg-full:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
@@ -5601,7 +5628,7 @@ GeoTrip Elements Styles
 }
 
 /*----------------------------------------------
-  Inner Page Design 
+  Inner Page Design
 ----------------------------------------------*/
 .single-paymntCardsoption .paymnt-line {
   border: 2px solid #ecf1f6;
@@ -5651,7 +5678,9 @@ GeoTrip Elements Styles
   border: none;
   padding-top: 20px;
   border-radius: 0.25rem;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  transition:
+    background-color 0.15s ease-out,
+    color 0.15s ease-out;
 }
 
 .bs-stepper-label {
@@ -6535,4 +6564,4 @@ Responsiveness Start
   .fs-3 {
     font-size: 1.1rem;
   }
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

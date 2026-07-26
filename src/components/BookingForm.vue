@@ -1,6 +1,5 @@
 <template>
   <div class="row justify-content-center align-items-center">
-
     <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12">
       <div class="position-relative text-center mb-5">
         <h1>Săn vé máy bay giá rẻ</h1>
@@ -8,18 +7,18 @@
           nhất.</p>
       </div>
     </div>
-
     <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
       <div class="search-wrap bg-white rounded-3 p-3">
         <div class="search-upper">
           <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div class="flx-start mb-sm-0 mb-2">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="trip" id="return" value="option1" checked>
+                <input v-model=flightType class="form-check-input" type="radio" name="trip" id="return"
+                  value="round-trip" checked>
                 <label class="form-check-label" for="return">Khứ hồi</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="trip" id="oneway" value="option2">
+                <input v-model=flightType class="form-check-input" type="radio" name="trip" id="oneway" value="one-way">
                 <label class="form-check-label" for="oneway">Một chiều</label>
               </div>
             </div>
@@ -30,10 +29,8 @@
                     <span class="selected">
                       {{ selectedCabin.label }}
                     </span>
-
                     <div class="caret" :class="{ 'caret-rotate': isCabinDropdownOpen }"></div>
                   </div>
-
                   <ul class="menu" :class="{ 'menu-open': isCabinDropdownOpen }">
                     <li v-for="cabin in cabinOptions" :key="cabin.value"
                       :class="{ active: cabin.value === selectedCabin.value }" @click.stop="selectCabin(cabin)">
@@ -64,17 +61,14 @@
                       <input v-model="departureAirport" class="form-control fw-medium fs-md flightInput" type="text"
                         placeholder="Sân bay đi" autocomplete="off" @focus="openDepartureSuggestions"
                         @input="openDepartureSuggestions">
-
                       <div v-show="isDepartureSuggestionsOpen" class="suggestions">
                         <div v-for="airport in filteredDepartureAirports" :key="airport.iata" class="suggestion-item"
                           @mousedown.prevent="selectDepartureAirport(airport)">
                           <div class="place-name">
                             <i class="bi bi-geo-alt"></i>
-
                             {{ airport.city }}
                             ({{ airport.iata }})
                           </div>
-
                           <div class="duration">
                             {{ airport.airport }}
                           </div>
@@ -104,17 +98,14 @@
                       <input v-model="arrivalAirport" class="form-control fw-medium fs-md flightInput" type="text"
                         placeholder="Sân bay đến" autocomplete="off" @focus="openArrivalSuggestions"
                         @input="openArrivalSuggestions">
-
                       <div v-show="isArrivalSuggestionsOpen" class="suggestions">
                         <div v-for="airport in filteredArrivalAirports" :key="airport.iata" class="suggestion-item"
                           @mousedown.prevent="selectArrivalAirport(airport)">
                           <div class="place-name">
                             <i class="bi bi-geo-alt"></i>
-
                             {{ airport.city }}
                             ({{ airport.iata }})
                           </div>
-
                           <div class="duration">
                             {{ airport.airport }}
                           </div>
@@ -143,8 +134,14 @@
                       </svg>
                     </div>
                     <div class="input-box">
-                      <input class="form-control fw-medium fs-md choosedate" type="text"
-                        placeholder="Ngày khởi hành - Kết thúc" readonly="readonly">
+                      <div v-if="flightType === 'round-trip'">
+                        <FlatPickr v-model="departureDate" :config=rangeFlatpickrConfig
+                          class="form-control fw-medium fs-md" placeholder="Ngày khởi hành" />
+                      </div>
+                      <div v-else>
+                        <FlatPickr v-model="departureDate" :config=singleFlatpickrConfig
+                          class="form-control fw-medium fs-md" placeholder="Ngày khởi hành" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -165,8 +162,48 @@
                       <div class="selection-container">
                         <div class="traveler-box">
                           <input type="text" class="form-control fw-medium input-box fs-md traveler-input"
-                            value="1 Adult" readonly>
-                          <div class="traveler-dropdown" data-has-rooms="false"></div>
+                            :value="passengerSummary" @click="toggleTravelerDropdown" readonly>
+                          <div v-show="isTravelerDropdownOpen" class=" traveler-dropdown" data-has-rooms="false"
+                            style="display: block">
+                            <div class="room">
+                              <div class="clouse">
+                                <label>Người lớn</label>
+                                <div class="counter">
+                                  <button @click="changePassenger('adults', -1)">
+                                    <i class="bi bi-dash"></i>
+                                  </button>
+                                  <span>{{ draftTravelers.adults }}</span>
+                                  <button @click="changePassenger('adults', 1)">
+                                    <i class="bi bi-plus"></i>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="clouse">
+                                <label>Trẻ em</label>
+                                <div class="counter">
+                                  <button @click="changePassenger('children', -1)">
+                                    <i class="bi bi-dash"></i>
+                                  </button>
+                                  <span>{{ draftTravelers.children }}</span>
+                                  <button @click="changePassenger('children', 1)">
+                                    <i class="bi bi-plus"></i>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="clouse">
+                                <label>Em bé</label>
+                                <div class="counter">
+                                  <button @click="changePassenger('infants', -1)">
+                                    <i class="bi bi-dash"></i>
+                                  </button>
+                                  <span>{{ draftTravelers.infants }}</span>
+                                  <button @click="changePassenger('infants', 1)">
+                                    <i class="bi bi-plus"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -177,11 +214,10 @@
           </div>
           <div class="col-xl-2 col-lg-2 col-md-12">
             <div class="form-group mb-0">
-              <button type="button" class="btn btn-primary full-width fw-medium"><i
+              <button @click.prevent="handleSearch" type="button" class="btn btn-primary full-width fw-medium"><i
                   class="fa-solid fa-magnifying-glass me-2"></i>Tìm chuyến bay</button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -190,6 +226,7 @@
 
 <script setup>
 import dayjs from 'dayjs';
+import FlatPickr from 'vue-flatpickr-component'
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 
 const cabinOptions = [
@@ -219,11 +256,6 @@ const errors = reactive({
   passenger: null,
 })
 const flightType = ref('one-way')
-const adt = ref(1)
-const chd = ref(0)
-const inf = ref(0)
-const totalPassengers = computed(() => adt.value + chd.value + inf.value)
-const showPassengerBox = ref(false)
 const departureDate = ref(null)
 const returnDate = ref(null)
 const today = new Date().toISOString().split('T')[0]
@@ -256,19 +288,19 @@ const airports = [
 ]
 
 const departureAirport = ref('')
+const departureAirportKeyword = ref('')
 const selectedDepartureAirport = ref(null)
 const isDepartureSuggestionsOpen = ref(false)
 const arrivalAirport = ref('')
+const arrivalAirportKeyword = ref('')
 const selectedArrivalAirport = ref(null)
 const isArrivalSuggestionsOpen = ref(false)
 
 function filterAirports(keyword) {
   const search = keyword.trim().toLowerCase()
-
   if (!search) {
     return airports
   }
-
   return airports.filter((airport) => (
     airport.city.toLowerCase().includes(search) ||
     airport.airport.toLowerCase().includes(search) ||
@@ -277,11 +309,11 @@ function filterAirports(keyword) {
 }
 
 const filteredDepartureAirports = computed(() => {
-  return filterAirports(departureAirport.value)
+  return !departureAirport.value ? filterAirports(departureAirport.value) : airports
 })
 
 const filteredArrivalAirports = computed(() => {
-  return filterAirports(arrivalAirport.value)
+  return !arrivalAirport.value ? filterAirports(arrivalAirport.value) : airports
 })
 
 function openDepartureSuggestions() {
@@ -304,12 +336,96 @@ function selectArrivalAirport(airport) {
   isArrivalSuggestionsOpen.value = false
 }
 
-// Computed properties
+const singleFlatpickrConfig = {
+  mode: 'single',
+  dateFormat: 'Y-m-d',
+  altInput: true,
+  altFormat: 'd/m/Y',
+  minDate: 'today',
+  disableMobile: true,
+}
+
+const rangeFlatpickrConfig = {
+  mode: 'range',
+  dateFormat: 'Y-m-d',
+  altInput: true,
+  altFormat: 'd/m/Y',
+  minDate: 'today',
+  disableMobile: true,
+}
+
+const isTravelerDropdownOpen = ref(false)
+
+const travelers = reactive({
+  adults: 1,
+  children: 0,
+  infants: 0,
+})
+
+const draftTravelers = reactive({
+  adults: 1,
+  children: 0,
+  infants: 0,
+})
+
+const totalPassengers = computed(() => {
+  return (
+    draftTravelers.adults +
+    draftTravelers.children +
+    draftTravelers.infants
+  )
+})
+
+function toggleTravelerDropdown() {
+  if (!isTravelerDropdownOpen.value) {
+    Object.assign(draftTravelers, travelers)
+  }
+  isTravelerDropdownOpen.value = !isTravelerDropdownOpen.value
+}
+
+function changePassenger(type, amount) {
+  const nextTotal = totalPassengers.value + amount
+
+  if (nextTotal > 9) return
+
+  switch (type) {
+    case 'adults':
+      draftTravelers.adults = Math.max(
+        1,
+        draftTravelers.adults + amount,
+      )
+
+      if (draftTravelers.infants > draftTravelers.adults) {
+        draftTravelers.infants = draftTravelers.adults
+      }
+      break
+
+    case 'children':
+      draftTravelers.children = Math.max(
+        0,
+        draftTravelers.children + amount,
+      )
+      break
+
+    case 'infants':
+      const nextInfants = draftTravelers.infants + amount
+
+      if (nextInfants < 0) return
+      if (nextInfants > draftTravelers.adults) return
+
+      draftTravelers.infants = nextInfants
+      break
+  }
+}
+
 const passengerSummary = computed(() => {
   const parts = []
-  if (adt.value > 0) parts.push(`${adt.value} Người lớn`)
-  if (chd.value > 0) parts.push(`${chd.value} Trẻ em`)
-  if (inf.value > 0) parts.push(`${inf.value} Em bé`)
+  if (travelers.adults > 0)
+    parts.push(`${travelers.adults} Người lớn`)
+  if (travelers.children > 0)
+    parts.push(`${travelers.children} Trẻ em`)
+  if (travelers.infants > 0)
+    parts.push(`${travelers.infants} Em bé`)
   return parts.join(', ')
 })
 
@@ -335,45 +451,6 @@ watch(flightType, () => {
   delete errors.returnDate
 })
 
-watch([adt, chd, inf], () => {
-  delete errors.passenger
-})
-
-// Methods
-function togglePassengerBox() {
-  showPassengerBox.value = !showPassengerBox.value
-}
-
-function changePassenger(type, amount) {
-  const nextTotal = totalPassengers.value + amount;
-
-  if (nextTotal > 9) return;
-
-
-  switch (type) {
-    case 'adt':
-      adt.value = Math.max(1, adt.value + amount);
-
-      if (inf.value > adt.value) {
-        inf.value = adt.value;
-      }
-      break;
-
-    case 'chd':
-      chd.value = Math.max(0, chd.value + amount);
-      break;
-
-    case 'inf':
-      const nextInf = inf.value + amount;
-
-      if (nextInf < 0) return;
-      if (nextInf > adt.value) return;
-
-      inf.value = nextInf;
-      break;
-  }
-}
-
 function swapAirport() {
   const temp = departureAirport.value
   departureAirport.value = arrivalAirport.value
@@ -381,27 +458,25 @@ function swapAirport() {
 }
 
 const normalizeData = () => {
-  const DATE_FORMAT = 'YYYY-MM-DD';
+  const DATE_FORMAT = 'YYYY-MM-DD'
 
   return {
     flightType: flightType.value,
-
     startPoint: departureAirport.value?.iata?.toUpperCase().trim() ?? null,
     endPoint: arrivalAirport.value?.iata?.toUpperCase().trim() ?? null,
-
     departureDate: departureDate.value
       ? dayjs(departureDate.value).format(DATE_FORMAT)
       : null,
+    returnDate:
+      flightType.value === 'round-trip' && returnDate.value
+        ? dayjs(returnDate.value).format(DATE_FORMAT)
+        : null,
 
-    returnDate: (flightType.value === 'round-trip' && returnDate.value)
-      ? dayjs(returnDate.value).format(DATE_FORMAT)
-      : null,
-
-    adt: Number(adt.value) || 0,
-    chd: Number(chd.value) || 0,
-    inf: Number(inf.value) || 0,
-  };
-};
+    adt: travelers.adults,
+    chd: travelers.children,
+    inf: travelers.infants,
+  }
+}
 
 const clearErrors = () => {
   errors.airport = null
@@ -411,18 +486,14 @@ const clearErrors = () => {
   errors.passenger = null
 }
 
-
 const validateSearchForm = (formData) => {
   clearErrors()
-
   if (!formData.startPoint) {
     errors.airport = 'Vui lòng chọn điểm đi'
   }
-
   if (!formData.endPoint) {
     errors.airport = 'Vui lòng chọn điểm đến'
   }
-
   if (
     formData.startPoint &&
     formData.endPoint &&
@@ -430,29 +501,32 @@ const validateSearchForm = (formData) => {
   ) {
     errors.airport = 'Điểm đi và điểm đến không được giống nhau'
   }
-
   if (!formData.departureDate) {
     errors.departureDate = 'Vui lòng chọn ngày đi'
   }
-
-  if (formData.flightType === 'round-trip' && !formData.returnDate) {
+  if (
+    formData.flightType === 'round-trip' &&
+    !formData.returnDate
+  ) {
     errors.returnDate = 'Vui lòng chọn ngày về'
   }
-
-  if (formData.returnDate && formData.departureDate) {
-    if (new Date(formData.returnDate) < new Date(formData.departureDate)) {
-      errors.returnDate = 'Ngày về không được trước ngày đi'
-    }
+  if (
+    formData.returnDate &&
+    formData.departureDate &&
+    new Date(formData.returnDate) < new Date(formData.departureDate)
+  ) {
+    errors.returnDate = 'Ngày về không được trước ngày đi'
   }
-
-  if (totalPassengers.value > 9) {
+  const totalPassengers =
+    travelers.adults +
+    travelers.children +
+    travelers.infants
+  if (totalPassengers > 9) {
     errors.passenger = 'Tối đa 9 hành khách'
   }
-
-  if (inf.value > adt.value) {
+  if (travelers.infants > travelers.adults) {
     errors.passenger = 'Mỗi người lớn chỉ được đi cùng tối đa 1 em bé'
   }
-
   return !Object.values(errors).some(Boolean)
 }
 
@@ -461,9 +535,9 @@ const handleSearch = () => {
 
   const formData = normalizeData()
   const isValid = validateSearchForm(formData)
-
+  console.log(formData)
   if (!isValid) return
-
+  return
   emit('search', formData)
 }
 
